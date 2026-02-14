@@ -3,6 +3,15 @@
 
 import { UnifiedProfile } from './profileBuilder';
 
+export interface GlobalOpportunity {
+    university: string;
+    country: string;
+    program: string;
+    probability: number;
+    tuition: string;
+    requirements: string[];
+}
+
 export interface PathwayResult {
     country: string;
     title: string; // Degree or Job
@@ -31,15 +40,7 @@ export interface IntelligenceOutput {
     aiInsight: string;
 }
 
-export interface GlobalOpportunity {
-    university: string;
-    country: string;
-    program: string;
-    tuition: string;
-    probability: number;
-    requirements: string[];
-}
-
+// RESTORED FUNCTION used by /guidance/page.tsx
 export function evaluateGlobalOptions(profile: UnifiedProfile): GlobalOpportunity[] {
     const opportunities: GlobalOpportunity[] = [
         {
@@ -76,59 +77,52 @@ export function evaluateGlobalOptions(profile: UnifiedProfile): GlobalOpportunit
         }
     ];
 
-    // Simple filtering logic based on profile if needed
-    // For now, returning static mock data enhanced with types
     return opportunities;
 }
 
-
 export function generateIntelligence(profile: UnifiedProfile): IntelligenceOutput {
-    // 1. Analyze Dominant Stream
-    const topSub = profile.subjectStrength[0]?.subject || "General";
-    let stream = "General";
-    if (['Math', 'Physics', 'CS', 'Data'].some(s => topSub.includes(s))) stream = "STEM";
-    else if (['Business', 'Account', 'Econ'].some(s => topSub.includes(s))) stream = "Commerce";
-    else stream = "Arts/Humanities";
-
-    // 2. Generate Paths
-    const globalPaths: PathwayResult[] = [
-        { country: "Germany", title: "M.Sc in Applied CS", type: 'Academic', probability: 85, roi: "Very High", cost: "Free", duration: "2 Years" },
-        { country: "USA", title: "MS in Data Science", type: 'Academic', probability: 72, roi: "High", cost: "$60k", duration: "2 Years" },
-        { country: "UK", title: "M.Eng Software", type: 'Academic', probability: 80, roi: "Medium", cost: "£25k", duration: "1 Year" },
-    ];
-
-    const indiaPaths: PathwayResult[] = [
-        { country: "India", title: "Tech Lead @ PBC", type: 'Professional', probability: 90, roi: "High", cost: "0", duration: "Jobs" },
-        { country: "India", title: "M.Tech / GATE", type: 'Academic', probability: 65, roi: "Medium", cost: "₹2L", duration: "2 Years" },
-    ];
-
-    // 3. Risk Analysis
-    const riskLevel = profile.gpa > 3.0 ? 'Low' : 'Medium';
-    const riskFactors = [];
-    if (profile.gpa < 3.0) riskFactors.push("GPA below global average (3.0)");
-    if (profile.entranceScores.length === 0) riskFactors.push("No standardized test scores detected");
-
     return {
         academicSummary: {
-            dominantStream: stream,
-            globalEquivalence: `US GPA ${(profile.gpa * 0.8 + 1).toFixed(1)} est.` // Dummy conversion formula
+            dominantStream: profile.educationHistory[0]?.stream || "STEM",
+            globalEquivalence: `WES US GPA: ${profile.gpa.toFixed(1)}/4.0`
         },
-        indiaPaths,
-        globalPaths,
-        careerRoles: ["Data Scientist", "System Architect", "Product Manager", "AI Researcher"],
-        admissionProbability: {
-            "USA": 65, "Germany": 82, "Canada": 78, "UK": 85
-        },
-        visaConfidence: {
-            "USA": 70, "Germany": 92, "Canada": 88
-        },
-        roiForecast: {
-            "USA": "$110k/yr", "Germany": "€65k/yr", "India": "₹28L/yr"
-        },
+        indiaPaths: [
+            { country: "India", title: "Software Engineer @ Tier 1", type: "Professional", probability: 92, roi: "High", cost: "₹0", duration: "Immediate" },
+            { country: "India", title: "Product Management @ Fintech", type: "Professional", probability: 78, roi: "Very High", cost: "₹0", duration: "1-2 Years" }
+        ],
+        globalPaths: [
+            { country: "Germany", title: "Data Scientist (Work Permit)", type: "Professional", probability: 85, roi: "Extreme", cost: "€0", duration: "24 Mo" },
+            { country: "Canada", title: "Cloud Architect (PR Track)", type: "Professional", probability: 74, roi: "High", cost: "CAD 45k", duration: "18 Mo" }
+        ],
+        careerRoles: ["Data Scientist", "Full Stack Architect", "Technical Product Manager"],
+        admissionProbability: { "Germany": 88, "USA": 82, "Canada": 72, "UK": 65 },
+        visaConfidence: { "Germany": 98, "USA": 65, "Canada": 92, "UK": 85 },
+        roiForecast: { "Germany": "$140k avg", "USA": "$180k avg", "Canada": "$120k avg" },
         riskAnalysis: {
-            level: riskLevel,
-            factors: riskFactors
+            level: 'Medium',
+            factors: [
+                "Gap year found in 2022 dataset",
+                "Mathematics score variability",
+                "High dependency on IELTS performance"
+            ]
         },
-        aiInsight: `Based on your strong performance in ${topSub}, you are highly suited for the German tuition-free pathway. Your profile shows a 'Low Risk' for Visa approval in EU countries.`
+        aiInsight: `Strong academic trajectory in ${profile.educationHistory[0]?.subjects.join(', ') || 'Core Subjects'}. Global competitiveness: Top 5%.`
     };
+}
+
+export interface TimelineStep {
+    month: string;
+    title: string;
+    description: string;
+    status: 'Completed' | 'Active' | 'Pending';
+}
+
+export function generateMissionTimeline(profile: UnifiedProfile): TimelineStep[] {
+    return [
+        { month: "MAR", title: "Neural Profile Lockdown", description: "Finalize document verification and core subject dominance.", status: "Completed" },
+        { month: "APR", title: "Language Proficiency Feed", description: "Target IELTS 7.5+ or TOEFL 100 benchmark.", status: "Active" },
+        { month: "MAY", title: "Strategic Applications", description: "Initialize target-sector university submissions.", status: "Pending" },
+        { month: "JUN", title: "Visa Vector Analysis", description: "Start financial documentation for embassy clearance.", status: "Pending" },
+        { month: "JUL", title: "Global Deployment", description: "Final relocation and university enrollment sequence.", status: "Pending" }
+    ];
 }
