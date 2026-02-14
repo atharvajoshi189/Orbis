@@ -22,9 +22,12 @@ import {
     ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip
 } from 'recharts';
 
+import { VoiceAssistant } from '@/components/VoiceAssistant';
+
 export default function GuidancePage() {
     const [step, setStep] = useState(0); // 0: Selection, 1: Upload, 2: Results, 3: Pricing
     const [mode, setMode] = useState<'AI' | 'HUMAN' | null>(null);
+    const [userAvatarActive, setUserAvatarActive] = useState(false); // NEW STATE
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [documents, setDocuments] = useState<File[]>([]);
     const [extractedData, setExtractedData] = useState<ExtractedData[]>([]);
@@ -98,6 +101,17 @@ export default function GuidancePage() {
         <div className="min-h-screen bg-[#060a14] text-white font-sans selection:bg-cyan-500/30 overflow-x-hidden">
             <Navbar />
 
+            {/* AVATAR OVERLAY */}
+            <AnimatePresence>
+                {userAvatarActive && (
+                    <VoiceAssistant
+                        onClose={() => setUserAvatarActive(false)}
+                        onNewMessage={() => { }} // No chat history needed for this specific demo flow yet
+                        mode="avatar"
+                    />
+                )}
+            </AnimatePresence>
+
             {/* Ambient Background */}
             <div className="fixed inset-0 z-0 pointer-events-none">
                 <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px]" />
@@ -170,10 +184,10 @@ export default function GuidancePage() {
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            {/* FREE AI MODE */}
+                            {/* FREE AI MODE - TRIGGERS 3D AVATAR */}
                             <motion.div
                                 whileHover={{ y: -10, scale: 1.02 }}
-                                onClick={() => { setMode('AI'); setStep(1); }}
+                                onClick={() => setUserAvatarActive(true)} // OPEN AVATAR
                                 className="group relative bg-[#111827]/60 border border-white/5 p-12 rounded-[3rem] cursor-pointer hover:border-primary/50 transition-all overflow-hidden"
                             >
                                 <div className="absolute -top-20 -right-20 w-64 h-64 bg-primary/10 rounded-full blur-[80px] group-hover:bg-primary/20 transition-all" />
@@ -187,7 +201,7 @@ export default function GuidancePage() {
                                         Ideal for rapid university matching & risk assessment.
                                     </p>
                                     <div className="flex items-center gap-2 text-primary font-black text-xs uppercase tracking-[0.2em] group-hover:gap-4 transition-all">
-                                        Free Tier Deployment <ChevronRight className="w-4 h-4" />
+                                        Launch Avatar Session <ChevronRight className="w-4 h-4" />
                                     </div>
                                 </div>
                             </motion.div>

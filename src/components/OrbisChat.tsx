@@ -78,31 +78,43 @@ export function OrbisChat({ isWidget = false, onClose }: OrbisChatProps) {
             // Sanitize messages to only include role and content
             const cleanMessages = [...messages, userMsg].map(({ role, content }) => ({ role, content }));
 
+            // Get current user ID from Supabase auth (more reliable than store for API calls if session exists)
+            const { data: { user } } = await supabase.auth.getUser();
+
             const res = await fetch('/api/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ messages: cleanMessages, studentYear: "Guest" }),
+                body: JSON.stringify({
+                    messages: cleanMessages,
+                    userId: user?.id // Pass User ID for context
+                }),
             });
 
             if (!res.ok) throw new Error('Failed to fetch');
 
-            const aiMsgData = await res.json();
+            const data = await res.json();
+
+            // Format the display content from JSON
+            // If data.speech exists, it's the new format. Otherwise fallback.
+            let displayContent = data.content;
+            if (data.speech) {
+                displayContent = `${data.speech}\n\n**ROI Insight:** \`${data.roi_stat}\``;
+            }
 
             // Start Typing Effect
-            simulateTypingEffect(aiMsgData.content);
+            simulateTypingEffect(displayContent);
 
             // Save to Supabase (Only if logged in)
-            const { data: { user } } = await supabase.auth.getUser();
             if (user) {
                 await supabase.from('chat_history').insert([
                     { student_id: user.id, role: 'user', content: userMsg.content },
-                    { student_id: user.id, role: 'assistant', content: aiMsgData.content }
+                    { student_id: user.id, role: 'assistant', content: displayContent }
                 ]);
             }
 
         } catch (error) {
             console.error(error);
-            setMessages(prev => [...prev, { role: 'assistant', content: "I'm having trouble connecting to the main server. Please try again." }]);
+            setMessages(prev => [...prev, { role: 'assistant', content: "I'm having trouble connecting to the consultant server. Please try again." }]);
             setIsLoading(false);
         }
     };
