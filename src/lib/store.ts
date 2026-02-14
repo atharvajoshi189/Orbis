@@ -24,6 +24,8 @@ interface AppState {
     user: User | null;
     login: (user: User) => void;
     logout: () => void;
+    theme: 'dark' | 'light';
+    toggleTheme: () => void;
 }
 
 export const countries: Country[] = [
@@ -42,4 +44,6 @@ export const useAppStore = create<AppState>((set) => ({
     user: null,
     login: (user) => set({ user }),
     logout: () => set({ user: null }),
+    theme: 'dark',
+    toggleTheme: () => set((state) => ({ theme: state.theme === 'dark' ? 'light' : 'dark' })),
 }));

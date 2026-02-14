@@ -1,28 +1,31 @@
 "use client";
 
-import { Menu } from "lucide-react";
+import { Menu, Sun, Moon, Globe } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { Logo } from "./shared/Logo";
+import { useAppStore } from "@/lib/store";
 
 const navLinks = [
     { href: "/", label: "Home" },
-    { href: "/insights", label: "Insights" },
     { href: "/dashboard", label: "Dashboard" },
-    { href: "/roi", label: "ROI Tracker" },
-    { href: "/scholarships", label: "Scholarships" },
+    { href: "/roi", label: "ROI" },
+    { href: "/guidance", label: "Guidance" },
 ]
 
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const pathname = usePathname();
+    const { theme, toggleTheme } = useAppStore();
 
     return (
         <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 shadow-sm transition-all duration-300">
             <div className="container-custom mx-auto h-20 flex items-center justify-between">
-                <Link href="/" className="hover:opacity-80 transition-opacity">
-                    <Logo size="md" />
+                <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                    <div className="w-8 h-8 bg-[#1A73E8]/20 rounded-lg flex items-center justify-center text-[#1A73E8]">
+                        <Globe className="w-5 h-5" />
+                    </div>
+                    <h1 className="text-2xl font-bold text-slate-800 tracking-tight">Orbis</h1>
                 </Link>
 
                 {/* Desktop Navigation */}
@@ -44,6 +47,13 @@ export default function Navbar() {
 
                 {/* Right Actions */}
                 <div className="hidden md:flex items-center gap-6">
+                    <button
+                        onClick={toggleTheme}
+                        className="p-2 rounded-full hover:bg-slate-100 transition-colors"
+                        title="Toggle Theme"
+                    >
+                        {theme === 'dark' ? <Sun className="w-5 h-5 text-yellow-500" /> : <Moon className="w-5 h-5 text-indigo-500" />}
+                    </button>
                     <button className="text-sm font-medium text-[#1A73E8] hover:text-blue-800 transition-colors">
                         Sign In
                     </button>
