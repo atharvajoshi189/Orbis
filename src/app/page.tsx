@@ -75,11 +75,6 @@ export default function LandingPage() {
                 </div>
                 <div className="flex flex-col gap-4">
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <Link href="/signup">
-                      <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_0_20px_rgba(0,243,255,0.4)] transition-all hover:scale-105 h-12 px-8 text-base">
-                        Start Mission <ArrowRight className="ml-2 h-5 w-5" />
-                      </Button>
-                    </Link>
                     <Button variant="glass" size="lg" className="h-12 px-8 text-base">
                       Explore Global Trends
                     </Button>
@@ -153,6 +148,46 @@ export default function LandingPage() {
                   { label: "Tech Jobs", value: "High", trend: "up", color: "text-blue-500" },
                 ]}
               />
+            </div>
+          </div>
+        </section>
+
+        {/* --- FEATURE CARDS --- */}
+        <section className="py-20 relative overflow-hidden">
+          <div className="container-custom px-4">
+            <div className="grid gap-6 md:grid-cols-3">
+              {/* Card 1 */}
+              <Link href="/govt" className="block h-full">
+                <SpotlightCard className="p-6 h-full flex flex-col items-center text-center hover:border-primary/50 transition-colors group">
+                  <div className="mb-4 p-6 rounded-2xl bg-primary/10 text-primary group-hover:bg-primary/20 transition-colors w-full flex flex-col items-center justify-center gap-3">
+                    <Building2 className="h-8 w-8" />
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white leading-tight">Govt Job Eligibility Engine</h3>
+                  </div>
+                  <p className="text-muted-foreground text-sm px-2">Instant matching with government roles and entrance exams.</p>
+                </SpotlightCard>
+              </Link>
+
+              {/* Card 2 */}
+              <Link href="/loan" className="block h-full">
+                <SpotlightCard className="p-6 h-full flex flex-col items-center text-center hover:border-primary/50 transition-colors group">
+                  <div className="mb-4 p-6 rounded-2xl bg-primary/10 text-primary group-hover:bg-primary/20 transition-colors w-full flex flex-col items-center justify-center gap-3">
+                    <CreditCard className="h-8 w-8" />
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white leading-tight">Loan & EMI Simulator</h3>
+                  </div>
+                  <p className="text-muted-foreground text-sm px-2">Calculate break-even points and financial viability.</p>
+                </SpotlightCard>
+              </Link>
+
+              {/* Card 3 */}
+              <Link href="#" className="block h-full">
+                <SpotlightCard className="p-6 h-full flex flex-col items-center text-center hover:border-primary/50 transition-colors group">
+                  <div className="mb-4 p-6 rounded-2xl bg-primary/10 text-primary group-hover:bg-primary/20 transition-colors w-full flex flex-col items-center justify-center gap-3">
+                    <Users className="h-8 w-8" />
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white leading-tight">Human + AI Validation</h3>
+                  </div>
+                  <p className="text-muted-foreground text-sm px-2">Expert verification combined with algorithmic precision.</p>
+                </SpotlightCard>
+              </Link>
             </div>
           </div>
         </section>
