@@ -57,7 +57,7 @@ export default function Navbar() {
                                 key={link.href}
                                 href={link.href}
                                 className={cn(
-                                    "relative px-4 py-2 rounded-full flex items-center gap-2 text-sm font-medium transition-all duration-300",
+                                    "relative px-4 py-2 rounded-full flex items-center gap-2 text-sm font-medium transition-all duration-300 whitespace-nowrap",
                                     isActive
                                         ? "text-primary"
                                         : "text-muted-foreground hover:text-foreground"
