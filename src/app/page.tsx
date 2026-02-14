@@ -13,6 +13,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { useAppStore } from "@/lib/store";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 import LiveTicker from "@/components/LiveTicker";
 
@@ -168,18 +169,7 @@ export default function LandingPage() {
 
       </main>
 
-      <footer className="border-t border-slate-200 dark:border-white/10 bg-white dark:bg-black py-12 transition-colors duration-300">
-        <div className="container-custom text-center text-sm text-muted-foreground">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <div className="h-6 w-6 rounded-full bg-primary/20 flex items-center justify-center">
-              <Globe className="h-3 w-3 text-primary" />
-            </div>
-            <span className="text-lg font-bold text-slate-900 dark:text-white">ORBIS</span>
-          </div>
-          <p className="max-w-md mx-auto mb-8">Empowering students with data-driven career strategies. Choose your future with confidence.</p>
-          <p>&copy; 2026 Orbis Intelligence Systems. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
