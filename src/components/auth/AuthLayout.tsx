@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ReactNode } from "react";
+import { Logo } from "../shared/Logo";
 
 interface AuthLayoutProps {
     children: ReactNode;
@@ -31,6 +32,9 @@ export default function AuthLayout({ children, title, subtitle }: AuthLayoutProp
                     <div className="absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
                     <div className="relative z-10">
+                        <div className="flex justify-center mb-6">
+                            <Logo size="md" />
+                        </div>
                         <div className="text-center mb-8">
                             <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400 mb-2">
                                 {title}

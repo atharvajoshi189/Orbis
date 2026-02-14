@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { Progress } from "@/components/ui/progress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Logo } from "@/components/shared/Logo";
 
 export default function LandingPage() {
   return (
@@ -14,12 +15,9 @@ export default function LandingPage() {
       {/* Navbar for Landing Page */}
       <header className="fixed top-0 z-50 w-full border-b border-white/10 bg-black/60 backdrop-blur-xl">
         <div className="container-custom flex h-16 items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-linear-to-tr from-primary to-purple-600 shadow-[0_0_15px_rgba(0,243,255,0.5)]">
-              <Globe className="h-5 w-5 text-white" />
-            </div>
-            <span className="text-xl font-bold tracking-wider text-white">ORBIS</span>
-          </div>
+          <Link href="/">
+            <Logo size="md" />
+          </Link>
           <nav className="hidden md:flex items-center gap-8">
             <Link href="#features" className="text-sm font-medium text-muted-foreground hover:text-white transition-colors">
               Capabilities
@@ -353,11 +351,8 @@ export default function LandingPage() {
 
       <footer className="border-t border-white/10 bg-black py-12">
         <div className="container-custom text-center text-sm text-muted-foreground">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <div className="h-6 w-6 rounded-full bg-primary/20 flex items-center justify-center">
-              <Globe className="h-3 w-3 text-primary" />
-            </div>
-            <span className="text-lg font-bold text-white">ORBIS</span>
+          <div className="flex justify-center mb-6">
+            <Logo size="lg" />
           </div>
           <p className="max-w-md mx-auto mb-8">Empowering students with data-driven career strategies. Choose your future with confidence.</p>
           <p>&copy; 2026 Orbis Intelligence Systems. All rights reserved.</p>

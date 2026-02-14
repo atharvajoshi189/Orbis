@@ -4,6 +4,7 @@ import { Menu } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import { Logo } from "./shared/Logo";
 
 const navLinks = [
     { href: "/", label: "Home" },
@@ -20,10 +21,8 @@ export default function Navbar() {
     return (
         <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 shadow-sm transition-all duration-300">
             <div className="container-custom mx-auto h-20 flex items-center justify-between">
-                {/* Logo */}
-                <Link href="/" className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-[#1A73E8] rounded-lg flex items-center justify-center text-white font-bold">O</div>
-                    <h1 className="text-2xl font-bold text-slate-800 tracking-tight">Orbis</h1>
+                <Link href="/" className="hover:opacity-80 transition-opacity">
+                    <Logo size="md" />
                 </Link>
 
                 {/* Desktop Navigation */}
