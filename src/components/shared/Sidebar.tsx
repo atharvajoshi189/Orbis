@@ -5,27 +5,17 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
     LayoutDashboard,
-    User,
     Globe,
-    Zap,
-    PiggyBank,
-    Building2,
-    ShieldAlert,
-    Settings,
     LogOut,
-    Target,
+    TrendingUp,
+    Compass,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const sidebarItems = [
     { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-    { name: "Profile", href: "/profile", icon: User },
-    { name: "Global Intel", href: "/dashboard/global-intel", icon: Globe },
-    { name: "Recs", href: "/recommendations", icon: Target },
-    { name: "Loan & ROI", href: "/loan", icon: PiggyBank },
-    { name: "Govt Path", href: "/govt", icon: Building2 },
-    { name: "Risk Analysis", href: "/dashboard/risk", icon: ShieldAlert },
-    { name: "Settings", href: "/settings", icon: Settings },
+    { name: "ROI", href: "/roi", icon: TrendingUp },
+    { name: "Guidance", href: "/guidance", icon: Compass },
 ];
 
 export function Sidebar() {

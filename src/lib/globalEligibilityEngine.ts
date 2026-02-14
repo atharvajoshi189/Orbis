@@ -31,6 +31,57 @@ export interface IntelligenceOutput {
     aiInsight: string;
 }
 
+export interface GlobalOpportunity {
+    university: string;
+    country: string;
+    program: string;
+    tuition: string;
+    probability: number;
+    requirements: string[];
+}
+
+export function evaluateGlobalOptions(profile: UnifiedProfile): GlobalOpportunity[] {
+    const opportunities: GlobalOpportunity[] = [
+        {
+            university: "Technical University of Munich",
+            country: "Germany",
+            program: "M.Sc. in Data Engineering",
+            tuition: "Zero Tuition (Semester Fee ~€150)",
+            probability: 88,
+            requirements: ["IELTS 6.5+", "German A1 (Recommended)", "CGPA > 7.5"]
+        },
+        {
+            university: "University of Toronto",
+            country: "Canada",
+            program: "Master of Applied Computing",
+            tuition: "CAD 45,000/year",
+            probability: 72,
+            requirements: ["GRE 310+", "IELTS 7.5", "2 LoRs"]
+        },
+        {
+            university: "Imperial College London",
+            country: "UK",
+            program: "MSc Artificial Intelligence",
+            tuition: "£38,500",
+            probability: 65,
+            requirements: ["First Class Degree", "Math Background", "Statement of Purpose"]
+        },
+        {
+            university: "Arizona State University",
+            country: "USA",
+            program: "MS in Computer Science",
+            tuition: "$54,000",
+            probability: 82,
+            requirements: ["GRE 300+", "TOEFL 90", "GPA 3.0+"]
+        }
+    ];
+
+    // Simple filtering logic based on profile if needed
+    // For now, returning static mock data enhanced with types
+    return opportunities;
+}
+
+
 export function generateIntelligence(profile: UnifiedProfile): IntelligenceOutput {
     // 1. Analyze Dominant Stream
     const topSub = profile.subjectStrength[0]?.subject || "General";
