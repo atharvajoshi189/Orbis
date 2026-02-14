@@ -9,11 +9,20 @@ type Country = {
     prDifficulty: string;
 };
 
+export type User = {
+    name: string;
+    email: string;
+    avatar?: string;
+};
+
 interface AppState {
     selectedCountry: Country;
     setCountry: (country: Country) => void;
     xp: number;
     addXp: (amount: number) => void;
+    user: User | null;
+    login: (user: User) => void;
+    logout: () => void;
 }
 
 export const countries: Country[] = [
@@ -29,4 +38,7 @@ export const useAppStore = create<AppState>((set) => ({
     setCountry: (country) => set({ selectedCountry: country }),
     xp: 12450,
     addXp: (amount) => set((state) => ({ xp: state.xp + amount })),
+    user: null,
+    login: (user) => set({ user }),
+    logout: () => set({ user: null }),
 }));
