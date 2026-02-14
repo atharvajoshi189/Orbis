@@ -89,47 +89,87 @@ export default function LandingPage() {
               </motion.div>
 
               {/* Pseudo-3D Globe Placeholder */}
+              {/* Solar System Orbit Visual */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 1 }}
-                className="relative mx-auto aspect-square w-full max-w-[500px]"
+                className="relative mx-auto aspect-square w-full max-w-[500px] flex items-center justify-center py-10 md:py-0"
               >
-                <div className="absolute inset-0 rounded-full bg-linear-to-tr from-primary/20 to-purple-500/20 blur-[60px] animate-pulse" />
-                <div className="relative h-full w-full rounded-full border border-white/10 bg-black/40 backdrop-blur-sm shadow-2xl flex items-center justify-center overflow-hidden">
-                  <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-20 animate-[spin_20s_linear_infinite]" />
-                  <Globe className="h-64 w-64 text-primary/50 animate-pulse" />
+                {/* Background Glow */}
+                <div className="absolute inset-0 rounded-full bg-linear-to-tr from-primary/10 to-purple-500/10 blur-[100px]" />
 
-                  {/* Floating Info Cards */}
+                {/* Orbits Container */}
+                <div className="relative w-full h-full flex items-center justify-center">
+
+                  {/* Central Star / Core */}
+                  <div className="relative z-20 h-24 w-24 rounded-full bg-black border-2 border-primary/50 shadow-[0_0_30px_rgba(0,243,255,0.4)] flex items-center justify-center overflow-hidden group">
+                    <div className="absolute inset-0 bg-primary/20 animate-pulse" />
+                    <Globe className="h-10 w-10 text-white z-10 relative group-hover:scale-110 transition-transform duration-500" />
+                    <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-30" />
+                  </div>
+
+                  {/* Orbit Ring 1 (Inner) */}
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1, duration: 0.5 }}
-                    className="absolute top-1/4 right-10 p-3 rounded-lg bg-black/60 border border-primary/30 backdrop-blur-md shadow-lg"
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                    className="absolute z-10 h-[180px] w-[180px] rounded-full border border-white/10"
                   >
-                    <p className="text-xs text-muted-foreground">Admission Probability</p>
-                    <p className="text-lg font-bold text-green-400">82%</p>
+                    <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 h-3 w-3 rounded-full bg-blue-400 shadow-[0_0_10px_rgba(96,165,250,0.8)]" />
                   </motion.div>
+
+                  {/* Orbit Ring 2 (Middle) */}
                   <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1.5, duration: 0.5 }}
-                    className="absolute bottom-1/4 left-10 p-3 rounded-lg bg-black/60 border border-purple-500/30 backdrop-blur-md shadow-lg"
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                    className="absolute z-10 h-[280px] w-[280px] rounded-full border border-white/10"
                   >
-                    <p className="text-xs text-muted-foreground">Avg ROI</p>
-                    <p className="text-lg font-bold text-purple-400">3.4x</p>
+                    <div className="absolute top-1/2 -right-2 -translate-y-1/2 h-4 w-4 rounded-full bg-purple-500 shadow-[0_0_15px_rgba(168,85,247,0.8)] border border-black" />
+                    {/* Satellite for Planet 2 */}
+                    <div className="absolute bottom-10 left-10 h-1.5 w-1.5 rounded-full bg-white/50" />
                   </motion.div>
+
+                  {/* Orbit Ring 3 (Outer) */}
                   <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 2.0, duration: 0.5 }}
-                    className="absolute top-10 left-10 p-2 px-3 rounded-full bg-blue-500/20 border border-blue-500/30 backdrop-blur-md"
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 45, repeat: Infinity, ease: "linear" }}
+                    className="absolute z-10 h-[380px] w-[380px] rounded-full border border-white/5 border-dashed"
                   >
-                    <p className="text-xs font-bold text-blue-400 flex items-center gap-1">
-                      <ShieldCheck className="h-3 w-3" /> Visa Confidence: 89%
-                    </p>
+                    <div className="absolute bottom-14 right-14 h-5 w-5 rounded-full bg-yellow-400 shadow-[0_0_15px_rgba(250,204,21,0.6)] border-2 border-black" />
                   </motion.div>
                 </div>
+
+                {/* Floating Info Cards (Preserved & Positioned) */}
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 1, duration: 0.5 }}
+                  className="absolute top-[10%] right-0 lg:-right-4 p-3 rounded-lg bg-black/60 border border-primary/30 backdrop-blur-md shadow-lg z-30"
+                >
+                  <p className="text-xs text-muted-foreground">Admission Probability</p>
+                  <p className="text-lg font-bold text-green-400">82%</p>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 1.5, duration: 0.5 }}
+                  className="absolute bottom-[20%] -left-4 p-3 rounded-lg bg-black/60 border border-purple-500/30 backdrop-blur-md shadow-lg z-30"
+                >
+                  <p className="text-xs text-muted-foreground">Avg ROI</p>
+                  <p className="text-lg font-bold text-purple-400">3.4x</p>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 2.0, duration: 0.5 }}
+                  className="absolute top-0 left-10 p-2 px-3 rounded-full bg-blue-500/20 border border-blue-500/30 backdrop-blur-md z-30"
+                >
+                  <p className="text-xs font-bold text-blue-400 flex items-center gap-1">
+                    <ShieldCheck className="h-3 w-3" /> Visa Confidence: 89%
+                  </p>
+                </motion.div>
               </motion.div>
             </div>
           </div >
