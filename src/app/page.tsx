@@ -13,6 +13,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { useAppStore } from "@/lib/store";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import Translate from "@/components/Translate";
 
 import LiveTicker from "@/components/LiveTicker";
 
@@ -66,11 +68,11 @@ export default function LandingPage() {
                 </div>
                 <div className="space-y-4">
                   <h1 className="text-4xl font-bold tracking-tighter text-slate-900 dark:text-white sm:text-6xl xl:text-7xl/none">
-                    Choose Your <span className="text-primary drop-shadow-[0_0_10px_rgba(0,113,227,0.3)] dark:drop-shadow-[0_0_10px_rgba(0,243,255,0.5)]">Career Strategy</span>, <br />
-                    Not Just a University.
+                    <Translate text="Choose Your" /> <span className="text-primary drop-shadow-[0_0_10px_rgba(0,113,227,0.3)] dark:drop-shadow-[0_0_10px_rgba(0,243,255,0.5)]"><Translate text="Career Strategy" /></span>, <br />
+                    <Translate text="Not Just a University." />
                   </h1>
                   <p className="max-w-[600px] text-lg text-slate-600 dark:text-muted-foreground md:text-xl">
-                    AI-powered Career & Financial Intelligence. Analyze risks, calculate ROI, and simulate your future before you commit.
+                    <Translate text="AI-powered Career & Financial Intelligence. Analyze risks, calculate ROI, and simulate your future before you commit." />
                   </p>
                 </div>
                 <div className="flex flex-col gap-4">
@@ -109,11 +111,11 @@ export default function LandingPage() {
           <div className="container-custom px-4">
             <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
               <div>
-                <h2 className="text-3xl font-bold tracking-tighter text-slate-900 dark:text-white sm:text-4xl">Global Market Intelligence</h2>
-                <p className="text-muted-foreground mt-2">Real-time data streams from key education destinations.</p>
+                <h2 className="text-3xl font-bold tracking-tighter text-slate-900 dark:text-white sm:text-4xl"><Translate text="Global Market Intelligence" /></h2>
+                <p className="text-muted-foreground mt-2"><Translate text="Real-time data streams from key education destinations." /></p>
               </div>
               <Button variant="outline" className="gap-2 border-primary/20 hover:bg-primary/10 hover:text-primary">
-                View Full Heatmap <Globe className="h-4 w-4" />
+                <Translate text="View Full Heatmap" /> <Globe className="h-4 w-4" />
               </Button>
             </div>
 
@@ -161,9 +163,9 @@ export default function LandingPage() {
                 <SpotlightCard className="p-6 h-full flex flex-col items-center text-center hover:border-primary/50 transition-colors group">
                   <div className="mb-4 p-6 rounded-2xl bg-primary/10 text-primary group-hover:bg-primary/20 transition-colors w-full flex flex-col items-center justify-center gap-3">
                     <Building2 className="h-8 w-8" />
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-white leading-tight">Global Eligibility Engine</h3>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white leading-tight"><Translate text="Global Eligibility Engine" /></h3>
                   </div>
-                  <p className="text-muted-foreground text-sm px-2">Instant matching with government roles and entrance exams.</p>
+                  <p className="text-muted-foreground text-sm px-2"><Translate text="Instant matching with government roles and entrance exams." /></p>
                 </SpotlightCard>
               </Link>
 
@@ -172,9 +174,9 @@ export default function LandingPage() {
                 <SpotlightCard className="p-6 h-full flex flex-col items-center text-center hover:border-primary/50 transition-colors group">
                   <div className="mb-4 p-6 rounded-2xl bg-primary/10 text-primary group-hover:bg-primary/20 transition-colors w-full flex flex-col items-center justify-center gap-3">
                     <CreditCard className="h-8 w-8" />
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-white leading-tight">Loan & EMI Simulator</h3>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white leading-tight"><Translate text="Loan & EMI Simulator" /></h3>
                   </div>
-                  <p className="text-muted-foreground text-sm px-2">Calculate break-even points and financial viability.</p>
+                  <p className="text-muted-foreground text-sm px-2"><Translate text="Calculate break-even points and financial viability." /></p>
                 </SpotlightCard>
               </Link>
 
@@ -183,9 +185,9 @@ export default function LandingPage() {
                 <SpotlightCard className="p-6 h-full flex flex-col items-center text-center hover:border-primary/50 transition-colors group">
                   <div className="mb-4 p-6 rounded-2xl bg-primary/10 text-primary group-hover:bg-primary/20 transition-colors w-full flex flex-col items-center justify-center gap-3">
                     <Users className="h-8 w-8" />
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-white leading-tight">Human + AI Validation</h3>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white leading-tight"><Translate text="Human + AI Validation" /></h3>
                   </div>
-                  <p className="text-muted-foreground text-sm px-2">Expert verification combined with algorithmic precision.</p>
+                  <p className="text-muted-foreground text-sm px-2"><Translate text="Expert verification combined with algorithmic precision." /></p>
                 </SpotlightCard>
               </Link>
             </div>
@@ -193,6 +195,8 @@ export default function LandingPage() {
         </section>
 
       </main>
+
+      <Footer />
 
     </div>
   );
