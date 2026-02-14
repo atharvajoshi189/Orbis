@@ -1,0 +1,449 @@
+[
+  {
+    "id": "erasmus-mundus-joint-masters-2026",
+    "name": "Erasmus Mundus Joint Masters Scholarship",
+    "provider": "European Commission",
+    "benefit": "Full Tuition + €1400/month + Travel",
+    "criteria": { "min_marks": 70, "max_income": null, "min_exp_years": 0 },
+    "fields": ["Engineering", "Data Science", "Environmental Studies", "Economics"],
+    "deadline": "2026-01-15",
+    "type": "International",
+    "country": "Europe"
+  },
+  {
+    "id": "rhodes-scholarship-2026",
+    "name": "Rhodes Scholarship",
+    "provider": "Rhodes Trust",
+    "benefit": "Full Tuition + £18,180/year stipend",
+    "criteria": { "min_marks": 75, "max_income": null, "age_limit": 24 },
+    "fields": ["All Disciplines"],
+    "deadline": "2026-07-31",
+    "type": "International",
+    "country": "United Kingdom"
+  },
+  {
+    "id": "commonwealth-masters-2026",
+    "name": "Commonwealth Master's Scholarship",
+    "provider": "Commonwealth Scholarship Commission",
+    "benefit": "Full Tuition + Living Allowance + Airfare",
+    "criteria": { "min_marks": 65, "max_income": null, "min_exp_years": 0 },
+    "fields": ["Engineering", "Public Policy", "Health Sciences", "Education"],
+    "deadline": "2026-10-15",
+    "type": "Government",
+    "country": "United Kingdom"
+  },
+  {
+    "id": "commonwealth-phd-2026",
+    "name": "Commonwealth PhD Scholarship",
+    "provider": "Commonwealth Scholarship Commission",
+    "benefit": "Full Tuition + Monthly Stipend + Travel",
+    "criteria": { "min_marks": 70, "max_income": null, "min_exp_years": 1 },
+    "fields": ["Engineering", "Sciences", "Development Studies"],
+    "deadline": "2026-11-01",
+    "type": "Government",
+    "country": "United Kingdom"
+  },
+  {
+    "id": "ing-beasiswa-unggulan-2026",
+    "name": "Beasiswa Unggulan International Scholarship",
+    "provider": "Government of Indonesia",
+    "benefit": "Full Tuition + Living Allowance",
+    "criteria": { "min_marks": 70, "max_income": null, "age_limit": 35 },
+    "fields": ["Engineering", "Social Sciences", "Education"],
+    "deadline": "2026-06-30",
+    "type": "Government",
+    "country": "Indonesia"
+  },
+
+  {
+    "id": "mext-research-2026",
+    "name": "MEXT Research Scholarship",
+    "provider": "Government of Japan",
+    "benefit": "Full Tuition + ¥143,000/month + Airfare",
+    "criteria": { "min_marks": 70, "max_income": null, "age_limit": 35 },
+    "fields": ["Engineering", "Technology", "Sciences"],
+    "deadline": "2026-05-31",
+    "type": "Government",
+    "country": "Japan"
+  },
+  {
+    "id": "mext-undergraduate-2026",
+    "name": "MEXT Undergraduate Scholarship",
+    "provider": "Government of Japan",
+    "benefit": "Full Tuition + Monthly Stipend",
+    "criteria": { "min_marks": 75, "max_income": null, "age_limit": 25 },
+    "fields": ["Engineering", "Natural Sciences", "Social Sciences"],
+    "deadline": "2026-05-31",
+    "type": "Government",
+    "country": "Japan"
+  },
+  {
+    "id": "gates-cambridge-2026",
+    "name": "Gates Cambridge Scholarship",
+    "provider": "University of Cambridge",
+    "benefit": "Full Tuition + £20,000 stipend",
+    "criteria": { "min_marks": 75, "max_income": null, "min_exp_years": 0 },
+    "fields": ["All Disciplines"],
+    "deadline": "2026-12-03",
+    "type": "University",
+    "country": "United Kingdom"
+  },
+  {
+    "id": "clarendon-oxford-2026",
+    "name": "Clarendon Scholarship",
+    "provider": "University of Oxford",
+    "benefit": "Full Tuition + Annual Grant",
+    "criteria": { "min_marks": 70, "max_income": null, "min_exp_years": 0 },
+    "fields": ["All Disciplines"],
+    "deadline": "2026-01-08",
+    "type": "University",
+    "country": "United Kingdom"
+  },
+  {
+    "id": "think-big-bristol-2026",
+    "name": "Think Big Scholarships",
+    "provider": "University of Bristol",
+    "benefit": "£6,500–£26,000 toward tuition",
+    "criteria": { "min_marks": 65, "max_income": null, "min_exp_years": 0 },
+    "fields": ["Engineering", "Business", "Computer Science"],
+    "deadline": "2026-04-24",
+    "type": "University",
+    "country": "United Kingdom"
+  },
+
+  {
+    "id": "melbourne-international-2026",
+    "name": "Melbourne International Graduate Scholarship",
+    "provider": "University of Melbourne",
+    "benefit": "Full Fee Offset + Stipend",
+    "criteria": { "min_marks": 75, "max_income": null, "min_exp_years": 0 },
+    "fields": ["Engineering", "IT", "Health Sciences"],
+    "deadline": "2026-10-31",
+    "type": "University",
+    "country": "Australia"
+  },
+  {
+    "id": "australia-awards-2026",
+    "name": "Australia Awards Scholarship",
+    "provider": "Australian Government",
+    "benefit": "Full Tuition + Living + Airfare",
+    "criteria": { "min_marks": 65, "max_income": null, "min_exp_years": 2 },
+    "fields": ["Engineering", "Public Policy", "Health"],
+    "deadline": "2026-04-30",
+    "type": "Government",
+    "country": "Australia"
+  },
+  {
+    "id": "vanier-canada-2026",
+    "name": "Vanier Canada Graduate Scholarship",
+    "provider": "Government of Canada",
+    "benefit": "CAD 50,000/year",
+    "criteria": { "min_marks": 80, "max_income": null, "min_exp_years": 1 },
+    "fields": ["Health Research", "Engineering", "Social Sciences"],
+    "deadline": "2026-11-05",
+    "type": "Government",
+    "country": "Canada"
+  },
+  {
+    "id": "lester-pearson-2026",
+    "name": "Lester B. Pearson International Scholarship",
+    "provider": "University of Toronto",
+    "benefit": "Full Tuition + Books + Residence",
+    "criteria": { "min_marks": 85, "max_income": null, "age_limit": 21 },
+    "fields": ["All Disciplines"],
+    "deadline": "2026-01-17",
+    "type": "University",
+    "country": "Canada"
+  },
+  {
+    "id": "eth-excellence-2026",
+    "name": "ETH Zurich Excellence Scholarship",
+    "provider": "ETH Zurich",
+    "benefit": "CHF 12,000/semester + Tuition waiver",
+    "criteria": { "min_marks": 80, "max_income": null, "min_exp_years": 0 },
+    "fields": ["Engineering", "Computer Science", "Mathematics"],
+    "deadline": "2026-12-15",
+    "type": "University",
+    "country": "Switzerland"
+  },
+
+  {
+    "id": "daad-epos-2026",
+    "name": "DAAD EPOS Scholarship",
+    "provider": "DAAD",
+    "benefit": "€934/month + Insurance + Travel",
+    "criteria": { "min_marks": 70, "max_income": null, "min_exp_years": 2 },
+    "fields": ["Development Studies", "Engineering", "Economics"],
+    "deadline": "2026-10-31",
+    "type": "International",
+    "country": "Germany"
+  },
+  {
+    "id": "holland-scholarship-2026",
+    "name": "NL (Holland) Scholarship",
+    "provider": "Dutch Ministry of Education",
+    "benefit": "€5,000 one-time grant",
+    "criteria": { "min_marks": 65, "max_income": null, "min_exp_years": 0 },
+    "fields": ["Engineering", "Business", "Arts"],
+    "deadline": "2026-05-01",
+    "type": "Government",
+    "country": "Netherlands"
+  },
+  {
+    "id": "swiss-government-excellence-2026",
+    "name": "Swiss Government Excellence Scholarship",
+    "provider": "Swiss Confederation",
+    "benefit": "Monthly stipend + Tuition waiver",
+    "criteria": { "min_marks": 75, "max_income": null, "min_exp_years": 1 },
+    "fields": ["Research", "Engineering", "Arts"],
+    "deadline": "2026-11-15",
+    "type": "Government",
+    "country": "Switzerland"
+  },
+  {
+    "id": "turkiye-burslari-2026",
+    "name": "Türkiye Burslari Scholarship",
+    "provider": "Government of Türkiye",
+    "benefit": "Full Tuition + Monthly Stipend + Housing",
+    "criteria": { "min_marks": 70, "max_income": null, "age_limit": 30 },
+    "fields": ["Engineering", "Medicine", "Social Sciences"],
+    "deadline": "2026-02-20",
+    "type": "Government",
+    "country": "Türkiye"
+  },
+  {
+    "id": "korea-global-scholarship-2026",
+    "name": "Global Korea Scholarship (GKS)",
+    "provider": "Government of South Korea",
+    "benefit": "Full Tuition + KRW 1,000,000/month",
+    "criteria": { "min_marks": 70, "max_income": null, "age_limit": 40 },
+    "fields": ["Engineering", "IT", "Sciences"],
+    "deadline": "2026-03-15",
+    "type": "Government",
+    "country": "South Korea"
+  },
+
+  {
+    "id": "taiwan-icdf-2026",
+    "name": "TaiwanICDF Scholarship",
+    "provider": "Taiwan ICDF",
+    "benefit": "Full Tuition + Monthly Allowance",
+    "criteria": { "min_marks": 65, "max_income": null, "min_exp_years": 0 },
+    "fields": ["Agriculture", "Engineering", "Business"],
+    "deadline": "2026-03-15",
+    "type": "Government",
+    "country": "Taiwan"
+  },
+  {
+    "id": "new-zealand-mfats-2026",
+    "name": "New Zealand Scholarships (MFAT)",
+    "provider": "New Zealand Government",
+    "benefit": "Full Tuition + Living + Travel",
+    "criteria": { "min_marks": 65, "max_income": null, "min_exp_years": 1 },
+    "fields": ["Engineering", "Climate Studies", "Agriculture"],
+    "deadline": "2026-02-28",
+    "type": "Government",
+    "country": "New Zealand"
+  },
+  {
+    "id": "irish-government-postgrad-2026",
+    "name": "Government of Ireland Postgraduate Scholarship",
+    "provider": "Irish Research Council",
+    "benefit": "€22,000/year stipend",
+    "criteria": { "min_marks": 75, "max_income": null, "min_exp_years": 0 },
+    "fields": ["All Disciplines"],
+    "deadline": "2026-10-10",
+    "type": "Government",
+    "country": "Ireland"
+  },
+  {
+    "id": "erasmus-eit-digital-2026",
+    "name": "EIT Digital Master School Scholarship",
+    "provider": "EIT Digital",
+    "benefit": "Tuition waiver + stipend",
+    "criteria": { "min_marks": 70, "max_income": null, "min_exp_years": 0 },
+    "fields": ["Computer Science", "AI", "Data Science"],
+    "deadline": "2026-04-15",
+    "type": "International",
+    "country": "Europe"
+  },
+  {
+    "id": "erasmus-eit-innoenergy-2026",
+    "name": "EIT InnoEnergy Masters Scholarship",
+    "provider": "EIT InnoEnergy",
+    "benefit": "Tuition support + mobility grant",
+    "criteria": { "min_marks": 70, "max_income": null, "min_exp_years": 0 },
+    "fields": ["Energy Engineering", "Sustainability"],
+    "deadline": "2026-04-30",
+    "type": "International",
+    "country": "Europe"
+  },
+
+  {
+    "id": "monash-international-merit-2026",
+    "name": "Monash International Merit Scholarship",
+    "provider": "Monash University",
+    "benefit": "AUD 10,000/year",
+    "criteria": { "min_marks": 75, "max_income": null, "min_exp_years": 0 },
+    "fields": ["Engineering", "Business", "IT"],
+    "deadline": "2026-10-15",
+    "type": "University",
+    "country": "Australia"
+  },
+  {
+    "id": "anu-chancellor-2026",
+    "name": "ANU Chancellor's International Scholarship",
+    "provider": "Australian National University",
+    "benefit": "25%–50% tuition reduction",
+    "criteria": { "min_marks": 70, "max_income": null, "min_exp_years": 0 },
+    "fields": ["Engineering", "Science", "Business"],
+    "deadline": "2026-05-31",
+    "type": "University",
+    "country": "Australia"
+  },
+  {
+    "id": "warwick-chancellor-2026",
+    "name": "Warwick Chancellor's International Scholarship",
+    "provider": "University of Warwick",
+    "benefit": "Full Tuition + Stipend",
+    "criteria": { "min_marks": 75, "max_income": null, "min_exp_years": 1 },
+    "fields": ["Engineering", "Sciences"],
+    "deadline": "2026-01-12",
+    "type": "University",
+    "country": "United Kingdom"
+  },
+  {
+    "id": "edinburgh-global-2026",
+    "name": "Edinburgh Global Research Scholarship",
+    "provider": "University of Edinburgh",
+    "benefit": "Full tuition coverage",
+    "criteria": { "min_marks": 75, "max_income": null, "min_exp_years": 0 },
+    "fields": ["All Disciplines"],
+    "deadline": "2026-02-17",
+    "type": "University",
+    "country": "United Kingdom"
+  },
+  {
+    "id": "ucl-global-masters-2026",
+    "name": "UCL Global Masters Scholarship",
+    "provider": "University College London",
+    "benefit": "£15,000 toward tuition",
+    "criteria": { "min_marks": 70, "max_income": 5000000, "min_exp_years": 0 },
+    "fields": ["Engineering", "Public Policy", "Management"],
+    "deadline": "2026-05-08",
+    "type": "University",
+    "country": "United Kingdom"
+  },
+
+  {
+    "id": "stanford-knight-hennessy-2026",
+    "name": "Knight-Hennessy Scholars",
+    "provider": "Stanford University",
+    "benefit": "Full Funding + Living Stipend",
+    "criteria": { "min_marks": 80, "max_income": null, "min_exp_years": 1 },
+    "fields": ["All Disciplines"],
+    "deadline": "2026-10-12",
+    "type": "University",
+    "country": "USA"
+  },
+  {
+    "id": "harvard-boustany-mba-2026",
+    "name": "Boustany MBA Harvard Scholarship",
+    "provider": "Boustany Foundation",
+    "benefit": "75% Tuition + Internship",
+    "criteria": { "min_marks": 75, "max_income": null, "min_exp_years": 2 },
+    "fields": ["MBA", "Business"],
+    "deadline": "2026-05-31",
+    "type": "Trust",
+    "country": "USA"
+  },
+  {
+    "id": "mit-zaragoza-2026",
+    "name": "MIT Zaragoza Scholarship",
+    "provider": "MIT Zaragoza",
+    "benefit": "Partial to full tuition",
+    "criteria": { "min_marks": 75, "max_income": null, "min_exp_years": 1 },
+    "fields": ["Supply Chain", "Engineering"],
+    "deadline": "2026-04-01",
+    "type": "University",
+    "country": "Spain"
+  },
+  {
+    "id": "inlaks-scholarship-2026",
+    "name": "Inlaks Shivdasani Foundation Scholarship",
+    "provider": "Inlaks Foundation",
+    "benefit": "Up to $100,000",
+    "criteria": { "min_marks": 70, "max_income": null, "age_limit": 30 },
+    "fields": ["Engineering", "Arts", "Humanities"],
+    "deadline": "2026-03-30",
+    "type": "Trust",
+    "country": "Global"
+  },
+  {
+    "id": "narotam-sekharia-2026",
+    "name": "Narotam Sekhsaria Scholarship",
+    "provider": "Narotam Sekhsaria Foundation",
+    "benefit": "Interest-free loan scholarship",
+    "criteria": { "min_marks": 65, "max_income": null, "min_exp_years": 0 },
+    "fields": ["Engineering", "Management", "Sciences"],
+    "deadline": "2026-03-20",
+    "type": "Trust",
+    "country": "Global"
+  },
+
+  {
+    "id": "jindal-global-2026",
+    "name": "OP Jindal Engineering & Management Scholarship",
+    "provider": "OP Jindal Group",
+    "benefit": "₹1.5 Lakhs/year",
+    "criteria": { "min_marks": 75, "max_income": null, "min_exp_years": 0 },
+    "fields": ["Engineering", "Management"],
+    "deadline": "2026-09-30",
+    "type": "Trust",
+    "country": "India"
+  },
+  {
+    "id": "tata-scholarship-cornell-2026",
+    "name": "Tata Scholarship at Cornell University",
+    "provider": "Tata Education Trust",
+    "benefit": "Full Tuition support",
+    "criteria": { "min_marks": 85, "max_income": 1000000, "min_exp_years": 0 },
+    "fields": ["Engineering", "Architecture", "Sciences"],
+    "deadline": "2026-01-02",
+    "type": "Trust",
+    "country": "USA"
+  },
+  {
+    "id": "oxford-pershing-square-2026",
+    "name": "Pershing Square Graduate Scholarship",
+    "provider": "University of Oxford",
+    "benefit": "Full Tuition + Living stipend",
+    "criteria": { "min_marks": 80, "max_income": null, "min_exp_years": 2 },
+    "fields": ["MBA", "Public Policy"],
+    "deadline": "2026-01-07",
+    "type": "University",
+    "country": "United Kingdom"
+  },
+  {
+    "id": "erasmus-marine-2026",
+    "name": "Erasmus Mundus Marine Environment Scholarship",
+    "provider": "European Commission",
+    "benefit": "Full Tuition + €1400/month",
+    "criteria": { "min_marks": 70, "max_income": null, "min_exp_years": 0 },
+    "fields": ["Marine Science", "Environmental Science"],
+    "deadline": "2026-01-20",
+    "type": "International",
+    "country": "Europe"
+  },
+  {
+    "id": "erasmus-ai-2026",
+    "name": "Erasmus Mundus AI & Data Scholarship",
+    "provider": "European Commission",
+    "benefit": "Full Tuition + €1400/month",
+    "criteria": { "min_marks": 75, "max_income": null, "min_exp_years": 0 },
+    "fields": ["Artificial Intelligence", "Data Science"],
+    "deadline": "2026-01-25",
+    "type": "International",
+    "country": "Europe"
+  }
+]
