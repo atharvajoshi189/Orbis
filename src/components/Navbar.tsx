@@ -1,88 +1,161 @@
 "use client";
 
-import { Menu, Sun, Moon, Globe } from "lucide-react";
+import { Home, LayoutGrid, TrendingUp, Compass, Menu, User, LogIn, Globe, Sun, Moon } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { useAppStore } from "@/lib/store";
+import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 const navLinks = [
-    { href: "/", label: "Home" },
-    { href: "/dashboard", label: "Dashboard" },
-    { href: "/roi", label: "ROI" },
-    { href: "/guidance", label: "Guidance" },
+    { href: "/", label: "Home", icon: Home },
+    { href: "/dashboard", label: "Dashboard", icon: LayoutGrid },
+    { href: "/roi", label: "ROI", icon: TrendingUp },
+    { href: "/guidance", label: "Guidance", icon: Compass },
 ]
 
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const pathname = usePathname();
-    const { theme, toggleTheme } = useAppStore();
+    const { user, theme, toggleTheme } = useAppStore();
+    const [scrolled, setScrolled] = useState(false);
+
+    // Handle scroll for glass effect intensity or minimizing
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 20);
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
 
     return (
-        <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 shadow-sm transition-all duration-300">
-            <div className="container-custom mx-auto h-20 flex items-center justify-between">
-                <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-                    <div className="w-8 h-8 bg-[#1A73E8]/20 rounded-lg flex items-center justify-center text-[#1A73E8]">
-                        <Globe className="w-5 h-5" />
-                    </div>
-                    <h1 className="text-2xl font-bold text-slate-800 tracking-tight">Orbis</h1>
-                </Link>
-
-                {/* Desktop Navigation */}
-                <div className="hidden md:flex items-center gap-8">
-                    {navLinks.map((link) => (
-                        <Link
-                            key={link.href}
-                            href={link.href}
-                            className={`
-                        text-sm font-medium text-slate-500 hover:text-[#1A73E8] transition-colors relative group py-2
-                        ${pathname === link.href ? 'text-[#1A73E8]' : ''}
-                    `}
-                        >
-                            {link.label}
-                            <span className={`absolute bottom-0 left-0 h-0.5 bg-[#1A73E8] transition-all duration-300 ${pathname === link.href ? 'w-full' : 'w-0 group-hover:w-full'}`} />
-                        </Link>
-                    ))}
-                </div>
-
-                {/* Right Actions */}
-                <div className="hidden md:flex items-center gap-6">
-                    <button
-                        onClick={toggleTheme}
-                        className="p-2 rounded-full hover:bg-slate-100 transition-colors"
-                        title="Toggle Theme"
-                    >
-                        {theme === 'dark' ? <Sun className="w-5 h-5 text-yellow-500" /> : <Moon className="w-5 h-5 text-indigo-500" />}
-                    </button>
-                    <button className="text-sm font-medium text-[#1A73E8] hover:text-blue-800 transition-colors">
-                        Sign In
-                    </button>
-                    <Link href="/insights" className="px-6 py-2.5 bg-[#1A73E8] text-white text-sm font-bold rounded-full hover:bg-blue-700 shadow-md transition-all hover:shadow-lg hover:-translate-y-0.5">
-                        Get Started
+        <>
+            {/* Desktop Floating Pill Navbar */}
+            <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 hidden md:flex items-center gap-4">
+                <nav className={cn(
+                    "flex items-center gap-2 p-2 px-6 rounded-full border transition-all duration-300 shadow-lg min-w-[600px] justify-between",
+                    theme === 'dark'
+                        ? "bg-black/60 border-white/10 backdrop-blur-xl shadow-cyan-500/10"
+                        : "bg-white/80 border-slate-200 backdrop-blur-xl shadow-slate-200/50"
+                )}>
+                    {/* Brand / Logo */}
+                    <Link href="/" className="flex items-center justify-center p-2 rounded-full hover:bg-white/10 transition-colors">
+                        <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center text-primary">
+                            <Globe className="w-5 h-5" />
+                        </div>
                     </Link>
-                </div>
 
-                {/* Mobile Menu Button */}
-                <button
-                    className="md:hidden p-2 text-slate-600"
-                    onClick={() => setIsMenuOpen(!isMenuOpen)}
-                >
-                    <Menu className="w-6 h-6" />
-                </button>
+                    <div className="w-px h-6 bg-border mx-1" />
+
+                    {navLinks.map((link) => {
+                        const isActive = pathname === link.href;
+                        return (
+                            <Link
+                                key={link.href}
+                                href={link.href}
+                                className={cn(
+                                    "relative px-4 py-2 rounded-full flex items-center gap-2 text-sm font-medium transition-all duration-300",
+                                    isActive
+                                        ? "text-primary"
+                                        : "text-muted-foreground hover:text-foreground"
+                                )}
+                            >
+                                {isActive && (
+                                    <motion.div
+                                        layoutId="navbar-active"
+                                        className={cn(
+                                            "absolute inset-0 rounded-full shadow-sm",
+                                            theme === 'dark' ? "bg-white/10" : "bg-white"
+                                        )}
+                                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                                    />
+                                )}
+                                <span className="relative z-10 flex items-center gap-2">
+                                    <link.icon className="w-4 h-4" />
+                                    {link.label}
+                                </span>
+                            </Link>
+                        );
+                    })}
+
+                    <div className="w-px h-6 bg-border mx-2" />
+
+                    {/* Right Actions: Theme Toggle & Profile */}
+                    <div className="flex items-center gap-2">
+                        <button
+                            onClick={toggleTheme}
+                            className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
+                            title="Toggle Theme"
+                        >
+                            {theme === 'dark' ? <Sun className="w-5 h-5 text-yellow-500" /> : <Moon className="w-5 h-5 text-indigo-500" />}
+                        </button>
+
+                        {user ? (
+                            <Link href="/profile" className="relative group ml-1">
+                                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center text-white font-bold shadow-md">
+                                    {user.avatar ? (
+                                        <img src={user.avatar} alt={user.name} className="w-full h-full rounded-full object-cover" />
+                                    ) : (
+                                        <span>{user.name.charAt(0)}</span>
+                                    )}
+                                </div>
+                            </Link>
+                        ) : (
+                            <div className="flex items-center gap-2 ml-1">
+                                <Link href="/login" className={cn(
+                                    "px-4 py-2 rounded-full font-medium text-sm transition-all text-muted-foreground hover:text-foreground hover:bg-slate-100 dark:hover:bg-white/10 whitespace-nowrap"
+                                )}>
+                                    Log In
+                                </Link>
+                                <Link href="/signup" className={cn(
+                                    "flex items-center gap-2 px-4 py-2 rounded-full font-medium text-sm transition-all whitespace-nowrap",
+                                    "bg-primary text-primary-foreground hover:opacity-90 shadow-md shadow-primary/20"
+                                )}>
+                                    <span>Get Started</span>
+                                </Link>
+                            </div>
+                        )}
+                    </div>
+                </nav>
             </div>
 
-            {/* Mobile Menu */}
-            {isMenuOpen && (
-                <div className="md:hidden border-t border-slate-100 bg-white/95 backdrop-blur-sm p-4 space-y-4 shadow-lg transition-transform">
-                    {navLinks.map((link) => (
-                        <Link key={link.href} href={link.href} className="block text-sm font-medium text-slate-600 hover:text-[#1A73E8]">{link.label}</Link>
-                    ))}
-                    <div className="pt-4 border-t border-slate-100 flex flex-col gap-3">
-                        <button className="w-full text-center text-sm font-medium text-[#1A73E8]">Sign In</button>
-                        <Link href="/insights" className="w-full bg-[#1A73E8] text-white py-3 rounded-full font-bold text-center block">Get Started</Link>
-                    </div>
-                </div>
-            )}
-        </nav>
+            {/* Mobile Bottom Bar (Better for "Floating" feel on mobile than top bar) */}
+            <div className="md:hidden fixed bottom-6 left-4 right-4 z-50">
+                <nav className={cn(
+                    "flex items-center justify-around p-4 rounded-2xl border backdrop-blur-xl shadow-2xl",
+                    theme === 'dark' ? "bg-black/80 border-white/10" : "bg-white/90 border-slate-200"
+                )}>
+                    {navLinks.map((link) => {
+                        const isActive = pathname === link.href;
+                        return (
+                            <Link
+                                key={link.href}
+                                href={link.href}
+                                className={cn(
+                                    "flex flex-col items-center gap-1 transition-colors",
+                                    isActive ? "text-primary" : "text-muted-foreground"
+                                )}
+                            >
+                                <link.icon className={cn("w-6 h-6", isActive && "fill-current")} />
+                                {/* <span className="text-[10px] font-medium">{link.label}</span> */}
+                            </Link>
+                        );
+                    })}
+                    {user ? (
+                        <Link href="/profile">
+                            <div className="w-7 h-7 rounded-full bg-purple-600 flex items-center justify-center text-white text-xs font-bold">
+                                {user.name.charAt(0)}
+                            </div>
+                        </Link>
+                    ) : (
+                        <Link href="/login">
+                            <User className="w-6 h-6 text-muted-foreground" />
+                        </Link>
+                    )}
+                </nav>
+            </div>
+        </>
     );
 }
