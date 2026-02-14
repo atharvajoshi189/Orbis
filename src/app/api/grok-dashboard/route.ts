@@ -27,6 +27,8 @@ export async function POST(req: Request) {
 
         **Output Format (Strict JSON):**
         {
+            "confidence_score": NUMBER (0-100), // Rate your confidence in this analysis based on profile completeness. < 70% if key fields (marks, skills) are missing.
+            "human_review_needed": BOOLEAN, // Set to TRUE if confidence_score < 70 or if the profile seems contradictory/unrealistic.
             "skill_gaps": [
                 { "name": "Skill Name", "you": NUMBER (0-100), "market": NUMBER (0-100) } 
                 // Generate 4 relevant skills. If user has them, give high 'you' score. If missing but relevant to their interests, give low 'you' score and high 'market' score.

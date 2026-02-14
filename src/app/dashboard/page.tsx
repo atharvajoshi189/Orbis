@@ -12,9 +12,15 @@ import { supabase } from "@/utils/supabase/client";
 import { SkillGapWidget } from "@/components/dashboard/SkillGapWidget";
 import { DeadlinesWidget } from "@/components/dashboard/DeadlinesWidget";
 import { DailyIntelWidget } from "@/components/dashboard/DailyIntelWidget";
+import { AIConfidenceWidget } from "@/components/dashboard/AIConfidenceWidget";
+import { ReverseROIWidget } from "@/components/dashboard/ReverseROIWidget";
 import { Badge } from "@/components/ui/badge";
 
+import { MissionWidget } from "@/components/dashboard/MissionWidget";
+
 interface GrokDashboardData {
+    confidence_score: number;
+    human_review_needed: boolean;
     skill_gaps: any[];
     deadlines: any[];
     daily_intel: any;
@@ -27,22 +33,26 @@ export default function DashboardPage() {
     const [grokData, setGrokData] = useState<GrokDashboardData | null>(null);
     const [isLoading, setIsLoading] = useState(false);
 
-    useEffect(() => {
-        const fetchProfileAndInsights = async () => {
-            if (!user) return;
+    const fetchProfile = async () => {
+        if (!user) return null;
+        const { data: profile } = await supabase
+            .from('students')
+            .select('*')
+            .eq('user_id', user.id)
+            .single();
+        if (profile) setProfileData(profile);
+        return profile;
+    };
 
-            console.log("Fetching profile...");
-            // 1. Fetch User Profile
-            const { data: profile, error } = await supabase
-                .from('students')
-                .select('*')
-                .eq('user_id', user.id)
-                .single();
+    useEffect(() => {
+        const initDashboard = async () => {
+            if (!user) return;
+            console.log("Initializing Dashboard...");
+
+            const profile = await fetchProfile();
 
             if (profile) {
-                setProfileData(profile);
-
-                // 2. Fetch Grok Insights using Profile Data
+                // Fetch Grok Insights
                 setIsLoading(true);
                 try {
                     const res = await fetch('/api/grok-dashboard', {
@@ -54,8 +64,6 @@ export default function DashboardPage() {
                     if (res.ok) {
                         const insights = await res.json();
                         setGrokData(insights);
-                    } else {
-                        console.error("Failed to fetch Grok insights");
                     }
                 } catch (err) {
                     console.error("API Error", err);
@@ -65,7 +73,7 @@ export default function DashboardPage() {
             }
         };
 
-        fetchProfileAndInsights();
+        initDashboard();
     }, [user]);
 
     // Use Grok radar data if available, otherwise fallback
@@ -112,11 +120,26 @@ export default function DashboardPage() {
                     </div>
                 </div>
 
-                {/* 1. Quick Stats Row */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <DailyIntelWidget data={grokData?.daily_intel} />
-                    <DeadlinesWidget data={grokData?.deadlines} />
-                    <SkillGapWidget data={grokData?.skill_gaps} />
+                {/* 1. Mission & Confidence Row */}
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div className="md:col-span-1 space-y-6">
+                        <AIConfidenceWidget
+                            confidence={grokData?.confidence_score || 0}
+                            reviewNeeded={grokData?.human_review_needed || false}
+                        />
+                        {/* Mission Widget integrated here in the sidebar column for better layout */}
+                        <MissionWidget
+                            xp={profileData?.xp || 0}
+                            level={profileData?.level || 1}
+                            completedMissions={profileData?.completed_missions || []}
+                            onUpdate={fetchProfile}
+                        />
+                    </div>
+                    <div className="md:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <DailyIntelWidget data={grokData?.daily_intel} />
+                        <DeadlinesWidget data={grokData?.deadlines} />
+                        <SkillGapWidget data={grokData?.skill_gaps} />
+                    </div>
                 </div>
 
                 {/* 2. Main Analysis Grid */}
@@ -177,20 +200,7 @@ export default function DashboardPage() {
                     {/* Right: Actions / ROI */}
                     <div className="space-y-6">
                         <Link href="/roi">
-                            <div className="group relative overflow-hidden rounded-3xl bg-slate-900 text-white p-8 transition-all hover:shadow-2xl hover:shadow-purple-500/20">
-                                <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform duration-500">
-                                    <TrendingUp className="w-32 h-32" />
-                                </div>
-                                <div className="relative z-10">
-                                    <h2 className="text-3xl font-black mb-2">ROI Analytics</h2>
-                                    <p className="text-slate-400 mb-8 max-w-[200px]">
-                                        Calculate the potential return on your education investment.
-                                    </p>
-                                    <div className="inline-flex items-center gap-2 font-bold text-cyan-400 group-hover:gap-4 transition-all">
-                                        Analyze Metrics <ArrowRight className="w-4 h-4" />
-                                    </div>
-                                </div>
-                            </div>
+                            <ReverseROIWidget />
                         </Link>
 
                         <Link href="/guidance">
