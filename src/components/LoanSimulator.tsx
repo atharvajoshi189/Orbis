@@ -30,6 +30,8 @@ const SALARY_PROJECTIONS: Record<string, number> = {
 };
 
 // --- Helper Components ---
+const formatNumber = (num: number) => num.toLocaleString('en-IN');
+
 const GlassCard = ({ children, className = "" }: { children: React.ReactNode, className?: string }) => (
     <div className={`bg-slate-900/40 backdrop-blur-md border border-white/10 rounded-2xl p-6 shadow-xl ${className}`}>
         {children}
@@ -67,8 +69,8 @@ const Slider = ({ label, value, min, max, step, onChange, unit = "" }: any) => (
             />
         </div>
         <div className="flex justify-between text-[10px] text-slate-600 font-mono px-1">
-            <span>{unit}{min.toLocaleString()}</span>
-            <span>{unit}{max.toLocaleString()}</span>
+            <span>{unit}{formatNumber(min)}</span>
+            <span>{unit}{formatNumber(max)}</span>
         </div>
     </div>
 );
@@ -110,9 +112,9 @@ const AmortizationTable = ({ schedule }: { schedule: any[] }) => {
                                     {schedule.map((row) => (
                                         <tr key={row.year} className="text-sm text-slate-300 border-b border-white/5 hover:bg-white/5 transition-colors">
                                             <td className="py-3 px-4 font-mono text-xs text-slate-500">{row.year}</td>
-                                            <td className="py-3 px-4 text-right font-mono">₹{Math.round(row.principal).toLocaleString()}</td>
-                                            <td className="py-3 px-4 text-right font-mono text-orange-400/90">₹{Math.round(row.interest).toLocaleString()}</td>
-                                            <td className="py-3 px-4 text-right font-mono text-slate-400">₹{Math.round(row.balance).toLocaleString()}</td>
+                                            <td className="py-3 px-4 text-right font-mono">₹{formatNumber(Math.round(row.principal))}</td>
+                                            <td className="py-3 px-4 text-right font-mono text-orange-400/90">₹{formatNumber(Math.round(row.interest))}</td>
+                                            <td className="py-3 px-4 text-right font-mono text-slate-400">₹{formatNumber(Math.round(row.balance))}</td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -426,11 +428,11 @@ export default function LoanSimulator() {
                             <div className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-2">Monthly EMI</div>
                             <div className="text-5xl font-bold text-white font-mono tracking-tighter drop-shadow-2xl">
                                 <span className="text-2xl text-slate-600 align-top mr-1 font-sans">₹</span>
-                                {stats.emi.toLocaleString()}
+                                {formatNumber(stats.emi)}
                             </div>
                             <div className={`mt-4 px-4 py-1.5 rounded-full text-[10px] font-bold border backdrop-blur-md transition-colors duration-500 ${debtRatio > 50 ? 'bg-red-950/50 text-red-400 border-red-500/30 shadow-[0_0_20px_rgba(239,68,68,0.2)]' :
-                                    debtRatio > 30 ? 'bg-amber-950/50 text-amber-400 border-amber-500/30 shadow-[0_0_20px_rgba(245,158,11,0.2)]' :
-                                        'bg-green-950/50 text-green-400 border-green-500/30 shadow-[0_0_20px_rgba(34,197,94,0.2)]'
+                                debtRatio > 30 ? 'bg-amber-950/50 text-amber-400 border-amber-500/30 shadow-[0_0_20px_rgba(245,158,11,0.2)]' :
+                                    'bg-green-950/50 text-green-400 border-green-500/30 shadow-[0_0_20px_rgba(34,197,94,0.2)]'
                                 }`}>
                                 DEBT LOAD: {Math.min(100, Math.round(debtRatio))}%
                             </div>
@@ -477,7 +479,7 @@ export default function LoanSimulator() {
                                     <Tooltip
                                         contentStyle={{ backgroundColor: '#0f172a', border: '1px solid #334155', borderRadius: '8px' }}
                                         itemStyle={{ color: '#fff' }}
-                                        formatter={(value: number) => `₹${value.toLocaleString()}`}
+                                        formatter={(value: any) => `₹${formatNumber(Number(value))}`}
                                     />
                                     <Legend
                                         verticalAlign="middle"
@@ -497,7 +499,7 @@ export default function LoanSimulator() {
                         <div className="space-y-6">
                             <div className="flex justify-between items-center text-sm p-3 bg-white/5 rounded-lg">
                                 <span className="text-slate-400">Proj. Salary ({field})</span>
-                                <span className="text-emerald-400 font-mono font-bold">₹{monthlySalary.toLocaleString()}</span>
+                                <span className="text-emerald-400 font-mono font-bold">₹{formatNumber(monthlySalary)}</span>
                             </div>
 
                             <div className="space-y-2">
