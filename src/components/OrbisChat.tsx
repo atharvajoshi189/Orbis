@@ -151,8 +151,8 @@ export function OrbisChat({ isWidget = false, onClose }: OrbisChatProps) {
 
     return (
         <div className={cn(
-            "flex bg-white overflow-hidden border border-slate-100 mx-auto transition-all duration-300",
-            isWidget ? "h-full w-full rounded-2xl shadow-none border-0" : "h-[85vh] w-full max-w-[95%] rounded-2xl shadow-2xl border-slate-200"
+            "flex bg-slate-950 overflow-hidden border border-slate-800 mx-auto transition-all duration-300",
+            isWidget ? "h-full w-full rounded-2xl shadow-none border-0" : "h-[85vh] w-full max-w-[95%] rounded-2xl shadow-2xl border-slate-800"
         )}>
             {/* Voice Mode Overlay */}
             <AnimatePresence>
@@ -166,7 +166,7 @@ export function OrbisChat({ isWidget = false, onClose }: OrbisChatProps) {
 
             {/* Sidebar / Trajectory Panel - Hidden in Widget Mode */}
             {!isWidget && (
-                <div className="w-80 bg-slate-50 border-r border-slate-200 p-6 hidden md:flex flex-col">
+                <div className="w-80 bg-slate-900/50 border-r border-slate-800 p-6 hidden md:flex flex-col">
                     <div className="mb-8">
                         <h3 className="font-bold text-slate-400 text-xs uppercase tracking-wider mb-4 flex items-center gap-2">
                             <TrendingUp size={14} /> Career Trajectory
@@ -192,13 +192,13 @@ export function OrbisChat({ isWidget = false, onClose }: OrbisChatProps) {
                             <History size={14} /> Recent Intel
                         </h3>
                         <div className="space-y-2">
-                            <div className="p-3 bg-white border border-slate-200 rounded-lg text-sm text-slate-600 shadow-sm cursor-pointer hover:border-blue-400 transition-colors">
-                                <span className="font-bold block text-slate-800">Engineering ROI</span>
-                                <span className="text-xs text-slate-400">2 hours ago</span>
+                            <div className="p-3 bg-slate-900 border border-slate-800 rounded-lg text-sm text-slate-300 shadow-sm cursor-pointer hover:border-blue-500/50 transition-colors">
+                                <span className="font-bold block text-slate-100">Engineering ROI</span>
+                                <span className="text-xs text-slate-500">2 hours ago</span>
                             </div>
-                            <div className="p-3 bg-white border border-slate-200 rounded-lg text-sm text-slate-600 shadow-sm cursor-pointer hover:border-blue-400 transition-colors">
-                                <span className="font-bold block text-slate-800">Visa Requirements</span>
-                                <span className="text-xs text-slate-400">1 day ago</span>
+                            <div className="p-3 bg-slate-900 border border-slate-800 rounded-lg text-sm text-slate-300 shadow-sm cursor-pointer hover:border-blue-500/50 transition-colors">
+                                <span className="font-bold block text-slate-100">Visa Requirements</span>
+                                <span className="text-xs text-slate-500">1 day ago</span>
                             </div>
                         </div>
                     </div>
@@ -206,16 +206,16 @@ export function OrbisChat({ isWidget = false, onClose }: OrbisChatProps) {
             )}
 
             {/* Chat Area */}
-            <div className="flex-1 flex flex-col bg-slate-50/30 relative">
+            <div className="flex-1 flex flex-col bg-slate-950 relative">
 
                 {/* Header */}
-                <div className="h-16 border-b border-slate-200 bg-white px-6 flex items-center justify-between shrink-0">
+                <div className="h-16 border-b border-slate-800 bg-slate-950 px-6 flex items-center justify-between shrink-0">
                     <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
+                        <div className="h-10 w-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
                             <Bot size={24} />
                         </div>
                         <div>
-                            <h2 className="font-bold text-slate-800 text-lg">Orbis Intelligence</h2>
+                            <h2 className="font-bold text-slate-100 text-lg">Orbis Intelligence</h2>
                             <p className="text-xs text-blue-600 font-medium flex items-center gap-1">
                                 <span className="h-2 w-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]" />
                                 Online
@@ -234,8 +234,8 @@ export function OrbisChat({ isWidget = false, onClose }: OrbisChatProps) {
 
                     {/* Welcome Message */}
                     <div className="flex justify-start">
-                        <div className="bg-white border border-slate-200 text-slate-700 px-6 py-5 rounded-2xl rounded-tl-none max-w-[85%] shadow-sm">
-                            <p className="mb-2 font-semibold text-lg">Hello! I'm Orbis.</p>
+                        <div className="bg-slate-900 border border-slate-800 text-slate-200 px-6 py-5 rounded-2xl rounded-tl-none max-w-[85%] shadow-sm">
+                            <p className="mb-2 font-semibold text-lg text-white">Hello! I'm Orbis.</p>
                             <p className="text-base leading-relaxed">I specialize in engineering career paths and ROI analysis. Whether you're in 10th grade or final year, I can help plan your next move using real-time data.</p>
                         </div>
                     </div>
@@ -254,7 +254,7 @@ export function OrbisChat({ isWidget = false, onClose }: OrbisChatProps) {
                                 "max-w-[85%] px-6 py-4 rounded-2xl shadow-sm text-sm md:text-base leading-relaxed",
                                 msg.role === 'user'
                                     ? "bg-blue-600 text-white rounded-tr-none"
-                                    : "bg-white border border-slate-200 text-slate-800 rounded-tl-none prose prose-slate max-w-none prose-p:leading-relaxed prose-headings:font-bold prose-strong:font-bold prose-ul:list-disc prose-ol:list-decimal"
+                                    : "bg-slate-900 border border-slate-800 text-slate-200 rounded-tl-none prose prose-invert max-w-none prose-p:leading-relaxed prose-headings:font-bold prose-strong:font-bold prose-ul:list-disc prose-ol:list-decimal"
                             )}>
                                 {msg.role === 'assistant' ? (
                                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
@@ -269,28 +269,28 @@ export function OrbisChat({ isWidget = false, onClose }: OrbisChatProps) {
 
                     {isLoading && (
                         <div className="flex justify-start">
-                            <div className="bg-white border border-slate-200 px-4 py-3 rounded-2xl rounded-tl-none shadow-sm flex items-center gap-2">
+                            <div className="bg-slate-900 border border-slate-800 px-4 py-3 rounded-2xl rounded-tl-none shadow-sm flex items-center gap-2">
                                 <Sparkles size={16} className="text-blue-500 animate-spin" />
-                                <span className="text-sm text-slate-500 italic">Thinking...</span>
+                                <span className="text-sm text-slate-400 italic">Thinking...</span>
                             </div>
                         </div>
                     )}
                 </div>
 
                 {/* Input Area */}
-                <div className="p-4 bg-white border-t border-slate-200 shrink-0">
+                <div className="p-4 bg-slate-950 border-t border-slate-800 shrink-0">
                     <form
                         onSubmit={(e) => { e.preventDefault(); handleSend(); }}
-                        className="flex items-center gap-2 max-w-4xl mx-auto relative bg-slate-50 rounded-2xl border border-slate-200 px-2 py-2 focus-within:ring-2 focus-within:ring-blue-500/10 focus-within:border-blue-400 transition-all shadow-sm hover:border-blue-300"
+                        className="flex items-center gap-2 max-w-4xl mx-auto relative bg-slate-900 rounded-2xl border border-slate-800 px-2 py-2 focus-within:ring-2 focus-within:ring-blue-500/20 focus-within:border-blue-500/50 transition-all shadow-sm hover:border-slate-700"
                     >
-                        <div className="pl-3 text-slate-400 hover:text-blue-500 transition-colors cursor-pointer">
+                        <div className="pl-3 text-slate-500 hover:text-blue-400 transition-colors cursor-pointer">
                             <MessageSquare size={20} />
                         </div>
                         <Input
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
                             placeholder="Ask about ROI, Universities, or Career Paths..."
-                            className="border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 text-slate-800 placeholder:text-slate-400 h-12 px-2 text-base font-medium"
+                            className="border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 text-slate-100 placeholder:text-slate-500 h-12 px-2 text-base font-medium"
                         />
                         <Button
                             type="button"
