@@ -106,9 +106,9 @@ function AuroraPlane() {
                 core: new THREE.Color("#7c3aed")
             }
             : {
-                start: new THREE.Color("#ffffff"),
-                end: new THREE.Color("#84cc16"), // Lime Green
-                core: new THREE.Color("#a855f7") // Lighter Purple
+                start: new THREE.Color("#FFFDD0"), // Cream
+                end: new THREE.Color("#2dd4bf"), // Teal/Cyan (Aurora Green)
+                core: new THREE.Color("#d946ef") // Fuchsia/Magenta (Aurora Purple)
             }
     }, [theme]);
 
