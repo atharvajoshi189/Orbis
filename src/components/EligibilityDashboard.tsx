@@ -11,19 +11,48 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
+import { useAppStore } from '@/lib/store';
+
 const EligibilityDashboard = () => {
-    // --- Mock User Profile (Context) ---
-    // In a real app, this would come from a global store or API context
-    const userProfile = {
-        name: "Arjun Mehta",
-        field: "Engineering",
-        degree: "B.Tech (Final Year)",
-        cgpa: 9.2, // Out of 10
-        annualFamilyIncome: 600000, // 6 LPA
-        targetCountries: ["USA", "Germany", "UK"],
-        category: "General",
-        age: 21
+    const { user, login } = useAppStore();
+
+    // --- Mock Login Handler ---
+    const handleMockLogin = () => {
+        login({
+            name: "Arjun Mehta",
+            email: "arjun@example.com",
+            field: "Engineering",
+            cgpa: 9.2,
+            annualFamilyIncome: 600000,
+            targetCountries: ["USA", "Germany", "UK"],
+            category: "General",
+            age: 21
+        });
     };
+
+    // --- Demo Profile for Guests ---
+    const demoProfile = {
+        name: "Guest User (Demo)",
+        field: "Engineering",
+        cgpa: 8.5,
+        annualFamilyIncome: 800000,
+        targetCountries: ["USA", "Germany"],
+        category: "General",
+        age: 22
+    };
+
+    // --- Use Global User Profile OR Demo ---
+    const activeProfile = user ? {
+        name: user.name,
+        field: user.field || "General",
+        cgpa: user.cgpa || 0,
+        annualFamilyIncome: user.annualFamilyIncome || 0,
+        targetCountries: user.targetCountries || [],
+        age: user.age || 18,
+        category: user.category || "General"
+    } : demoProfile;
+
+    const userProfile = activeProfile;
 
     // --- Data: Funding Distribution (Kept for visualizing coverage) ---
     const fundingData = [
@@ -81,20 +110,30 @@ const EligibilityDashboard = () => {
                 </div>
 
                 {/* Profile Context Card */}
-                <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4 flex items-center gap-4 min-w-[300px]">
-                    <div className="h-12 w-12 rounded-full bg-gradient-to-br from-purple-500 to-blue-600 flex items-center justify-center text-xl font-bold">
-                        {userProfile.name.charAt(0)}
-                    </div>
-                    <div>
-                        <h3 className="font-semibold text-white flex items-center gap-2">
-                            {userProfile.name} <span className="text-xs bg-cyan-950 text-cyan-400 px-2 py-0.5 rounded-full border border-cyan-900">VERIFIED</span>
-                        </h3>
-                        <div className="text-xs text-slate-400 mt-1 flex gap-3">
-                            <span className="flex items-center gap-1"><GraduationCap size={12} /> {userProfile.cgpa} CGPA</span>
-                            <span className="flex items-center gap-1"><BadgeIndianRupee size={12} /> {(userProfile.annualFamilyIncome / 100000)}L Income</span>
+                {user ? (
+                    <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4 flex items-center gap-4 min-w-[300px]">
+                        <div className="h-12 w-12 rounded-full bg-gradient-to-br from-purple-500 to-blue-600 flex items-center justify-center text-xl font-bold">
+                            {userProfile.name.charAt(0)}
+                        </div>
+                        <div>
+                            <h3 className="font-semibold text-white flex items-center gap-2">
+                                {userProfile.name} <span className="text-xs bg-cyan-950 text-cyan-400 px-2 py-0.5 rounded-full border border-cyan-900">VERIFIED</span>
+                            </h3>
+                            <div className="text-xs text-slate-400 mt-1 flex gap-3">
+                                <span className="flex items-center gap-1"><GraduationCap size={12} /> {userProfile.cgpa} CGPA</span>
+                                <span className="flex items-center gap-1"><BadgeIndianRupee size={12} /> {(userProfile.annualFamilyIncome / 100000)}L Income</span>
+                            </div>
                         </div>
                     </div>
-                </div>
+                ) : (
+                    <button
+                        onClick={handleMockLogin}
+                        className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white px-6 py-3 rounded-xl font-bold transition-all shadow-lg shadow-cyan-500/20"
+                    >
+                        <User size={18} />
+                        Login to Sync Profile
+                    </button>
+                )}
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">

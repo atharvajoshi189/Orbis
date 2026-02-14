@@ -108,7 +108,7 @@ export function Logo({ className, showText = true, size = "md" }: LogoProps) {
                 <div className="flex flex-col">
                     <span
                         className={cn(
-                            "font-bold tracking-[0.2em] text-white transition-all group-hover:text-primary group-hover:tracking-[0.25em]",
+                            "font-bold tracking-[0.2em] text-slate-900 dark:text-white transition-all group-hover:text-primary group-hover:tracking-[0.25em]",
                             fontSizes[size]
                         )}
                         style={{ fontFamily: 'var(--font-outfit), sans-serif' }}

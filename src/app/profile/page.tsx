@@ -47,18 +47,6 @@ export default function ProfilePage() {
         ? user.name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2)
         : "OP";
 
-    // Prepare Radar Data from real skills (Mock logic for now as 'strengths' are text)
-    // We can map strengths count to stats or use random/preset for visual
-    // This data is no longer used as RadarChart is removed.
-    // const statsData = [
-    //     { subject: 'CGPA', A: profileData?.gpa ? parseFloat(profileData.gpa) * 12 : 100, fullMark: 150 }, // Scale GPA
-    //     { subject: 'Skills', A: (profileData?.skills?.length || 0) * 20 + 50, fullMark: 150 },
-    //     { subject: 'Exp', A: 86, fullMark: 150 },
-    //     { subject: 'Extra', A: (profileData?.interests?.length || 0) * 20 + 50, fullMark: 150 },
-    //     { subject: 'Logic', A: 85, fullMark: 150 },
-    //     { subject: 'Comm', A: 90, fullMark: 150 },
-    // ];
-
     return (
         <div className="min-h-screen bg-[#0a0f1e] text-white font-sans selection:bg-cyan-500/30 overflow-x-hidden">
             <Navbar />

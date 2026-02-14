@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 type Country = {
     code: string;
@@ -14,6 +15,13 @@ export type User = {
     name: string;
     email: string;
     avatar?: string;
+    // Extended Profile
+    cgpa?: number;
+    annualFamilyIncome?: number;
+    field?: string;
+    targetCountries?: string[];
+    category?: string;
+    age?: number;
 };
 
 interface AppState {
@@ -36,14 +44,21 @@ export const countries: Country[] = [
     { code: 'AU', name: 'Australia', flag: '🇦🇺', visaRate: 80, jobDemand: 'High', prDifficulty: 'Moderate' },
 ];
 
-export const useAppStore = create<AppState>((set) => ({
-    selectedCountry: countries[0],
-    setCountry: (country) => set({ selectedCountry: country }),
-    xp: 12450,
-    addXp: (amount) => set((state) => ({ xp: state.xp + amount })),
-    user: null,
-    login: (user) => set({ user }),
-    logout: () => set({ user: null }),
-    theme: 'dark',
-    toggleTheme: () => set((state) => ({ theme: state.theme === 'dark' ? 'light' : 'dark' })),
-}));
+export const useAppStore = create<AppState>()(
+    persist(
+        (set) => ({
+            selectedCountry: countries[0],
+            setCountry: (country) => set({ selectedCountry: country }),
+            xp: 12450,
+            addXp: (amount) => set((state) => ({ xp: state.xp + amount })),
+            user: null,
+            login: (user) => set({ user }),
+            logout: () => set({ user: null }),
+            theme: 'dark',
+            toggleTheme: () => set((state) => ({ theme: state.theme === 'dark' ? 'light' : 'dark' })),
+        }),
+        {
+            name: 'orbis-storage',
+        }
+    )
+);

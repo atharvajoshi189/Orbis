@@ -79,7 +79,7 @@ export default function DashboardPage() {
     ];
 
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-black font-sans transition-colors duration-300">
+        <div className="min-h-screen font-sans transition-colors duration-300">
             <Navbar />
             <Suspense fallback={null}>
                 <DashboardToast />
