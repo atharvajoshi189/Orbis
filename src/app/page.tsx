@@ -167,11 +167,11 @@ export default function LandingPage() {
           <div className="container-custom px-4">
             <div className="grid gap-6 md:grid-cols-3">
               {/* Card 1 */}
-              <Link href="/govt" className="block h-full">
+              <Link href="/eligibility" className="block h-full">
                 <SpotlightCard className="p-6 h-full flex flex-col items-center text-center hover:border-primary/50 transition-colors group">
                   <div className="mb-4 p-6 rounded-2xl bg-primary/10 text-primary group-hover:bg-primary/20 transition-colors w-full flex flex-col items-center justify-center gap-3">
                     <Building2 className="h-8 w-8" />
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-white leading-tight">Govt Job Eligibility Engine</h3>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white leading-tight">Global Eligibility Engine</h3>
                   </div>
                   <p className="text-muted-foreground text-sm px-2">Instant matching with government roles and entrance exams.</p>
                 </SpotlightCard>

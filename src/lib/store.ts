@@ -14,6 +14,13 @@ export type User = {
     name: string;
     email: string;
     avatar?: string;
+    // Extended Profile
+    cgpa?: number;
+    annualFamilyIncome?: number;
+    field?: string;
+    targetCountries?: string[];
+    category?: string;
+    age?: number;
 };
 
 interface AppState {
