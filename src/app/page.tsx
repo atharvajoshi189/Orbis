@@ -298,7 +298,7 @@ export default function LandingPage() {
                     </h4>
 
                     {/* Radar Chart */}
-                    <div className="h-[180px] w-full -ml-4">
+                    <div className="w-full -ml-4" style={{ height: 180 }}>
                       <ResponsiveContainer width="100%" height="100%">
                         <RadarChart cx="50%" cy="50%" outerRadius="70%" data={[
                           { subject: 'CGPA', A: 92, fullMark: 100 },

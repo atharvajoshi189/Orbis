@@ -1,0 +1,440 @@
+[
+    {
+        "id": "btech-cs",
+        "name": "B.Tech Computer Science",
+        "category": "Engineering",
+        "minPercentage10": 60,
+        "minPercentage12": 60,
+        "requiredStream": "Science",
+        "requiredSubjects": [
+            "Mathematics",
+            "Physics"
+        ],
+        "minSubjectScore": 60,
+        "description": "Standard 4-year engineering degree in CS.",
+        "roi": "High",
+        "admissionProbBase": 70,
+        "visaProbBase": 90,
+        "riskLevel": "Low",
+        "roadmap": {
+            "goalOverview": "Become a Software Engineer via B.Tech CSE",
+            "requirements": {
+                "minPercentage12": 60,
+                "mandatorySubjects": [
+                    "Mathematics",
+                    "Physics"
+                ],
+                "backlogsAllowed": 0
+            },
+            "exams": [
+                {
+                    "name": "JEE Mains",
+                    "score": "90+ Percentile",
+                    "mandatory": true
+                },
+                {
+                    "name": "BITSAT",
+                    "score": "300+",
+                    "mandatory": false
+                }
+            ],
+            "steps": [
+                {
+                    "label": "Clear Class 12th with >60%",
+                    "status": "In Progress"
+                },
+                {
+                    "label": "Crack JEE Mains / State CET",
+                    "status": "Not Started"
+                },
+                {
+                    "label": "Participate in JOSAA Counseling",
+                    "status": "Not Started"
+                },
+                {
+                    "label": "Secure Admission & Pay Fees",
+                    "status": "Not Started"
+                }
+            ],
+            "timeline": [
+                {
+                    "year": "Year 1",
+                    "desc": "Focus on PCM & JEE Prep"
+                },
+                {
+                    "year": "Year 2",
+                    "desc": "Entrance Exams & Counseling"
+                },
+                {
+                    "year": "Year 3-6",
+                    "desc": "B.Tech Degree"
+                }
+            ],
+            "alternativePath": {
+                "title": "B.Sc Computer Science",
+                "reason": "If JEE score is low, B.Sc CS offers a faster route to IT jobs."
+            }
+        }
+    },
+    {
+        "id": "mbbs",
+        "name": "MBBS (Medicine)",
+        "category": "Medical",
+        "minPercentage10": 70,
+        "minPercentage12": 70,
+        "requiredStream": "Science",
+        "requiredSubjects": [
+            "Biology",
+            "Chemistry",
+            "Physics"
+        ],
+        "minSubjectScore": 70,
+        "description": "5.5-year degree in Medicine & Surgery.",
+        "roi": "Very High",
+        "admissionProbBase": 40,
+        "visaProbBase": 85,
+        "riskLevel": "Medium",
+        "roadmap": {
+            "goalOverview": "Become a Doctor (MBBS)",
+            "requirements": {
+                "minPercentage12": 70,
+                "mandatorySubjects": [
+                    "Physics",
+                    "Chemistry",
+                    "Biology"
+                ],
+                "backlogsAllowed": 0
+            },
+            "exams": [
+                {
+                    "name": "NEET UG",
+                    "score": "600+",
+                    "mandatory": true
+                }
+            ],
+            "steps": [
+                {
+                    "label": "Clear Class 12th PCBs >70%",
+                    "status": "In Progress"
+                },
+                {
+                    "label": "Crack NEET UG",
+                    "status": "Not Started"
+                },
+                {
+                    "label": "Complete 4.5 Years MBBS",
+                    "status": "Not Started"
+                },
+                {
+                    "label": "1 Year Internship",
+                    "status": "Not Started"
+                }
+            ],
+            "timeline": [
+                {
+                    "year": "Year 1-2",
+                    "desc": "NEET Prep & 12th Boards"
+                },
+                {
+                    "year": "Year 3-7",
+                    "desc": "MBBS Course"
+                },
+                {
+                    "year": "Year 8",
+                    "desc": "Internship & License"
+                }
+            ],
+            "alternativePath": {
+                "title": "BDS / BAMS",
+                "reason": "Dental or Ayurvedic medicine are viable high-income alternatives."
+            }
+        }
+    },
+    {
+        "id": "ms-cs-germany",
+        "name": "MS in CS (Germany)",
+        "category": "Engineering",
+        "minPercentage10": 65,
+        "minPercentage12": 65,
+        "requiredStream": "Science",
+        "requiredSubjects": [
+            "Mathematics"
+        ],
+        "minSubjectScore": 65,
+        "description": "Master's program in Germany (Low Tuition).",
+        "roi": "Very High",
+        "admissionProbBase": 60,
+        "visaProbBase": 92,
+        "riskLevel": "Medium",
+        "isInternational": true,
+        "roadmap": {
+            "goalOverview": "MS in Computer Science (Germany)",
+            "requirements": {
+                "minPercentage12": 70,
+                "mandatorySubjects": [
+                    "Mathematics",
+                    "Physics"
+                ],
+                "minGPA": "7.5 CGPA",
+                "backlogsAllowed": 2
+            },
+            "exams": [
+                {
+                    "name": "IELTS",
+                    "score": "6.5+",
+                    "mandatory": true
+                },
+                {
+                    "name": "GRE",
+                    "score": "310+",
+                    "mandatory": false
+                },
+                {
+                    "name": "German A1/A2",
+                    "score": "Basic",
+                    "mandatory": false
+                }
+            ],
+            "steps": [
+                {
+                    "label": "Bachelor's in CS (GPA > 7.5)",
+                    "status": "In Progress"
+                },
+                {
+                    "label": "Learn German (A1/A2)",
+                    "status": "Not Started"
+                },
+                {
+                    "label": "Clear IELTS (6.5+)",
+                    "status": "Not Started"
+                },
+                {
+                    "label": "Apply to TU9 Universities",
+                    "status": "Not Started"
+                },
+                {
+                    "label": "Block Account & Visa",
+                    "status": "Not Started"
+                }
+            ],
+            "timeline": [
+                {
+                    "year": "Year 1-3",
+                    "desc": "Complete Bachelor's & Projects"
+                },
+                {
+                    "year": "Year 4",
+                    "desc": "IELTS, GRE, Applications"
+                },
+                {
+                    "year": "Year 5",
+                    "desc": "Visa & Departure"
+                }
+            ],
+            "alternativePath": {
+                "title": "MS in UK",
+                "reason": "1-year Master's in UK is faster, though more expensive."
+            }
+        }
+    },
+    {
+        "id": "bba",
+        "name": "BBA (Business Admin)",
+        "category": "Business",
+        "minPercentage10": 50,
+        "minPercentage12": 50,
+        "requiredStream": "Any",
+        "requiredSubjects": [],
+        "minSubjectScore": 0,
+        "description": "3-year bachelor's degree in business.",
+        "roi": "Medium",
+        "admissionProbBase": 80,
+        "visaProbBase": 95,
+        "riskLevel": "Low",
+        "roadmap": {
+            "goalOverview": "Corporate Management Career",
+            "requirements": {
+                "minPercentage12": 50,
+                "mandatorySubjects": [
+                    "English"
+                ],
+                "backlogsAllowed": 0
+            },
+            "exams": [
+                {
+                    "name": "IPMAT / CUET",
+                    "score": "Qualifying",
+                    "mandatory": false
+                }
+            ],
+            "steps": [
+                {
+                    "label": "Clear Class 12th",
+                    "status": "In Progress"
+                },
+                {
+                    "label": "Apply to Top B-Schools",
+                    "status": "Not Started"
+                },
+                {
+                    "label": "Complete 3-Year BBA",
+                    "status": "Not Started"
+                }
+            ],
+            "timeline": [
+                {
+                    "year": "Year 1",
+                    "desc": "Class 12th & Entrance Exams"
+                },
+                {
+                    "year": "Year 2-4",
+                    "desc": "BBA Degree & Internships"
+                }
+            ],
+            "alternativePath": {
+                "title": "B.Com",
+                "reason": "Focuses more on accounting and finance fundamentals."
+            }
+        }
+    },
+    {
+        "id": "ca",
+        "name": "Chartered Accountancy (CA)",
+        "category": "Finance",
+        "minPercentage10": 60,
+        "minPercentage12": 60,
+        "requiredStream": "Any",
+        "requiredSubjects": [],
+        "minSubjectScore": 0,
+        "description": "Professional accounting qualification.",
+        "roi": "High",
+        "admissionProbBase": 30,
+        "visaProbBase": 60,
+        "riskLevel": "High",
+        "roadmap": {
+            "goalOverview": "Become a Chartered Accountant",
+            "requirements": {
+                "minPercentage12": 60,
+                "mandatorySubjects": [],
+                "backlogsAllowed": 0
+            },
+            "exams": [
+                {
+                    "name": "CA Foundation",
+                    "score": "Pass",
+                    "mandatory": true
+                },
+                {
+                    "name": "CA Intermediate",
+                    "score": "Pass",
+                    "mandatory": true
+                },
+                {
+                    "name": "CA Final",
+                    "score": "Pass",
+                    "mandatory": true
+                }
+            ],
+            "steps": [
+                {
+                    "label": "Register for Foundation",
+                    "status": "In Progress"
+                },
+                {
+                    "label": "Clear Foundation Exam",
+                    "status": "Not Started"
+                },
+                {
+                    "label": "Articleship (3 Years)",
+                    "status": "Not Started"
+                },
+                {
+                    "label": "Clear Final Exam",
+                    "status": "Not Started"
+                }
+            ],
+            "timeline": [
+                {
+                    "year": "Year 1",
+                    "desc": "12th & CA Foundation"
+                },
+                {
+                    "year": "Year 2",
+                    "desc": "CA Intermediate"
+                },
+                {
+                    "year": "Year 3-5",
+                    "desc": "Articleship & Final"
+                }
+            ],
+            "alternativePath": {
+                "title": "ACCA / CPA",
+                "reason": "Global accounting certifications with meaningful exemptions."
+            }
+        }
+    },
+    {
+        "id": "bsc-psych",
+        "name": "B.Sc Psychology",
+        "category": "Arts/Science",
+        "minPercentage10": 55,
+        "minPercentage12": 55,
+        "requiredStream": "Any",
+        "requiredSubjects": [],
+        "minSubjectScore": 0,
+        "description": "3-year degree in Psychology.",
+        "roi": "Medium",
+        "admissionProbBase": 65,
+        "visaProbBase": 88,
+        "riskLevel": "Low",
+        "roadmap": {
+            "goalOverview": "Clinical / Industrial Psychologist",
+            "requirements": {
+                "minPercentage12": 55,
+                "mandatorySubjects": [
+                    "Psychology (Preferred)"
+                ],
+                "backlogsAllowed": 0
+            },
+            "exams": [
+                {
+                    "name": "University Entrance",
+                    "score": "Varies",
+                    "mandatory": false
+                }
+            ],
+            "steps": [
+                {
+                    "label": "Clear Class 12th",
+                    "status": "In Progress"
+                },
+                {
+                    "label": "Complete B.Sc Psychology",
+                    "status": "Not Started"
+                },
+                {
+                    "label": "Master's for License",
+                    "status": "Not Started"
+                }
+            ],
+            "timeline": [
+                {
+                    "year": "Year 1",
+                    "desc": "12th Boards"
+                },
+                {
+                    "year": "Year 2-4",
+                    "desc": "Bachelor's Degree"
+                },
+                {
+                    "year": "Year 5-6",
+                    "desc": "Master's & Specialization"
+                }
+            ],
+            "alternativePath": {
+                "title": "BA Sociology",
+                "reason": "Focuses on societal behavior if individual psychology is too dense."
+            }
+        }
+    }
+]

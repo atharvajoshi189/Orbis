@@ -1,6 +1,6 @@
 "use client";
 
-import { Home, LayoutGrid, TrendingUp, Compass, Menu, User, LogIn, Globe, Sun, Moon } from "lucide-react";
+import { Home, LayoutGrid, TrendingUp, Compass, Menu, User, LogIn, Globe, Sun, Moon, Map } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 
 const navLinks = [
     { href: "/", label: "Home", icon: Home },
+    { href: "/career-path", label: "Career Path", icon: Map },
     { href: "/dashboard", label: "Dashboard", icon: LayoutGrid },
     { href: "/roi", label: "ROI", icon: TrendingUp },
     { href: "/guidance", label: "Guidance", icon: Compass },
