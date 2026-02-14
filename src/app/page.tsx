@@ -75,9 +75,11 @@ export default function LandingPage() {
                 </div>
                 <div className="flex flex-col gap-4">
                   <div className="flex flex-col sm:flex-row gap-4">
-                    <Button variant="glass" size="lg" className="h-12 px-8 text-base">
-                      Explore Global Trends
-                    </Button>
+                    <Link href="/global-trends">
+                      <Button variant="glass" size="lg" className="h-12 px-8 text-base">
+                        Explore Global Trends
+                      </Button>
+                    </Link>
                   </div>
 
                   <div className="flex items-center gap-4 text-xs text-muted-foreground mt-2">
