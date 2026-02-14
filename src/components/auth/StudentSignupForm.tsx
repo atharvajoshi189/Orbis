@@ -125,7 +125,7 @@ export default function StudentSignupForm() {
                 avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${formData.firstName}`
             });
 
-            router.push("/dashboard");
+            router.push("/dashboard?welcome=true");
 
         } catch (err: any) {
             console.error("Signup Error:", err);
@@ -147,7 +147,7 @@ export default function StudentSignupForm() {
 
                 // Silent fallback for seamless testing
                 console.log("Automatically bypassed Supabase Rate Limit with Mock Login.");
-                router.push("/dashboard");
+                router.push("/dashboard?welcome=true");
                 return;
             }
 
