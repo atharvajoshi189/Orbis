@@ -11,6 +11,10 @@ export const metadata: Metadata = {
   description: "AI-powered Career & Financial Intelligence Platform",
 };
 
+import { GlobalChatWidget } from "@/components/GlobalChatWidget";
+
+// ... existing imports
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -26,6 +30,7 @@ export default function RootLayout({
           <div className="fixed bottom-0 right-1/4 h-96 w-96 rounded-full bg-purple-600/10 blur-[100px]" />
 
           {children}
+          <GlobalChatWidget />
         </div>
       </body>
     </html>

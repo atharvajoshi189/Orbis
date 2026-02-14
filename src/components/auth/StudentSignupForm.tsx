@@ -10,6 +10,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import AuthLayout from "./AuthLayout";
 import { useAppStore } from "@/lib/store";
+import { supabase } from "@/utils/supabase/client";
 
 export default function StudentSignupForm() {
     const [step, setStep] = useState(1);
@@ -64,7 +65,7 @@ export default function StudentSignupForm() {
         setStep(step - 1);
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         // Prevent submission if not on final step (handles Enter key press)
@@ -76,11 +77,37 @@ export default function StudentSignupForm() {
         if (!validateStep(3)) return;
 
         console.log("Signup Data:", formData);
+        setError("");
 
-        // Simulate registration (no auto-login)
-        // In a real app, we would send data to backend here
+        try {
+            // 1. Sign up with Supabase Auth
+            const { data: authData, error: authError } = await supabase.auth.signUp({
+                email: formData.email,
+                password: formData.password,
+                options: {
+                    data: {
+                        first_name: formData.firstName,
+                        last_name: formData.lastName,
+                        phone: formData.phone, // Optional: Store in metadata too
+                    }
+                }
+            });
 
-        router.push("/login");
+            if (authError) throw authError;
+            if (!authData.user) throw new Error("No user returned from signup");
+
+            // Profile is created automatically via Database Trigger now.
+
+            // Success
+            alert("Account created successfully! Please check your email to verify your account (if enabled) or log in.");
+            router.push("/login");
+
+
+
+        } catch (err: any) {
+            console.error("Signup Error:", err);
+            setError(err.message || "Failed to create account. Please try again.");
+        }
     };
 
     const variants = {

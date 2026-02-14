@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import AuthLayout from "./AuthLayout";
 import { useAppStore } from "@/lib/store";
+import { supabase } from "@/utils/supabase/client";
 
 export default function StudentLoginForm() {
     const [showPassword, setShowPassword] = useState(false);
@@ -19,7 +20,7 @@ export default function StudentLoginForm() {
 
     const [error, setError] = useState("");
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError("");
 
@@ -28,16 +29,42 @@ export default function StudentLoginForm() {
             return;
         }
 
-        console.log("Login Data:", formData);
+        try {
+            // 1. Sign in
+            const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+                email: formData.email,
+                password: formData.password,
+            });
 
-        // Simulate login
-        const emailUser = formData.email.split('@')[0];
-        login({
-            name: emailUser || "Student User",
-            email: formData.email,
-        });
+            if (authError) throw authError;
+            if (!authData.user) throw new Error("Login failed");
 
-        router.push("/dashboard");
+            // 2. Fetch Profile
+            const { data: profile, error: profileError } = await supabase
+                .from('students')
+                .select('*')
+                .eq('id', authData.user.id)
+                .single();
+
+            // If profile doesn't exist (legacy user?), fall back to auth metadata or minimal user
+            const userProfile = profile || {
+                name: authData.user.user_metadata?.first_name || formData.email.split('@')[0],
+                email: formData.email,
+            };
+
+            // 3. Update Store
+            login({
+                name: userProfile.first_name || userProfile.name,
+                email: userProfile.email,
+                avatar: undefined // Add avatar if needed later
+            });
+
+            router.push("/dashboard");
+
+        } catch (err: any) {
+            console.error("Login Error:", err);
+            setError(err.message || "Invalid email or password.");
+        }
     };
 
     return (
