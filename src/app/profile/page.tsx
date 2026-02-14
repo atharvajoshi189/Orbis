@@ -7,6 +7,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer } from 'recharts';
 
+import { useAppStore } from "@/lib/store";
+
 const statsData = [
     { subject: 'CGPA', A: 120, fullMark: 150 },
     { subject: 'Skills', A: 98, fullMark: 150 },
@@ -17,6 +19,13 @@ const statsData = [
 ];
 
 export default function ProfilePage() {
+    const { user } = useAppStore();
+
+    // Get initials
+    const initials = user?.name
+        ? user.name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2)
+        : "OP";
+
     return (
         <div className="space-y-6">
             <h1 className="text-3xl font-bold tracking-tight text-white mb-6">Operative Profile</h1>
@@ -29,14 +38,14 @@ export default function ProfilePage() {
                         <div className="relative mx-auto mb-4 h-32 w-32">
                             <div className="absolute inset-0 rounded-full border-2 border-primary border-dashed animate-[spin_10s_linear_infinite]" />
                             <Avatar className="h-full w-full border-4 border-black">
-                                <AvatarImage src="/avatar-placeholder.png" />
-                                <AvatarFallback className="bg-primary/20 text-3xl font-bold">JD</AvatarFallback>
+                                <AvatarImage src={user?.avatar || "/avatar-placeholder.png"} />
+                                <AvatarFallback className="bg-primary/20 text-3xl font-bold">{initials}</AvatarFallback>
                             </Avatar>
                             <Badge variant="neon" className="absolute -bottom-3 left-1/2 -translate-x-1/2 px-4 py-1">
                                 LEVEL 5
                             </Badge>
                         </div>
-                        <CardTitle className="text-2xl mt-4">John Doe</CardTitle>
+                        <CardTitle className="text-2xl mt-4">{user?.name || "Operative"}</CardTitle>
                         <div className="flex items-center justify-center gap-2 mt-2">
                             <span className="text-2xl">🇮🇳</span>
                             <span className="text-muted-foreground">Mumbai, India</span>
@@ -80,7 +89,7 @@ export default function ProfilePage() {
                                             <PolarGrid stroke="#333" />
                                             <PolarAngleAxis dataKey="subject" tick={{ fill: '#888', fontSize: 12 }} />
                                             <Radar
-                                                name="John"
+                                                name={user?.name || "Operative"}
                                                 dataKey="A"
                                                 stroke="#00f3ff"
                                                 strokeWidth={2}
