@@ -144,6 +144,13 @@ export default function Navbar() {
                             </Link>
                         );
                     })}
+                    <button
+                        onClick={toggleTheme}
+                        className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
+                    >
+                        {theme === 'dark' ? <Sun className="w-6 h-6 text-yellow-500" /> : <Moon className="w-6 h-6 text-indigo-500" />}
+                    </button>
+
                     {user ? (
                         <Link href="/profile">
                             <div className="w-7 h-7 rounded-full bg-purple-600 flex items-center justify-center text-white text-xs font-bold">

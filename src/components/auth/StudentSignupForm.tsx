@@ -147,33 +147,32 @@ export default function StudentSignupForm() {
             title={title}
             subtitle={subtitle}
         >
-            <div className="mb-6">
-                <div className="flex items-center justify-between mb-2">
+            <div className="mb-8">
+                <div className="flex items-center justify-between mb-4 relative">
                     {[1, 2, 3].map((i) => (
                         <div key={i} className="flex flex-col items-center relative z-10 w-full">
                             <button
                                 type="button"
                                 onClick={() => i < step && setStep(i)}
-                                className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 ${step >= i
-                                    ? "bg-blue-600 text-white shadow-[0_0_10px_rgba(37,99,235,0.5)]"
-                                    : "bg-white/10 text-gray-500 border border-white/10"
+                                className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-black transition-all duration-300 shadow-lg ${step >= i
+                                    ? "bg-blue-600 text-white shadow-[0_0_15px_rgba(37,99,235,0.4)]"
+                                    : "bg-slate-100 dark:bg-white/10 text-slate-400 dark:text-gray-500 border border-slate-200 dark:border-white/10"
                                     } ${i < step ? "cursor-pointer hover:bg-blue-500 hover:scale-110 active:scale-95" : "cursor-default"}`}
                                 title={i < step ? `Back to step ${i}` : ""}
                             >
-                                {step > i ? <CheckCircle2 className="w-4 h-4" /> : i}
+                                {step > i ? <CheckCircle2 className="w-5 h-5" /> : i}
                             </button>
                         </div>
                     ))}
                     {/* Progress Bar Background */}
-                    <div className="absolute top-[138px] left-[calc(50%-140px)] w-[280px] h-0.5 bg-white/10 -z-0" />
+                    <div className="absolute top-5 left-[calc(16.66%)] right-[calc(16.66%)] h-1 bg-slate-200 dark:bg-white/10 -z-0 rounded-full" />
                     {/* Active Progress Bar */}
-                    {/* Note: Hardcoded positioning for typical 3-step, ideally dynamic but fine for now */}
                     <div
-                        className="absolute top-[138px] left-[calc(50%-140px)] h-0.5 bg-blue-600 transition-all duration-300 -z-0"
-                        style={{ width: step === 1 ? '0%' : step === 2 ? '50%' : '100%' }}
+                        className="absolute top-5 left-[calc(16.66%)] h-1 bg-blue-600 transition-all duration-500 -z-0 rounded-full shadow-[0_0_10px_rgba(37,99,235,0.5)]"
+                        style={{ width: step === 1 ? '0%' : step === 2 ? '33.33%' : '66.66%' }}
                     />
                 </div>
-                <div className="flex justify-between text-[10px] text-gray-400 px-2 mt-1">
+                <div className="flex justify-between text-[10px] font-black uppercase tracking-widest px-1">
                     {["Basic", "Education", "Security"].map((label, i) => {
                         const stepNum = i + 1;
                         return (
@@ -181,7 +180,7 @@ export default function StudentSignupForm() {
                                 key={label}
                                 type="button"
                                 onClick={() => stepNum < step && setStep(stepNum)}
-                                className={`transition-colors duration-300 ${stepNum <= step ? "text-blue-400 font-medium" : "text-gray-500"} ${stepNum < step ? "hover:text-blue-300 cursor-pointer" : "cursor-default"}`}
+                                className={`transition-colors duration-300 w-full text-center ${stepNum <= step ? "text-blue-600 dark:text-blue-400" : "text-slate-400 dark:text-gray-500"} ${stepNum < step ? "hover:text-blue-500 dark:hover:text-blue-300 cursor-pointer" : "cursor-default"}`}
                             >
                                 {label}
                             </button>
@@ -192,7 +191,7 @@ export default function StudentSignupForm() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
                 {error && (
-                    <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-500 text-sm text-center mb-4">
+                    <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-600 dark:text-red-500 text-sm text-center mb-4 font-bold">
                         {error}
                     </div>
                 )}
@@ -209,12 +208,12 @@ export default function StudentSignupForm() {
                         >
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-1">
-                                    <label className="text-xs font-medium text-gray-400 ml-1">First Name</label>
+                                    <label className="text-[10px] font-bold text-slate-500 dark:text-gray-400 ml-1 uppercase tracking-wider">First Name</label>
                                     <div className="relative group">
-                                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 group-focus-within:text-blue-400 transition-colors" />
+                                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-gray-500 group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400 transition-colors" />
                                         <input
                                             type="text"
-                                            className="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 pl-9 pr-3 text-white placeholder-gray-600 focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all text-sm"
+                                            className="w-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl py-2.5 pl-9 pr-3 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-600 focus:outline-none focus:border-blue-500/50 dark:focus:border-blue-500/50 focus:bg-white dark:focus:bg-white/10 transition-all text-sm font-medium"
                                             placeholder="John"
                                             value={formData.firstName}
                                             onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
@@ -222,12 +221,12 @@ export default function StudentSignupForm() {
                                     </div>
                                 </div>
                                 <div className="space-y-1">
-                                    <label className="text-xs font-medium text-gray-400 ml-1">Last Name</label>
+                                    <label className="text-[10px] font-bold text-slate-500 dark:text-gray-400 ml-1 uppercase tracking-wider">Last Name</label>
                                     <div className="relative group">
-                                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 group-focus-within:text-blue-400 transition-colors" />
+                                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-gray-500 group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400 transition-colors" />
                                         <input
                                             type="text"
-                                            className="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 pl-9 pr-3 text-white placeholder-gray-600 focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all text-sm"
+                                            className="w-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl py-2.5 pl-9 pr-3 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-600 focus:outline-none focus:border-blue-500/50 dark:focus:border-blue-500/50 focus:bg-white dark:focus:bg-white/10 transition-all text-sm font-medium"
                                             placeholder="Doe"
                                             value={formData.lastName}
                                             onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
@@ -237,12 +236,12 @@ export default function StudentSignupForm() {
                             </div>
 
                             <div className="space-y-1">
-                                <label className="text-xs font-medium text-gray-400 ml-1">Email Address</label>
+                                <label className="text-[10px] font-bold text-slate-500 dark:text-gray-400 ml-1 uppercase tracking-wider">Email Address</label>
                                 <div className="relative group">
-                                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 group-focus-within:text-blue-400 transition-colors" />
+                                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-gray-500 group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400 transition-colors" />
                                     <input
                                         type="email"
-                                        className="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 pl-9 pr-3 text-white placeholder-gray-600 focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all text-sm"
+                                        className="w-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl py-2.5 pl-9 pr-3 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-600 focus:outline-none focus:border-blue-500/50 dark:focus:border-blue-500/50 focus:bg-white dark:focus:bg-white/10 transition-all text-sm font-medium"
                                         placeholder="student@university.edu"
                                         value={formData.email}
                                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -251,12 +250,12 @@ export default function StudentSignupForm() {
                             </div>
 
                             <div className="space-y-1">
-                                <label className="text-xs font-medium text-gray-400 ml-1">Phone Number</label>
+                                <label className="text-[10px] font-bold text-slate-500 dark:text-gray-400 ml-1 uppercase tracking-wider">Phone Number</label>
                                 <div className="relative group">
-                                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 group-focus-within:text-blue-400 transition-colors" />
+                                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-gray-500 group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400 transition-colors" />
                                     <input
                                         type="tel"
-                                        className="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 pl-9 pr-3 text-white placeholder-gray-600 focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all text-sm"
+                                        className="w-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl py-2.5 pl-9 pr-3 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-600 focus:outline-none focus:border-blue-500/50 dark:focus:border-blue-500/50 focus:bg-white dark:focus:bg-white/10 transition-all text-sm font-medium"
                                         placeholder="+1 (555) 000-0000"
                                         value={formData.phone}
                                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
@@ -277,30 +276,30 @@ export default function StudentSignupForm() {
                             className="space-y-4"
                         >
                             <div className="space-y-1">
-                                <label className="text-xs font-medium text-gray-400 ml-1">Current Year / Grade</label>
+                                <label className="text-[10px] font-bold text-slate-500 dark:text-gray-400 ml-1 uppercase tracking-wider">Current Year / Grade</label>
                                 <div className="relative group">
-                                    <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 group-focus-within:text-blue-400 transition-colors" />
+                                    <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-gray-500 group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400 transition-colors" />
                                     <select
-                                        className="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 pl-9 pr-3 text-white placeholder-gray-600 focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all text-sm appearance-none"
+                                        className="w-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl py-2.5 pl-9 pr-3 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-600 focus:outline-none focus:border-blue-500/50 dark:focus:border-blue-500/50 focus:bg-white dark:focus:bg-white/10 transition-all text-sm appearance-none font-medium"
                                         value={formData.currentYear}
                                         onChange={(e) => setFormData({ ...formData, currentYear: e.target.value })}
                                     >
-                                        <option value="" className="bg-gray-900 text-gray-500">Select Year</option>
-                                        <option value="freshman" className="bg-gray-900">Freshman (1st Year)</option>
-                                        <option value="sophomore" className="bg-gray-900">Sophomore (2nd Year)</option>
-                                        <option value="junior" className="bg-gray-900">Junior (3rd Year)</option>
-                                        <option value="senior" className="bg-gray-900">Senior (4th Year)</option>
-                                        <option value="grad" className="bg-gray-900">Graduate Student</option>
+                                        <option value="" className="bg-white dark:bg-[#0a0f1e] text-slate-500">Select Year</option>
+                                        <option value="freshman" className="bg-white dark:bg-[#0a0f1e]">Freshman (1st Year)</option>
+                                        <option value="sophomore" className="bg-white dark:bg-[#0a0f1e]">Sophomore (2nd Year)</option>
+                                        <option value="junior" className="bg-white dark:bg-[#0a0f1e]">Junior (3rd Year)</option>
+                                        <option value="senior" className="bg-white dark:bg-[#0a0f1e]">Senior (4th Year)</option>
+                                        <option value="grad" className="bg-white dark:bg-[#0a0f1e]">Graduate Student</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div className="space-y-1">
-                                <label className="text-xs font-medium text-gray-400 ml-1">Past Records / Achievements</label>
+                                <label className="text-[10px] font-bold text-slate-500 dark:text-gray-400 ml-1 uppercase tracking-wider">Past Records / Achievements</label>
                                 <div className="relative group">
-                                    <BookOpen className="absolute left-3 top-3 w-4 h-4 text-gray-500 group-focus-within:text-blue-400 transition-colors" />
+                                    <BookOpen className="absolute left-3 top-3 w-4 h-4 text-slate-400 dark:text-gray-500 group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400 transition-colors" />
                                     <textarea
-                                        className="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 pl-9 pr-3 text-white placeholder-gray-600 focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all text-sm min-h-[100px] resize-none"
+                                        className="w-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl py-2.5 pl-9 pr-3 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-600 focus:outline-none focus:border-blue-500/50 dark:focus:border-blue-500/50 focus:bg-white dark:focus:bg-white/10 transition-all text-sm min-h-[100px] resize-none font-medium"
                                         placeholder="Briefly describe your academic background or paste a link to your portfolio..."
                                         value={formData.pastRecords}
                                         onChange={(e) => setFormData({ ...formData, pastRecords: e.target.value })}
@@ -321,17 +320,17 @@ export default function StudentSignupForm() {
                             className="space-y-4"
                         >
                             <div className="text-center mb-4">
-                                <h3 className="text-lg font-semibold text-white">Create Password</h3>
-                                <p className="text-xs text-gray-400">Secure your account with a strong password</p>
+                                <h3 className="text-lg font-black text-slate-900 dark:text-white uppercase tracking-tighter">Create Password</h3>
+                                <p className="text-[10px] font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest">Secure your account with a strong password</p>
                             </div>
 
                             <div className="space-y-1">
-                                <label className="text-xs font-medium text-gray-400 ml-1">Password</label>
+                                <label className="text-[10px] font-bold text-slate-500 dark:text-gray-400 ml-1 uppercase tracking-wider">Password</label>
                                 <div className="relative group">
-                                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 group-focus-within:text-blue-400 transition-colors" />
+                                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-gray-500 group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400 transition-colors" />
                                     <input
                                         type="password"
-                                        className="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 pl-9 pr-3 text-white placeholder-gray-600 focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all text-sm"
+                                        className="w-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl py-2.5 pl-9 pr-3 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-600 focus:outline-none focus:border-blue-500/50 dark:focus:border-blue-500/50 focus:bg-white dark:focus:bg-white/10 transition-all text-sm font-medium"
                                         placeholder="••••••••"
                                         value={formData.password}
                                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
@@ -340,12 +339,12 @@ export default function StudentSignupForm() {
                             </div>
 
                             <div className="space-y-1">
-                                <label className="text-xs font-medium text-gray-400 ml-1">Confirm Password</label>
+                                <label className="text-[10px] font-bold text-slate-500 dark:text-gray-400 ml-1 uppercase tracking-wider">Confirm Password</label>
                                 <div className="relative group">
-                                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 group-focus-within:text-blue-400 transition-colors" />
+                                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-gray-500 group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400 transition-colors" />
                                     <input
                                         type="password"
-                                        className="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 pl-9 pr-3 text-white placeholder-gray-600 focus:outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all text-sm"
+                                        className="w-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl py-2.5 pl-9 pr-3 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-600 focus:outline-none focus:border-blue-500/50 dark:focus:border-blue-500/50 focus:bg-white dark:focus:bg-white/10 transition-all text-sm font-medium"
                                         placeholder="••••••••"
                                         value={formData.confirmPassword}
                                         onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
@@ -354,21 +353,21 @@ export default function StudentSignupForm() {
                             </div>
 
                             <div className="flex items-start space-x-2 mt-4">
-                                <input type="checkbox" className="mt-1 w-4 h-4 rounded border-gray-600 bg-white/5 checked:bg-blue-500 transition-colors" />
-                                <p className="text-xs text-gray-400">
-                                    I agree to the <Link href="/terms" className="text-blue-400 hover:text-blue-300">Terms of Service</Link> and <Link href="/privacy" className="text-blue-400 hover:text-blue-300">Privacy Policy</Link>.
+                                <input type="checkbox" className="mt-1 w-4 h-4 rounded border-slate-300 dark:border-gray-600 bg-white dark:bg-white/5 checked:bg-blue-600 dark:checked:bg-blue-500 transition-colors shadow-sm" />
+                                <p className="text-[10px] text-slate-500 dark:text-gray-400 font-bold uppercase tracking-wide leading-relaxed">
+                                    I agree to the <Link href="/terms" className="text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 transition-colors underline decoration-blue-500/30">Terms of Service</Link> and <Link href="/privacy" className="text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 transition-colors underline decoration-blue-500/30">Privacy Policy</Link>.
                                 </p>
                             </div>
                         </motion.div>
                     )}
                 </AnimatePresence>
 
-                <div className="flex gap-3 pt-2">
+                <div className="flex gap-3 pt-4">
                     {step > 1 && (
                         <button
                             type="button"
                             onClick={handleBack}
-                            className="flex-1 py-3 items-center justify-center border border-white/10 rounded-xl text-white font-medium hover:bg-white/5 transition-colors flex gap-2"
+                            className="flex-1 py-3 items-center justify-center border border-slate-200 dark:border-white/10 rounded-xl text-slate-700 dark:text-white font-bold hover:bg-slate-50 dark:hover:bg-white/5 transition-all flex gap-2 shadow-sm active:scale-95"
                         >
                             <ArrowLeft className="w-4 h-4" /> Back
                         </button>
@@ -378,23 +377,23 @@ export default function StudentSignupForm() {
                         <button
                             type="button"
                             onClick={handleNext}
-                            className="flex-1 bg-blue-600 text-white font-medium py-3 rounded-xl hover:bg-blue-500 transition-colors flex items-center justify-center gap-2 shadow-lg shadow-blue-600/20"
+                            className="flex-1 bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-500 transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-600/30 active:scale-95"
                         >
                             Next <ArrowRight className="w-4 h-4" />
                         </button>
                     ) : (
                         <button
                             type="submit"
-                            className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium py-3 rounded-xl hover:shadow-lg hover:shadow-purple-500/30 transition-all flex items-center justify-center gap-2"
+                            className="flex-1 bg-gradient-to-r from-blue-700 to-purple-700 dark:from-blue-600 dark:to-purple-600 text-white font-bold py-3 rounded-xl hover:shadow-xl hover:shadow-purple-500/30 transition-all flex items-center justify-center gap-2 active:scale-95"
                         >
                             Create Account <GraduationCap className="w-4 h-4" />
                         </button>
                     )}
                 </div>
 
-                <p className="text-center text-sm text-gray-400 pt-2">
+                <p className="text-center text-sm text-slate-500 dark:text-gray-400 pt-4 font-medium">
                     Already have an account?{" "}
-                    <Link href="/login" className="text-blue-400 hover:text-blue-300 font-medium transition-colors">
+                    <Link href="/login" className="text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 font-bold transition-colors">
                         Sign in
                     </Link>
                 </p>

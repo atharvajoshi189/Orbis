@@ -13,7 +13,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { useAppStore } from "@/lib/store";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 
 import LiveTicker from "@/components/LiveTicker";
 
@@ -22,15 +21,6 @@ export default function LandingPage() {
   const starsY1 = useTransform(scrollY, [0, 1000], [0, 300]);
   const starsY2 = useTransform(scrollY, [0, 1000], [0, 500]);
   const { theme, toggleTheme } = useAppStore();
-
-  // Sync theme with document class
-  useEffect(() => {
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [theme]);
 
   // Handle scroll for navbar appearance (if needed)
 
@@ -169,7 +159,6 @@ export default function LandingPage() {
 
       </main>
 
-      <Footer />
     </div>
   );
 }
@@ -204,10 +193,10 @@ function StatBar({ label, value, color }: { label: string, value: number, color:
   return (
     <div className="space-y-1">
       <div className="flex justify-between text-xs">
-        <span className="text-white">{label}</span>
-        <span className="text-muted-foreground">{value}/100</span>
+        <span className="text-slate-700 dark:text-white font-medium">{label}</span>
+        <span className="text-slate-500 dark:text-muted-foreground font-bold">{value}/100</span>
       </div>
-      <Progress value={value} className="h-1.5" indicatorColor={color} />
+      <Progress value={value} className="h-1.5 bg-slate-200 dark:bg-slate-800" indicatorColor={color} />
     </div>
   )
 }
@@ -216,14 +205,14 @@ function HolographicBar({ label, value, color = "bg-primary", height = "h-3" }: 
   return (
     <div className="space-y-1 w-full">
       {label && (
-        <div className="flex justify-between text-[10px] uppercase tracking-wider text-muted-foreground font-mono">
+        <div className="flex justify-between text-[10px] uppercase tracking-wider text-slate-500 dark:text-muted-foreground font-black">
           <span>{label}</span>
           <span>{value}%</span>
         </div>
       )}
-      <div className={`relative ${height} w-full rounded-full bg-black/50 border border-white/10 overflow-hidden backdrop-blur-sm group`}>
+      <div className={`relative ${height} w-full rounded-full bg-slate-200 dark:bg-black/50 border border-slate-300 dark:border-white/10 overflow-hidden backdrop-blur-sm group transition-colors`}>
         {/* Grid pattern overlay */}
-        <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-20" />
+        <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10 dark:opacity-20" />
         {/* Liquid Fill */}
         <motion.div
           initial={{ width: 0 }}
@@ -248,12 +237,12 @@ function FloatingMicroData({ label, value, top, left, right, bottom, delay = 0 }
       initial={{ opacity: 0, scale: 0.8 }}
       whileInView={{ opacity: 1, scale: 1 }}
       transition={{ delay, duration: 0.5 }}
-      className="absolute z-20 flex items-center gap-2 px-2 py-1 rounded bg-black/80 border border-primary/30 text-[9px] font-mono text-primary shadow-[0_0_10px_rgba(0,243,255,0.2)] pointer-events-none"
+      className="absolute z-20 flex items-center gap-2 px-2 py-1 rounded bg-white/90 dark:bg-black/80 border border-slate-200 dark:border-primary/30 text-[9px] font-black font-mono text-primary shadow-lg dark:shadow-[0_0_10px_rgba(0,243,255,0.2)] pointer-events-none transition-colors"
       style={{ top, left, right, bottom }}
     >
       <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-      <span className="opacity-70">{label}:</span>
-      <span className="font-bold text-white">{value}</span>
+      <span className="opacity-70 uppercase tracking-tighter">{label}:</span>
+      <span className="font-bold text-slate-900 dark:text-white">{value}</span>
     </motion.div>
   );
 }

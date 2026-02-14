@@ -9,7 +9,7 @@ export default function DashboardPage() {
     const { user } = useAppStore();
 
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-black font-sans transition-colors duration-300">
+        <div className="min-h-screen font-sans transition-colors duration-300">
             <Navbar />
 
             <div className="container-custom mx-auto py-20 px-4">
