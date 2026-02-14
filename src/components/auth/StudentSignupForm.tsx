@@ -145,14 +145,17 @@ export default function StudentSignupForm() {
                 <div className="flex items-center justify-between mb-2">
                     {[1, 2, 3].map((i) => (
                         <div key={i} className="flex flex-col items-center relative z-10 w-full">
-                            <div
+                            <button
+                                type="button"
+                                onClick={() => i < step && setStep(i)}
                                 className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 ${step >= i
                                     ? "bg-blue-600 text-white shadow-[0_0_10px_rgba(37,99,235,0.5)]"
                                     : "bg-white/10 text-gray-500 border border-white/10"
-                                    }`}
+                                    } ${i < step ? "cursor-pointer hover:bg-blue-500 hover:scale-110 active:scale-95" : "cursor-default"}`}
+                                title={i < step ? `Back to step ${i}` : ""}
                             >
                                 {step > i ? <CheckCircle2 className="w-4 h-4" /> : i}
-                            </div>
+                            </button>
                         </div>
                     ))}
                     {/* Progress Bar Background */}
@@ -165,9 +168,19 @@ export default function StudentSignupForm() {
                     />
                 </div>
                 <div className="flex justify-between text-[10px] text-gray-400 px-2 mt-1">
-                    <span>Basic</span>
-                    <span>Education</span>
-                    <span>Security</span>
+                    {["Basic", "Education", "Security"].map((label, i) => {
+                        const stepNum = i + 1;
+                        return (
+                            <button
+                                key={label}
+                                type="button"
+                                onClick={() => stepNum < step && setStep(stepNum)}
+                                className={`transition-colors duration-300 ${stepNum <= step ? "text-blue-400 font-medium" : "text-gray-500"} ${stepNum < step ? "hover:text-blue-300 cursor-pointer" : "cursor-default"}`}
+                            >
+                                {label}
+                            </button>
+                        );
+                    })}
                 </div>
             </div>
 
