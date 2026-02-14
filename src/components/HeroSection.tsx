@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ArrowRight, Globe, Users, TrendingUp } from "lucide-react";
+import Link from "next/link";
 
 export default function HeroSection() {
     return (
@@ -31,10 +32,12 @@ export default function HeroSection() {
                         transition={{ duration: 0.6, delay: 0.3 }}
                         className="flex flex-row justify-center lg:justify-start pt-4"
                     >
-                        <button className="px-10 py-4 bg-[#1A73E8] text-white font-bold text-lg rounded-full shadow-lg hover:bg-blue-700 hover:shadow-xl hover:-translate-y-1 transition-all flex items-center justify-center gap-3 group">
-                            See Your Insights
-                            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                        </button>
+                        <Link href="/dashboard">
+                            <button className="px-10 py-4 bg-[#1A73E8] text-white font-bold text-lg rounded-full shadow-lg hover:bg-blue-700 hover:shadow-xl hover:-translate-y-1 transition-all flex items-center justify-center gap-3 group">
+                                Start Mission
+                                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                            </button>
+                        </Link>
                     </motion.div>
                 </div>
 

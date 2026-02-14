@@ -98,9 +98,15 @@ export default function StudentSignupForm() {
 
             // Profile is created automatically via Database Trigger now.
 
-            // Success
-            alert("Account created successfully! Please check your email to verify your account (if enabled) or log in.");
-            router.push("/login");
+            // Check if we have an active session (Auto-login)
+            if (authData.session) {
+                alert("Account created and logged in! Welcome to Orbis.");
+                router.push("/");
+            } else {
+                // Email confirmation required
+                alert("Account created! Please check your email to confirm your account, then you will be logged in.");
+                router.push("/");
+            }
 
 
 

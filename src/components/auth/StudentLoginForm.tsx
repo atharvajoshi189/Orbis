@@ -19,6 +19,21 @@ export default function StudentLoginForm() {
     });
 
     const [error, setError] = useState("");
+    const [isLoading, setIsLoading] = useState(false); // Restore isLoading
+
+    const handleGuestLogin = () => {
+        setIsLoading(true);
+        // Simulate a small delay for better UX
+        setTimeout(() => {
+            login({
+                id: 'guest',
+                name: 'Guest User',
+                email: 'guest@orbis.edu',
+                avatar: undefined
+            });
+            router.push("/dashboard");
+        }, 800);
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -128,10 +143,26 @@ export default function StudentLoginForm() {
                     whileTap={{ scale: 0.98 }}
                     type="submit"
                     className="w-full bg-gradient-to-r from-blue-600 to-blue-500 text-white font-medium py-3 rounded-xl shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 transition-all flex items-center justify-center space-x-2 group"
+                    disabled={isLoading}
                 >
-                    <span>Log In</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    {isLoading ? (
+                        <div className="h-5 w-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    ) : (
+                        <>
+                            <span>Log In</span>
+                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </>
+                    )}
                 </motion.button>
+
+                <button
+                    type="button"
+                    onClick={handleGuestLogin}
+                    className="w-full border border-white/20 text-white font-medium py-3 rounded-xl hover:bg-white/10 transition-colors flex items-center justify-center space-x-2"
+                    disabled={isLoading}
+                >
+                    Continue as Guest
+                </button>
 
                 <div className="relative my-6">
                     <div className="absolute inset-0 flex items-center">
