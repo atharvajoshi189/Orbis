@@ -1,151 +1,175 @@
 "use client";
 
-import React from 'react';
-import { GraduationCap, Plane, IndianRupee, BarChart3, ChevronRight, Globe } from 'lucide-react';
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { ArrowRight, Globe, TrendingUp, ShieldCheck, Cpu, Building2, GraduationCap } from "lucide-react";
+import { motion } from "framer-motion";
 
-export default function OrbisLanding() {
+export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-[#FDFDFF] text-slate-900 font-sans selection:bg-blue-100">
-
-      {/* --- HEADER --- */}
-      <header className="sticky top-0 z-50 bg-white/70 backdrop-blur-md border-b border-slate-100">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center">
+    <div className="flex min-h-screen flex-col">
+      {/* Navbar for Landing Page */}
+      <header className="fixed top-0 z-50 w-full border-b border-white/10 bg-black/50 backdrop-blur-xl">
+        <div className="container-custom flex h-16 items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold">O</div>
-            <span className="text-2xl font-bold tracking-tight text-slate-800">Orbis</span>
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-linear-to-tr from-primary to-purple-600 shadow-[0_0_15px_rgba(0,243,255,0.5)]">
+              <Globe className="h-5 w-5 text-white" />
+            </div>
+            <span className="text-xl font-bold tracking-wider text-white">ORBIS</span>
           </div>
-          <nav className="hidden md:flex gap-8 text-sm font-semibold text-slate-500">
-            <a href="#hero" className="hover:text-blue-600 transition">Home</a>
-            <a href="#scholarships" className="hover:text-blue-600 transition">Scholarships</a>
-            <a href="#travel" className="hover:text-blue-600 transition">Travel</a>
-            <a href="#roi" className="hover:text-blue-600 transition">ROI Tracker</a>
+          <nav className="hidden md:flex items-center gap-8">
+            <Link href="#" className="text-sm font-medium text-muted-foreground hover:text-white transition-colors">
+              Mission
+            </Link>
+            <Link href="#" className="text-sm font-medium text-muted-foreground hover:text-white transition-colors">
+              Intelligence
+            </Link>
+            <Link href="#" className="text-sm font-medium text-muted-foreground hover:text-white transition-colors">
+              Pricing
+            </Link>
           </nav>
-          <button className="bg-slate-900 text-white px-5 py-2 rounded-full text-sm font-bold hover:bg-blue-600 transition shadow-sm">
-            Get Started
-          </button>
+          <div className="flex items-center gap-4">
+            <Link href="/dashboard">
+              <Button variant="neon" className="font-bold">
+                Launch Console
+              </Button>
+            </Link>
+          </div>
         </div>
       </header>
 
-      {/* --- HERO SECTION --- */}
-      <section id="hero" className="relative pt-20 pb-32 flex flex-col items-center text-center px-6 overflow-hidden">
-        <div className="absolute top-0 -z-10 w-full h-full bg-[radial-gradient(circle_at_top_right,_#f0f7ff_0%,_transparent_40%)]" />
-
-        <span className="px-4 py-1.5 bg-blue-50 text-blue-700 rounded-full text-xs font-bold uppercase tracking-widest mb-6">
-          Powered by Orbis Intelligence
-        </span>
-        <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 leading-tight mb-6">
-          Your Future, <span className="text-blue-600">Perfectly Planned.</span>
-        </h1>
-        <p className="max-w-2xl text-lg text-slate-500 mb-10 leading-relaxed">
-          Data-driven insights for engineering students. Compare local opportunities with global ambitions to find your highest ROI career path.
-        </p>
-
-        <div className="flex flex-col sm:flex-row gap-4">
-          <button className="bg-blue-600 text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-xl shadow-blue-200 hover:scale-105 transition active:scale-95 flex items-center gap-2">
-            See Your Insights <ChevronRight size={20} />
-          </button>
-          <button className="bg-white text-slate-700 border border-slate-200 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-slate-50 transition">
-            Explore Universities
-          </button>
-        </div>
-      </section>
-
-      {/* --- INSIGHTS FORM SECTION --- */}
-      <section className="pb-24 px-6">
-        <div className="max-w-4xl mx-auto bg-white rounded-[2rem] border border-slate-100 shadow-2xl shadow-slate-200/50 p-8 md:p-16 relative">
-          <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 bg-blue-600 rounded-2xl shadow-lg flex items-center justify-center text-white">
-            <GraduationCap size={24} />
-          </div>
-
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-3">Personalize Your Journey</h2>
-            <p className="text-slate-400 font-medium">Provide a few details to see your local & global opportunities.</p>
-          </div>
-
-          <form className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-slate-700 ml-1">Full Name</label>
-              <input type="text" placeholder="e.g. Atharva" className="w-full bg-slate-50 border-none rounded-2xl p-4 focus:ring-2 focus:ring-blue-500 outline-none transition" />
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-slate-700 ml-1">Current Year</label>
-              <select className="w-full bg-slate-50 border-none rounded-2xl p-4 focus:ring-2 focus:ring-blue-500 outline-none transition appearance-none">
-                <option>Select Status</option>
-                <option>10th Standard</option>
-                <option>3rd Year Undergrad</option>
-                <option>Graduate</option>
-              </select>
-            </div>
-            <button className="md:col-span-2 bg-slate-900 text-white py-5 rounded-2xl font-black text-xl hover:bg-blue-600 transition shadow-lg mt-4">
-              GENERATE MY PATHWAY
-            </button>
-          </form>
-        </div>
-      </section>
-
-      {/* --- SCHOLARSHIPS --- */}
-      <section id="scholarships" className="py-24 bg-slate-50 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-4 text-center md:text-left">
-            <div>
-              <h2 className="text-4xl font-black text-slate-900 mb-4">Scholarships & Aid</h2>
-              <p className="text-slate-500 text-lg">Curated financial support for Indian Engineering students.</p>
-            </div>
-            <button className="text-blue-600 font-bold flex items-center gap-1 hover:underline">
-              View All <ChevronRight size={18} />
-            </button>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {['Fulbright-Nehru', 'Chevening', 'DAAD'].map((item, idx) => (
-              <div key={idx} className="bg-white p-8 rounded-3xl border border-slate-100 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
-                <div className="flex justify-between items-start mb-6">
-                  <div className="p-3 bg-blue-50 rounded-xl text-blue-600">
-                    <Globe size={24} />
-                  </div>
-                  <span className="text-[10px] font-black text-slate-400 tracking-widest uppercase">Global Opportunity</span>
+      <main className="flex-1 pt-16">
+        {/* Hero Section */}
+        <section className="relative overflow-hidden py-20 lg:py-32">
+          <div className="container-custom relative z-10 px-4 md:px-6">
+            <div className="grid gap-12 lg:grid-cols-2 lg:gap-8 items-center">
+              <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                className="flex flex-col justify-center space-y-8"
+              >
+                <div className="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-sm font-medium text-primary backdrop-blur-xl">
+                  <span className="flex h-2 w-2 rounded-full bg-primary mr-2 animate-pulse"></span>
+                  System Online v2.4
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">{item} Masters Fellowship</h3>
-                <p className="text-slate-500 text-sm mb-8 leading-relaxed">Full tuition funding and living stipend for top-tier candidates.</p>
-                <button className="w-full py-3 bg-slate-50 text-slate-700 rounded-xl font-bold hover:bg-blue-600 hover:text-white transition">Check Eligibility</button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+                <div className="space-y-4">
+                  <h1 className="text-4xl font-bold tracking-tighter text-white sm:text-6xl xl:text-7xl/none">
+                    Choose Your <span className="text-primary drop-shadow-[0_0_10px_rgba(0,243,255,0.5)]">Career Strategy</span>, <br />
+                    Not Just a University.
+                  </h1>
+                  <p className="max-w-[600px] text-lg text-muted-foreground md:text-xl">
+                    AI-powered Career & Financial Intelligence Platform. Analyze risks, calculate ROI, and simulate your future before you commit.
+                  </p>
+                </div>
+                <div className="flex flex-col gap-4 min-[400px]:flex-row">
+                  <Link href="/dashboard">
+                    <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_0_20px_rgba(0,243,255,0.4)] transition-all hover:scale-105">
+                      Start Mission <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
+                  <Button variant="glass" size="lg">
+                    Explore Global Trends
+                  </Button>
+                </div>
+              </motion.div>
 
-      {/* --- TRAVEL SECTION --- */}
-      <section id="travel" className="py-24 px-6 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="bg-slate-900 rounded-[3rem] p-12 md:p-20 text-white relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/20 blur-[100px] -z-0" />
-            <div className="relative z-10 flex flex-col md:flex-row gap-12 items-center">
-              <div className="flex-1 text-center md:text-left">
-                <h2 className="text-4xl font-bold mb-6 flex items-center gap-3 justify-center md:justify-start">
-                  <Plane size={32} className="text-blue-400" /> Travel & Logistics
-                </h2>
-                <p className="text-slate-400 text-lg mb-8 leading-relaxed">
-                  Visa guidance, flight bookings, and arrival support—Orbis ensures you never walk alone in a new country.
-                </p>
-                <button className="bg-blue-500 text-white px-8 py-4 rounded-2xl font-bold shadow-lg shadow-blue-500/30">Get the Roadmap</button>
-              </div>
-              <div className="flex-1 grid grid-cols-2 gap-4">
-                {['Visa Help', 'Forex', 'Housing', 'SIM Card'].map((tool) => (
-                  <div key={tool} className="bg-white/10 backdrop-blur-md border border-white/10 p-6 rounded-2xl text-center font-bold">
-                    {tool}
-                  </div>
-                ))}
-              </div>
+              {/* Pseudo-3D Globe Placeholder */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1 }}
+                className="relative mx-auto aspect-square w-full max-w-[500px]"
+              >
+                <div className="absolute inset-0 rounded-full bg-linear-to-tr from-primary/20 to-purple-500/20 blur-[60px] animate-pulse" />
+                <div className="relative h-full w-full rounded-full border border-white/10 bg-black/40 backdrop-blur-sm shadow-2xl flex items-center justify-center overflow-hidden">
+                  <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-20 animate-[spin_20s_linear_infinite]" />
+                  <Globe className="h-64 w-64 text-primary/50 animate-pulse" />
+
+                  {/* Floating Info Cards */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1, duration: 0.5 }}
+                    className="absolute top-1/4 right-10 p-3 rounded-lg bg-black/60 border border-primary/30 backdrop-blur-md"
+                  >
+                    <p className="text-xs text-muted-foreground">Admission Probability</p>
+                    <p className="text-lg font-bold text-green-400">82%</p>
+                  </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1.5, duration: 0.5 }}
+                    className="absolute bottom-1/4 left-10 p-3 rounded-lg bg-black/60 border border-purple-500/30 backdrop-blur-md"
+                  >
+                    <p className="text-xs text-muted-foreground">Avg ROI</p>
+                    <p className="text-lg font-bold text-purple-400">3.4x</p>
+                  </motion.div>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        {/* Live Data Ticker */}
+        <div className="border-y border-white/10 bg-black/30 backdrop-blur-md py-4 overflow-hidden">
+          <div className="container-custom flex justify-between items-center text-sm text-muted-foreground animate-in fade-in slide-in-from-bottom-4 duration-1000">
+            <div className="flex items-center gap-2">
+              <TrendingUp className="h-4 w-4 text-green-500" />
+              <span>Profiles Analyzed: <strong className="text-white">15,420</strong></span>
+            </div>
+            <div className="hidden md:flex items-center gap-2">
+              <Cpu className="h-4 w-4 text-primary" />
+              <span>AI Prediction Accuracy: <strong className="text-white">94.8%</strong></span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Globe className="h-4 w-4 text-purple-500" />
+              <span>Countries Tracked: <strong className="text-white">27</strong></span>
             </div>
           </div>
         </div>
-      </section>
 
-      {/* --- FOOTER --- */}
-      <footer className="py-12 border-t border-slate-100 text-center">
-        <p className="text-slate-400 font-medium">© 2026 Orbis Intelligence. Built for the Next Generation.</p>
+        {/* Features Section */}
+        <section className="py-20 lg:py-32 relative">
+          <div className="absolute top-1/2 left-0 w-full h-[500px] bg-primary/5 -skew-y-3 z-0" />
+          <div className="container-custom relative z-10 px-4 text-center">
+            <h2 className="text-3xl font-bold tracking-tighter text-white sm:text-5xl mb-4">Command Center Capabilities</h2>
+            <p className="max-w-[700px] mx-auto text-muted-foreground mb-16 text-lg">Powerful tools to simulate your future and maximize your career ROI.</p>
+
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {[
+                { title: "AI Recommendation Engine", icon: Cpu, desc: "Personalized career pathing based on your unique profile stats." },
+                { title: "Govt Job Eligibility", icon: Building2, desc: "Instant matching with government roles and entrance exams." },
+                { title: "Loan & ROI Intelligence", icon: TrendingUp, desc: "Calculate break-even points and financial viability." },
+                { title: "Risk Simulator", icon: ShieldCheck, desc: "Run scenarios to see how global events affect your career." },
+                { title: "Global Trends", icon: Globe, desc: "Real-time data on visa policies and job market demands." },
+                { title: "Skill Validation", icon: GraduationCap, desc: "Compare your skills against industry requirements." },
+              ].map((feature, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="group relative overflow-hidden rounded-xl border border-white/10 bg-white/5 p-8 transition-all hover:bg-white/10 hover:shadow-2xl hover:border-primary/50"
+                >
+                  <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-black transition-colors">
+                    <feature.icon className="h-6 w-6" />
+                  </div>
+                  <h3 className="mb-2 text-xl font-bold text-white">{feature.title}</h3>
+                  <p className="text-muted-foreground">{feature.desc}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="border-t border-white/10 bg-black py-8">
+        <div className="container-custom text-center text-sm text-muted-foreground">
+          <p>&copy; 2026 Orbis Intelligence Systems. All rights reserved.</p>
+        </div>
       </footer>
-
     </div>
   );
 }
