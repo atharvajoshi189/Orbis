@@ -106,7 +106,7 @@ export default function ROITerminalPage() {
             <main className="relative z-10 container mx-auto px-4 py-8 max-w-6xl">
                 <header className="mb-12 text-center">
                     <h1 className="text-4xl md:text-6xl font-black bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 mb-4 tracking-tighter">
-                        ORBIS TERMINAL
+                        ROI TERMINAL
                     </h1>
                     <p className="text-cyan-400/60 text-lg uppercase tracking-[0.2em] text-xs">Financial Intelligence Unit</p>
                 </header>

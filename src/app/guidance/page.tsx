@@ -60,7 +60,7 @@ export default function GuidancePage() {
                 .eq('is_active', true)
                 .single();
 
-            if (roadmap && roadmap.current_step === 0) {
+            if (roadmap && roadmap.current_day === 1) {
                 const msgs: any = {
                     'fast_track': "Speed is key. I've initiated the Fast Track protocol on your dashboard.",
                     'growth': "Excellent choice. The Growth trajectory is live on your dashboard. Let's build your foundation.",

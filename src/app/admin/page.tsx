@@ -1,292 +1,250 @@
 "use client";
 
-import Navbar from "@/components/Navbar";
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
+import Navbar from '@/components/Navbar';
 import { supabase } from "@/utils/supabase/client";
-import { motion, AnimatePresence } from "framer-motion";
-import { Check, Search, Filter, AlertCircle, FileText, UserCheck, Clock, RefreshCw } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow
+} from "@/components/ui/table";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+    Loader2,
+    TrendingUp,
+    Users,
+    FileText,
+    Zap,
+    Search,
+    Filter,
+    Download,
+    MoreHorizontal
+} from 'lucide-react';
+import { motion } from 'framer-motion';
 
-interface Student {
-    id: string;
-    user_id: string;
-    full_name: string;
-    email: string;
-    target_country: string | null;
-    gpa: string | null;
-    budget: number | null;
-    career_goal: string | null;
-    status: string | null;
-    skills: string[] | null;
-    created_at: string;
-}
+// Mock Data incase DB is empty for demo
+const MOCK_STUDENTS = [
+    { id: 1, name: "Aarav Patel", email: "aarav@example.com", stream: "Computer Science", gpa: 9.2, financial_strength: "Solid", score: 94, status: "hot" },
+    { id: 2, name: "Zara Khan", email: "zara@example.com", stream: "Psychology", gpa: 7.8, financial_strength: "Moderate", score: 65, status: "warm" },
+    { id: 3, name: "Ishaan Gupta", email: "ishaan@example.com", stream: "Finance", gpa: 8.5, financial_strength: "High", score: 88, status: "hot" },
+    { id: 4, name: "Meera Singh", email: "meera@example.com", stream: "Architecture", gpa: 6.9, financial_strength: "Low", score: 42, status: "cold" },
+    { id: 5, name: "Rohan Das", email: "rohan@example.com", stream: "Data Science", gpa: 9.0, financial_strength: "Solid", score: 91, status: "hot" },
+];
 
-interface AuditLog {
-    id: string;
-    action: string;
-    time: string;
-}
-
-export default function AdminPage() {
-    const [students, setStudents] = useState<Student[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [filter, setFilter] = useState("all");
-    const [search, setSearch] = useState("");
-    const [auditLog, setAuditLog] = useState<AuditLog[]>([]);
+export default function AdminDashboard() {
+    const [students, setStudents] = useState<any[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
-        loadStudents();
-
-        // Realtime Subscription
-        const channel = supabase
-            .channel('public:students')
-            .on('postgres_changes', { event: '*', schema: 'public', table: 'students' }, (payload) => {
-                console.log('Realtime update:', payload);
-                if (payload.eventType === 'UPDATE') {
-                    setStudents(prev => prev.map(s => s.id === payload.new.id ? { ...s, ...payload.new } as Student : s));
-                    toast.info(`Profile updated: ${payload.new.full_name || 'Student'}`);
-                } else if (payload.eventType === 'INSERT') {
-                    setStudents(prev => [payload.new as Student, ...prev]);
-                    toast.success(`New student registered: ${payload.new.full_name}`);
-                }
-            })
-            .subscribe();
-
-        return () => {
-            supabase.removeChannel(channel);
-        };
+        fetchStudents();
     }, []);
 
-    const loadStudents = async () => {
-        setLoading(true);
-        const { data, error } = await supabase
-            .from('students')
-            .select('*')
-            .order('created_at', { ascending: false });
+    const fetchStudents = async () => {
+        setIsLoading(true);
+        try {
+            // Fetch real data
+            const { data, error } = await supabase
+                .from('students')
+                .select('*')
+                .order('created_at', { ascending: false });
 
-        if (error) {
+            if (error) throw error;
+
+            // Merge with mock if empty for demo purposes (Delete this in production)
+            if (!data || data.length === 0) {
+                setStudents(MOCK_STUDENTS);
+            } else {
+                // Determine score if null (Simulate AI scoring for demo)
+                const enhancedData = data.map(s => ({
+                    ...s,
+                    score: s.convertibility_score || (s.gpa ? Math.min(Math.round(parseFloat(s.gpa) * 10), 99) : 0),
+                    status: s.lead_status || 'cold'
+                }));
+                setStudents(enhancedData);
+            }
+        } catch (error) {
             console.error("Error fetching students:", error);
-            toast.error("Failed to load students");
-        } else {
-            setStudents(data || []);
-        }
-        setLoading(false);
-    };
-
-    const handleValidate = async (studentId: string, name: string) => {
-        // Optimistic update
-        const newLog = {
-            id: Date.now().toString(),
-            action: `Validated Roadmap for ${name}`,
-            time: new Date().toLocaleTimeString()
-        };
-        setAuditLog(prev => [newLog, ...prev]);
-
-        const { error } = await supabase
-            .from('students')
-            .update({ status: 'Validated' })
-            .eq('id', studentId);
-
-        if (error) {
-            toast.error("Failed to update status");
-        } else {
-            toast.success(`Plan validated for ${name}`);
-            // Local state update handled by Realtime subscription potentially, but safe to update manually too if needed
-            // setStudents(prev => prev.map(s => s.id === studentId ? { ...s, status: 'Validated' } : s));
+            setStudents(MOCK_STUDENTS); // Fallback to mock
+        } finally {
+            setIsLoading(false);
         }
     };
 
-    const calculateReadiness = (student: Student) => {
-        let score = 0;
-        if (student.gpa && parseFloat(student.gpa) > 3.0) score += 30;
-        if (student.target_country) score += 20;
-        if (student.skills && student.skills.length > 3) score += 20;
-        if (student.career_goal) score += 10;
-        if (student.status === 'Validated') score += 20;
-        return Math.min(100, score);
+    const getScoreColor = (score: number) => {
+        if (score >= 90) return "text-green-500 bg-green-500/10 border-green-500/20";
+        if (score >= 70) return "text-yellow-500 bg-yellow-500/10 border-yellow-500/20";
+        return "text-slate-500 bg-slate-500/10 border-slate-500/20";
     };
 
-    const filteredStudents = students.filter(s => {
-        const nameMatch = s.full_name?.toLowerCase().includes(search.toLowerCase()) || false;
-        const emailMatch = s.email?.toLowerCase().includes(search.toLowerCase()) || false;
-        const matchesSearch = nameMatch || emailMatch;
-
-        if (filter === "urgent") return matchesSearch && (!s.gpa || parseFloat(s.gpa) < 3.0);
-        if (filter === "high_roi") return matchesSearch && (s.gpa && parseFloat(s.gpa) > 3.5);
-        if (filter === "validated") return matchesSearch && s.status === 'Validated';
-        return matchesSearch;
-    });
+    const filteredStudents = students.filter(s =>
+        (s.name?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+        (s.stream?.toLowerCase() || '').includes(searchTerm.toLowerCase())
+    );
 
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-black font-sans transition-colors duration-300">
+        <div className="min-h-screen bg-slate-50 dark:bg-[#050B14] text-slate-900 dark:text-white font-sans">
             <Navbar />
 
-            <div className="container-custom mx-auto py-24 px-4">
+            <main className="container-custom mx-auto pt-32 pb-12 px-4">
 
                 {/* Header */}
-                <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+                <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
                     <div>
-                        <h1 className="text-3xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                            <UserCheck className="text-primary" /> Counselor Admin Portal
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-black uppercase tracking-widest mb-4">
+                            <Zap size={14} /> B2B Counselor Protocol
+                        </div>
+                        <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tighter font-outfit mb-2">
+                            Pipeline <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">Intelligence</span>
                         </h1>
-                        <p className="text-slate-500 dark:text-slate-400">Manage student roadmaps and validate AI suggestions.</p>
+                        <p className="text-slate-500 font-medium">AI-Driven Lead Scoring & Student Management</p>
                     </div>
 
-                    {/* Search & Filter */}
-                    <div className="flex gap-3 w-full md:w-auto">
-                        <div className="relative flex-1 md:w-64">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
-                            <input
-                                type="text"
-                                placeholder="Search students..."
-                                className="w-full pl-10 pr-4 py-2 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 focus:ring-2 ring-primary outline-none"
-                                value={search}
-                                onChange={(e) => setSearch(e.target.value)}
-                            />
+                    <div className="flex gap-4">
+                        <div className="text-right hidden md:block">
+                            <div className="text-3xl font-black text-slate-900 dark:text-white">{students.filter(s => s.score >= 90).length}</div>
+                            <div className="text-xs font-bold text-green-500 uppercase tracking-widest">Hot Leads</div>
                         </div>
-                        <select
-                            className="px-4 py-2 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 outline-none"
-                            value={filter}
-                            onChange={(e) => setFilter(e.target.value)}
-                        >
-                            <option value="all">All Students</option>
-                            <option value="urgent">Urgent Guidance</option>
-                            <option value="high_roi">High Potential</option>
-                            <option value="validated">Validated</option>
-                        </select>
-                        <Button variant="outline" size="icon" onClick={loadStudents} title="Reload Data">
-                            <RefreshCw className="w-4 h-4" />
-                        </Button>
+                        <div className="w-px h-12 bg-slate-200 dark:bg-slate-800 hidden md:block"></div>
+                        <div className="text-right hidden md:block">
+                            <div className="text-3xl font-black text-slate-900 dark:text-white">{students.length}</div>
+                            <div className="text-xs font-bold text-slate-500 uppercase tracking-widest">Total Active</div>
+                        </div>
                     </div>
                 </div>
 
+                {/* Dashboard Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
 
-                    {/* Main Table */}
-                    <div className="lg:col-span-3 bg-white dark:bg-white/5 rounded-3xl border border-slate-200 dark:border-white/10 shadow-sm overflow-hidden">
-                        <div className="overflow-x-auto">
-                            <table className="w-full text-left">
-                                <thead className="bg-slate-50 dark:bg-white/5 border-b border-slate-200 dark:border-white/10">
-                                    <tr>
-                                        <th className="p-4 font-bold text-slate-600 dark:text-slate-300 text-sm">Student</th>
-                                        <th className="p-4 font-bold text-slate-600 dark:text-slate-300 text-sm">Stats</th>
-                                        <th className="p-4 font-bold text-slate-600 dark:text-slate-300 text-sm">Readiness</th>
-                                        <th className="p-4 font-bold text-slate-600 dark:text-slate-300 text-sm">Recommendation</th>
-                                        <th className="p-4 font-bold text-slate-600 dark:text-slate-300 text-sm text-right">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {loading ? (
-                                        <tr><td colSpan={5} className="p-8 text-center text-slate-500">Loading live data...</td></tr>
-                                    ) : filteredStudents.length === 0 ? (
-                                        <tr><td colSpan={5} className="p-8 text-center text-slate-500">No students found via Supabase.</td></tr>
-                                    ) : filteredStudents.map((student) => {
-                                        const readiness = calculateReadiness(student);
-                                        return (
-                                            <tr key={student.id} className="border-b border-slate-100 dark:border-white/5 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors group">
-                                                <td className="p-4">
-                                                    <div className="font-bold text-slate-900 dark:text-white">{student.full_name || "Unknown"}</div>
-                                                    <div className="text-xs text-slate-500 dark:text-slate-400">{student.email}</div>
-                                                </td>
-                                                <td className="p-4">
-                                                    <div className="text-slate-700 dark:text-slate-300 font-mono text-sm">{student.gpa || "N/A"} GPA</div>
-                                                    <div className="text-xs text-slate-500 dark:text-slate-400">
-                                                        {student.budget ? `$${(student.budget / 1000).toFixed(0)}k` : "No Budget"}
-                                                    </div>
-                                                </td>
-                                                <td className="p-4">
-                                                    <div className="flex items-center gap-2">
-                                                        <div className="w-16 h-1.5 bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden">
-                                                            <div
-                                                                className={`h-full rounded-full ${readiness > 75 ? 'bg-green-500' : readiness > 40 ? 'bg-yellow-500' : 'bg-red-500'}`}
-                                                                style={{ width: `${readiness}%` }}
-                                                            />
-                                                        </div>
-                                                        <span className="text-xs font-bold text-slate-500">{readiness}%</span>
-                                                    </div>
-                                                    <div className="text-[10px] text-slate-400 mt-1">{student.status || 'Pending'}</div>
-                                                </td>
-                                                <td className="p-4 max-w-xs">
-                                                    <span className="px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-bold rounded-lg border border-blue-100 dark:border-blue-900/50 inline-block mb-1">
-                                                        {student.target_country || "Undecided"}
-                                                    </span>
-                                                    <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-1">
-                                                        Goal: {student.career_goal || "Not set"}
-                                                    </p>
-                                                </td>
-                                                <td className="p-4 text-right">
-                                                    <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                        {student.status !== 'Validated' && (
-                                                            <Button
-                                                                size="sm"
-                                                                className="bg-green-500 hover:bg-green-600 text-white gap-1 h-7 px-3 text-xs"
-                                                                onClick={() => handleValidate(student.id, student.full_name)}
-                                                            >
-                                                                <Check size={12} /> Validate
-                                                            </Button>
-                                                        )}
-                                                        <Button size="sm" variant="outline" className="h-7 w-7 p-0">
-                                                            <FileText size={12} />
-                                                        </Button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        )
-                                    })}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    {/* Sidebar: Audit Log */}
+                    {/* Sidebar Stats / Actions */}
                     <div className="space-y-6">
-                        <div className="bg-white dark:bg-white/5 p-6 rounded-3xl border border-slate-200 dark:border-white/10 shadow-sm">
-                            <h3 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                                <Clock className="text-slate-400" size={18} /> Audit Log
-                            </h3>
-                            <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2 scrollbar-thin">
-                                {auditLog.length === 0 ? (
-                                    <p className="text-sm text-slate-400 text-center py-4">No recent actions.</p>
-                                ) : (
-                                    auditLog.map((log) => (
-                                        <motion.div
-                                            key={log.id}
-                                            initial={{ opacity: 0, x: -10 }}
-                                            animate={{ opacity: 1, x: 0 }}
-                                            className="flex gap-3 items-start"
-                                        >
-                                            <div className="mt-1 w-2 h-2 rounded-full bg-primary shrink-0" />
-                                            <div>
-                                                <p className="text-sm text-slate-700 dark:text-slate-300 font-medium">{log.action}</p>
-                                                <p className="text-xs text-slate-400">{log.time}</p>
-                                            </div>
-                                        </motion.div>
-                                    ))
-                                )}
-                            </div>
-                        </div>
+                        <Card className="rounded-3xl border-slate-200 dark:border-white/10 bg-white/50 dark:bg-white/5 backdrop-blur-sm overflow-hidden">
+                            <CardHeader>
+                                <CardTitle className="uppercase tracking-widest text-sm font-black text-slate-500">Bulk Actions</CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-3">
+                                <Button className="w-full justify-start gap-2 bg-blue-600 hover:bg-blue-500 text-white font-bold h-12 rounded-xl">
+                                    <FileText size={18} /> Process New Docs
+                                </Button>
+                                <Button variant="outline" className="w-full justify-start gap-2 border-slate-200 dark:border-white/10 h-12 rounded-xl font-bold">
+                                    <Download size={18} /> Export Hot Leads
+                                </Button>
+                            </CardContent>
+                        </Card>
 
-                        <div className="bg-blue-50 dark:bg-blue-900/10 p-6 rounded-3xl border border-blue-100 dark:border-blue-900/20">
-                            <h3 className="font-bold text-blue-900 dark:text-blue-300 mb-2 flex items-center gap-2">
-                                <AlertCircle size={18} /> Live Database
-                            </h3>
-                            <div className="grid grid-cols-2 gap-4 mt-4">
-                                <div className="text-center">
-                                    <div className="text-2xl font-bold text-blue-700 dark:text-blue-400">{students.length}</div>
-                                    <div className="text-xs text-blue-600 dark:text-blue-500 uppercase">Total Students</div>
-                                </div>
-                                <div className="text-center">
-                                    <div className="text-2xl font-bold text-green-600 dark:text-green-400">{students.filter(s => s.status === 'Validated').length}</div>
-                                    <div className="text-xs text-green-700 dark:text-green-500 uppercase">Validated</div>
-                                </div>
-                            </div>
-                        </div>
+                        <Card className="rounded-3xl border-slate-200 dark:border-white/10 bg-gradient-to-br from-purple-900/10 to-blue-900/10 overflow-hidden">
+                            <CardHeader>
+                                <CardTitle className="uppercase tracking-widest text-sm font-black text-purple-500">AI Insights</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <p className="text-sm font-medium text-slate-600 dark:text-slate-300 leading-relaxed">
+                                    <span className="font-bold text-slate-900 dark:text-white">Trend Alert:</span> 15% increase in Data Science inquiries. Recommend Germany for high ROI profiles.
+                                </p>
+                            </CardContent>
+                        </Card>
                     </div>
 
+                    {/* Main Table */}
+                    <div className="lg:col-span-3">
+                        <Card className="rounded-[2.5rem] border-slate-200 dark:border-white/10 shadow-xl overflow-hidden bg-white dark:bg-[#0A101F]">
+                            <div className="p-6 border-b border-slate-100 dark:border-white/5 flex flex-col md:flex-row gap-4 justify-between items-center">
+                                <div className="relative w-full md:w-96">
+                                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                                    <input
+                                        type="text"
+                                        placeholder="Search by name or stream..."
+                                        className="w-full pl-12 pr-4 py-3 bg-slate-50 dark:bg-black/20 rounded-xl border border-slate-200 dark:border-white/10 focus:ring-2 focus:ring-blue-500 outline-none transition-all font-medium"
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                    />
+                                </div>
+                                <div className="flex gap-2">
+                                    <Button variant="ghost" size="icon" className="rounded-xl"><Filter size={20} /></Button>
+                                    <Button variant="ghost" size="icon" className="rounded-xl"><MoreHorizontal size={20} /></Button>
+                                </div>
+                            </div>
+
+                            <Table>
+                                <TableHeader className="bg-slate-50 dark:bg-white/5">
+                                    <TableRow className="border-none hover:bg-transparent">
+                                        <TableHead className="font-black uppercase text-xs tracking-widest text-slate-400 pl-8 py-6">Student</TableHead>
+                                        <TableHead className="font-black uppercase text-xs tracking-widest text-slate-400 py-6">Stream</TableHead>
+                                        <TableHead className="font-black uppercase text-xs tracking-widest text-slate-400 py-6">GPA</TableHead>
+                                        <TableHead className="font-black uppercase text-xs tracking-widest text-slate-400 py-6">Convertibility</TableHead>
+                                        <TableHead className="font-black uppercase text-xs tracking-widest text-slate-400 pr-8 py-6 text-right">Status</TableHead>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                    {isLoading ? (
+                                        <TableRow>
+                                            <TableCell colSpan={5} className="h-64 text-center">
+                                                <div className="flex flex-col items-center justify-center opacity-50">
+                                                    <Loader2 className="w-10 h-10 animate-spin mb-4 text-blue-500" />
+                                                    <p className="font-bold text-sm uppercase tracking-widest">Crunching Data...</p>
+                                                </div>
+                                            </TableCell>
+                                        </TableRow>
+                                    ) : filteredStudents.map((student, i) => (
+                                        <motion.tr
+                                            key={student.id}
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ delay: i * 0.05 }}
+                                            className="group hover:bg-slate-50 dark:hover:bg-white/5 border-b border-slate-100 dark:border-white/5 last:border-0 transition-colors cursor-pointer"
+                                        >
+                                            <TableCell className="pl-8 py-6 font-medium text-slate-900 dark:text-white">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 text-white font-bold flex items-center justify-center text-sm">
+                                                        {student.name.charAt(0)}
+                                                    </div>
+                                                    <div>
+                                                        <div className="font-bold">{student.name}</div>
+                                                        <div className="text-xs text-slate-500">{student.email}</div>
+                                                    </div>
+                                                </div>
+                                            </TableCell>
+                                            <TableCell className="py-6 text-slate-600 dark:text-slate-400 font-medium">
+                                                {student.stream || "General"}
+                                            </TableCell>
+                                            <TableCell className="py-6 font-black text-slate-800 dark:text-slate-200">
+                                                {student.gpa || "N/A"}
+                                            </TableCell>
+                                            <TableCell className="py-6">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="flex-1 h-2 w-24 bg-slate-100 dark:bg-white/10 rounded-full overflow-hidden">
+                                                        <div
+                                                            className={`h-full rounded-full ${student.score >= 90 ? 'bg-green-500' : student.score >= 70 ? 'bg-yellow-500' : 'bg-slate-400'}`}
+                                                            style={{ width: `${student.score}%` }}
+                                                        />
+                                                    </div>
+                                                    <span className="font-black text-sm">{student.score}%</span>
+                                                </div>
+                                            </TableCell>
+                                            <TableCell className="pr-8 py-6 text-right">
+                                                <Badge className={`uppercase tracking-widest font-bold px-3 py-1 rounded-lg border-0 shadow-none ${getScoreColor(student.score)}`}>
+                                                    {student.status === 'hot' || student.score >= 90 ? 'High Potential' : student.status === 'warm' ? 'Nurturing' : 'Cold'}
+                                                </Badge>
+                                            </TableCell>
+                                        </motion.tr>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </Card>
+                    </div>
                 </div>
-            </div>
+
+            </main>
         </div>
     );
 }
