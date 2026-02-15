@@ -86,13 +86,19 @@ export function VoiceAssistant({ onClose, onNewMessage, mode = 'voice' }: VoiceA
     // VAD Refs
     const audioContextRef = useRef<AudioContext | null>(null);
     const analyserRef = useRef<AnalyserNode | null>(null); // Still used for VAD (Mic input)
+    const listentStreamRef = useRef<MediaStream | null>(null); // Store stream for cleanup
     const rafRef = useRef<number | null>(null);
     const statusRef = useRef(status);
+    const isMountedRef = useRef(true); // Track mount status
 
+    // Custom Endpointing Refs
     // Custom Endpointing Refs
     const recognitionRef = useRef<any>(null);
     const lastVoiceActivityTimeRef = useRef<number>(Date.now());
     const isSpeechDetectedRef = useRef(false);
+
+    // Track stream globally for this component instance to ensure no leaks
+    const activeStreamRef = useRef<MediaStream | null>(null);
 
     // Helper for circular particles
     const circleTexture = useMemo(() => {
@@ -111,8 +117,62 @@ export function VoiceAssistant({ onClose, onNewMessage, mode = 'voice' }: VoiceA
 
     useEffect(() => { statusRef.current = status; }, [status]);
 
+    // Cleanup Function - SCORCHED EARTH POLICY
+    const cleanup = () => {
+        isMountedRef.current = false; // Checkmate for async ops
+
+        // 1. Stop all media tracks immediately (Primary Stream)
+        const stopTracks = (stream: MediaStream | null) => {
+            if (stream) {
+                stream.getTracks().forEach(track => {
+                    track.stop();
+                    track.enabled = false;
+                });
+            }
+        };
+
+        stopTracks(listentStreamRef.current);
+        listentStreamRef.current = null;
+
+        stopTracks(activeStreamRef.current);
+        activeStreamRef.current = null;
+
+        // 2. Cancel Speech Synthesis
+        window.speechSynthesis.cancel();
+
+        // 3. Stop Animation Frame
+        if (rafRef.current) {
+            cancelAnimationFrame(rafRef.current);
+            rafRef.current = null;
+        }
+
+        // 4. Close AudioContext
+        if (audioContextRef.current) {
+            if (audioContextRef.current.state !== 'closed') {
+                audioContextRef.current.close().catch(e => console.error("AudioContext close error", e));
+            }
+            audioContextRef.current = null;
+        }
+
+        // 5. Abort Speech Recognition
+        if (recognitionRef.current) {
+            try {
+                recognitionRef.current.onend = null; // Prevent onend trigger
+                recognitionRef.current.onerror = null; // Prevent error trigger
+                recognitionRef.current.abort();
+            } catch (e) { /* ignore */ }
+            recognitionRef.current = null;
+        }
+    };
+
+    const handleClose = () => {
+        cleanup();
+        onClose();
+    };
+
     // Initial Setup
     useEffect(() => {
+        isMountedRef.current = true;
         const loadVoices = () => {
             const voices = window.speechSynthesis.getVoices();
             const indianVoice = voices.find(v => v.lang.includes('en-IN')) || voices[0];
@@ -125,15 +185,23 @@ export function VoiceAssistant({ onClose, onNewMessage, mode = 'voice' }: VoiceA
         startListening();
 
         return () => {
-            window.speechSynthesis.cancel();
-            if (rafRef.current) cancelAnimationFrame(rafRef.current);
-            if (audioContextRef.current) audioContextRef.current.close();
+            cleanup();
         };
     }, []);
 
     const setupVAD = async () => {
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            activeStreamRef.current = stream; // Track internally cleanup
+
+            // Check if unmounted during await
+            if (!isMountedRef.current) {
+                stream.getTracks().forEach(track => track.stop());
+                activeStreamRef.current = null;
+                return;
+            }
+
+            listentStreamRef.current = stream;
             const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
             const analyser = audioContext.createAnalyser();
             const source = audioContext.createMediaStreamSource(stream);
@@ -180,6 +248,8 @@ export function VoiceAssistant({ onClose, onNewMessage, mode = 'voice' }: VoiceA
     };
 
     const startListening = () => {
+        if (!isMountedRef.current) return; // Prevent start if unmounted/closing
+
         if (!('webkitSpeechRecognition' in window)) {
             alert("Voice recognition not supported.");
             return;
@@ -270,6 +340,7 @@ export function VoiceAssistant({ onClose, onNewMessage, mode = 'voice' }: VoiceA
         utterance.rate = 1.0;
 
         utterance.onend = () => {
+            if (!isMountedRef.current) return;
             setStatus("idle");
             setGesture("IDLE"); // Return to idle after speaking
             startListening(); // Linear conversation flow
@@ -287,8 +358,20 @@ export function VoiceAssistant({ onClose, onNewMessage, mode = 'voice' }: VoiceA
         >
             {/* Overlay Elements */}
             <div className="absolute top-6 left-6 z-10">
-                <Button variant="ghost" className="text-white/70 hover:text-white hover:bg-white/10 gap-2 border border-white/10 rounded-full px-4" onClick={onClose}>
+                <Button variant="ghost" className="text-white/70 hover:text-white hover:bg-white/10 gap-2 border border-white/10 rounded-full px-4" onClick={handleClose}>
                     <MessageSquare size={18} /> Back to Chat
+                </Button>
+            </div>
+
+            {/* Close Button */}
+            <div className="absolute top-6 right-6 z-10">
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-white/70 hover:text-white hover:bg-red-500/10 hover:border-red-500/50 border border-white/10 rounded-full w-12 h-12 transition-all duration-300 group"
+                    onClick={handleClose}
+                >
+                    <X size={24} className="group-hover:scale-110 transition-transform" />
                 </Button>
             </div>
 

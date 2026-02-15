@@ -49,20 +49,20 @@ export default function CareerPathPage() {
         <div className="min-h-screen text-slate-900 dark:text-white font-sans selection:bg-cyan-500/30 transition-colors duration-300">
             <Navbar />
 
-            <main className="container-custom mx-auto py-12 px-4 relative z-10">
+            <main className="container-custom mx-auto pt-32 pb-12 px-4 relative z-10">
 
                 {/* Header */}
                 <div className="text-center mb-12">
                     <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 to-purple-600 dark:from-cyan-400 dark:to-purple-400">
                         Document-Driven Intelligence Engine
                     </h1>
-                    <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+                    <p className="text-slate-700 dark:text-slate-400 max-w-2xl mx-auto">
                         Upload your academic history (Marksheets, Transcripts, Certificates) to unlock a personalized Global Career Strategy.
                     </p>
                 </div>
 
                 {step === 1 && (
-                    <div className="max-w-3xl mx-auto bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-3xl p-8 backdrop-blur-xl relative overflow-hidden shadow-xl dark:shadow-none transition-all">
+                    <div className="max-w-3xl mx-auto bg-white/60 backdrop-blur-xl dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-3xl p-8 relative overflow-hidden shadow-xl dark:shadow-none transition-all">
 
                         {/* Scanning Effect Overlay */}
                         {isAnalyzing && (
@@ -73,7 +73,7 @@ export default function CareerPathPage() {
                             </div>
                         )}
 
-                        <div className="border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-2xl p-12 text-center hover:border-cyan-500/50 hover:bg-cyan-500/5 transition group cursor-pointer relative bg-slate-50 dark:bg-black/20">
+                        <div className="border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-2xl p-12 text-center hover:border-cyan-500/50 hover:bg-cyan-500/5 transition group cursor-pointer relative bg-white/40 dark:bg-black/20">
                             <input
                                 type="file"
                                 multiple
@@ -84,15 +84,15 @@ export default function CareerPathPage() {
                                 <Upload className="w-10 h-10 text-cyan-500 dark:text-cyan-400" />
                             </div>
                             <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Drop Academic Documents</h3>
-                            <p className="text-slate-500 dark:text-slate-400">10th, 12th, Bachelor's, Transcripts, Certificates</p>
+                            <p className="text-slate-600 dark:text-slate-400">10th, 12th, Bachelor's, Transcripts, Certificates</p>
                         </div>
 
                         {documents.length > 0 && (
                             <div className="mt-8 space-y-3">
-                                <h4 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Queue ({documents.length})</h4>
+                                <h4 className="text-sm font-bold text-slate-700 dark:text-slate-400 uppercase tracking-wider">Queue ({documents.length})</h4>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     {documents.map((doc, i) => (
-                                        <div key={i} className="flex items-center gap-3 bg-white dark:bg-white/5 p-3 rounded-xl border border-slate-200 dark:border-white/10">
+                                        <div key={i} className="flex items-center gap-3 bg-white/50 dark:bg-white/5 p-3 rounded-xl border border-slate-200 dark:border-white/10">
                                             <FileText className="w-5 h-5 text-purple-600 dark:text-purple-400" />
                                             <span className="text-sm text-slate-700 dark:text-slate-300 flex-1 truncate">{doc.name}</span>
                                             <CheckCircle className="w-4 h-4 text-green-500" />

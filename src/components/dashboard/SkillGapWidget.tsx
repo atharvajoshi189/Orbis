@@ -1,4 +1,5 @@
 "use client";
+import Translate from "@/components/Translate";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TrendingUp } from "lucide-react";
@@ -21,7 +22,7 @@ export function SkillGapWidget({ data }: SkillGapWidgetProps) {
         <Card className="bg-black/20 border-white/10 backdrop-blur-md h-full">
             <CardHeader className="border-b border-white/5 pb-4">
                 <CardTitle className="flex items-center gap-2 text-sm font-black uppercase text-white tracking-wider">
-                    <TrendingUp className="text-cyan-400 w-4 h-4" /> Skill Gap Analysis
+                    <TrendingUp className="text-cyan-400 w-4 h-4" /> <Translate text="Skill Gap Analysis" />
                 </CardTitle>
             </CardHeader>
             <CardContent className="pt-6 space-y-6">
@@ -29,7 +30,7 @@ export function SkillGapWidget({ data }: SkillGapWidgetProps) {
                     <div key={index} className="space-y-2">
                         <div className="flex justify-between text-[10px] font-bold uppercase tracking-wider text-slate-400">
                             <span>{skill.name}</span>
-                            <span className="text-white">Gap: {skill.market - skill.you}%</span>
+                            <span className="text-white"><Translate text="Gap:" /> {skill.market - skill.you}%</span>
                         </div>
                         <div className="h-2 bg-white/5 rounded-full overflow-hidden relative">
                             {/* Market Value Marker */}

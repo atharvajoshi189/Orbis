@@ -34,6 +34,8 @@ interface AppState {
     logout: () => void;
     theme: 'dark' | 'light';
     toggleTheme: () => void;
+    language: string;
+    setLanguage: (lang: string) => void;
 }
 
 export const countries: Country[] = [
@@ -56,6 +58,8 @@ export const useAppStore = create<AppState>()(
             logout: () => set({ user: null }),
             theme: 'dark',
             toggleTheme: () => set((state) => ({ theme: state.theme === 'dark' ? 'light' : 'dark' })),
+            language: 'en',
+            setLanguage: (lang) => set({ language: lang }),
         }),
         {
             name: 'orbis-storage',

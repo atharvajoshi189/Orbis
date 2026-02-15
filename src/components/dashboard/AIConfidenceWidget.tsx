@@ -1,4 +1,5 @@
 "use client";
+import Translate from "@/components/Translate";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Shield, ShieldAlert, CheckCircle, AlertTriangle, UserCheck } from "lucide-react";
@@ -34,7 +35,7 @@ export function AIConfidenceWidget({ confidence, reviewNeeded }: AIConfidenceWid
             <CardHeader className="pb-2">
                 <CardTitle className={`flex items-center gap-2 text-sm font-black uppercase tracking-wider ${isLowConfidence ? 'text-amber-400' : 'text-emerald-400'}`}>
                     {isLowConfidence ? <ShieldAlert className="w-4 h-4" /> : <Shield className="w-4 h-4" />}
-                    AI Confidence Meter
+                    <Translate text="AI Confidence Meter" />
                 </CardTitle>
             </CardHeader>
 
@@ -45,7 +46,7 @@ export function AIConfidenceWidget({ confidence, reviewNeeded }: AIConfidenceWid
                             {confidence}%
                         </div>
                         <div className="text-xs font-bold uppercase text-slate-500 tracking-widest">
-                            Analysis Certainty
+                            <Translate text="Analysis Certainty" />
                         </div>
                     </div>
                 </div>
@@ -54,8 +55,8 @@ export function AIConfidenceWidget({ confidence, reviewNeeded }: AIConfidenceWid
                     <Progress value={confidence} className={`h-2 ${isLowConfidence ? "bg-amber-950/50" : "bg-emerald-950/50"}`} indicatorColor={isLowConfidence ? "bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.5)]" : "bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]"} />
                     <p className="text-xs text-slate-400">
                         {isLowConfidence
-                            ? "AI detected gaps or inconsistencies in your profile."
-                            : "Profile data is robust. AI predictions are highly reliable."
+                            ? <Translate text="AI detected gaps or inconsistencies in your profile." />
+                            : <Translate text="Profile data is robust. AI predictions are highly reliable." />
                         }
                     </p>
                 </div>
@@ -65,7 +66,7 @@ export function AIConfidenceWidget({ confidence, reviewNeeded }: AIConfidenceWid
                     <div className="pt-2 border-t border-amber-500/20 mt-2">
                         <div className="flex items-center gap-2 mb-3 text-amber-200/80 text-xs bg-amber-500/10 p-2 rounded-lg">
                             <AlertTriangle className="w-4 h-4 text-amber-500 shrink-0" />
-                            <span>Human oversight recommended for optimal strategy.</span>
+                            <span><Translate text="Human oversight recommended for optimal strategy." /></span>
                         </div>
                         <Button
                             onClick={handleRequestReview}
@@ -75,11 +76,11 @@ export function AIConfidenceWidget({ confidence, reviewNeeded }: AIConfidenceWid
                         >
                             {reviewRequested ? (
                                 <>
-                                    <CheckCircle className="w-4 h-4 mr-2" /> Request Sent
+                                    <CheckCircle className="w-4 h-4 mr-2" /> <Translate text="Request Sent" />
                                 </>
                             ) : (
                                 <>
-                                    <UserCheck className="w-4 h-4 mr-2" /> Request Human Review
+                                    <UserCheck className="w-4 h-4 mr-2" /> <Translate text="Request Human Review" />
                                 </>
                             )}
                         </Button>

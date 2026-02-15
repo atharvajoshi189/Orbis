@@ -1,4 +1,5 @@
 "use client";
+import Translate from "@/components/Translate";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar, Clock } from "lucide-react";
@@ -18,7 +19,7 @@ export function DeadlinesWidget({ data }: DeadlinesWidgetProps) {
         <Card className="bg-black/20 border-white/10 backdrop-blur-md h-full">
             <CardHeader className="border-b border-white/5 pb-4">
                 <CardTitle className="flex items-center gap-2 text-sm font-black uppercase text-white tracking-wider">
-                    <Calendar className="text-purple-400 w-4 h-4" /> Upcoming Deadlines
+                    <Calendar className="text-purple-400 w-4 h-4" /> <Translate text="Upcoming Deadlines" />
                 </CardTitle>
             </CardHeader>
             <CardContent className="pt-4 space-y-3">
@@ -28,9 +29,9 @@ export function DeadlinesWidget({ data }: DeadlinesWidgetProps) {
                             <Clock className="w-4 h-4" />
                         </div>
                         <div>
-                            <h4 className={`text-sm font-bold ${item.urgent ? 'text-red-300' : 'text-slate-200'}`}>{item.title}</h4>
+                            <h4 className={`text-sm font-bold ${item.urgent ? 'text-red-300' : 'text-slate-200'}`}><Translate text={item.title} /></h4>
                             <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-slate-500 mt-1">
-                                <span>{item.date}</span>
+                                <span><Translate text={item.date} /></span>
                                 <span className="w-1 h-1 rounded-full bg-slate-600" />
                                 <span>{item.time}</span>
                             </div>
