@@ -31,7 +31,7 @@ export default function StudentLoginForm() {
                 email: 'guest@orbis.edu',
                 avatar: undefined
             });
-            router.push("/dashboard?welcome=true");
+            router.push("/");
         }, 800);
     };
 
