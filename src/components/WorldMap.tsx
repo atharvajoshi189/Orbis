@@ -1,156 +1,226 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useMemo } from "react";
-
+import { motion, AnimatePresence } from "framer-motion";
+import { useMemo, useState, useEffect } from "react";
 import { ACCURATE_WORLD_MAP } from "./world-map-data";
+import { COUNTRY_COORDINATES, GLOBAL_TRENDS } from "./world-map-coordinates";
+import scholarshipsData from "@/data/scholarships.json";
 
-// Detailed World Map Paths (Imported for accuracy)
-const WORLD_PATHS = ACCURATE_WORLD_MAP;
+// Types
+interface WorldMapProps {
+    onPinClick?: (location: any) => void;
+    cgpaFilter?: number; // e.g., 7.5
+    selectedLoanProvider?: string; // e.g., "SBI" to trigger animations
+}
 
-// Placeholder for reference, now using WORLD_PATHS
-const DETAILED_MAP_PATH_REF = "M156.4,85.6...";
+export default function WorldMap({ onPinClick, cgpaFilter, selectedLoanProvider }: WorldMapProps) {
+    const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
+    const [audioAllowed, setAudioAllowed] = useState(false);
 
-// Let's use a "Dotted Map" approach using SVG circles that form the continents.
-// This matches the "Dark Tech" theme perfectly and is easy to render without massive path data.
+    // 1. Process Scholarship Data to find Active Nodes
+    const activeNodes = useMemo(() => {
+        const nodes: Record<string, { count: number, minCgpa: number, scholarships: any[] }> = {};
 
+        scholarshipsData.forEach(sch => {
+            const country = sch.country;
+            if (COUNTRY_COORDINATES[country]) {
+                if (!nodes[country]) {
+                    nodes[country] = { count: 0, minCgpa: 100, scholarships: [] };
+                }
+                nodes[country].count++;
+                nodes[country].scholarships.push(sch);
+                // Normalize criteria.min_marks (assuming % to 10 scale if > 10, else as is)
+                let marks = sch.criteria?.min_marks || 0;
+                if (marks > 10) marks = marks / 10; // Convert 70% to 7.0
+                nodes[country].minCgpa = Math.min(nodes[country].minCgpa, marks);
+            }
+        });
+        return nodes;
+    }, []);
 
-// Use a high-quality SVG Map Component instead of manual paths if possible.
-// Since I can't easily include a 50KB SVG path string here without clutter, 
-// I will use a reliable pattern: An SVG image or a simplified abstract dot map.
-// Let's use an abstract "Dot Grid" map generator for a tech feel.
+    // 2. Audio Narration Logic (Aoide Persona)
+    const speakTrend = (countryName: string) => {
+        if (!audioAllowed) return;
+        window.speechSynthesis.cancel(); // Stop overlap
 
-export default function WorldMap({ onPinClick }: { onPinClick?: (location: any) => void }) {
+        const trend = GLOBAL_TRENDS[countryName] || `Explore opportunities in ${countryName}.`;
+        const utterance = new SpeechSynthesisUtterance(trend);
 
-    // Locations: { id, x (%), y (%), label }
-    const locations = [
-        { id: "usa", x: 22, y: 35, label: "USA" }, // NY/East Coast
-        { id: "uk", x: 46, y: 28, label: "London" },
-        { id: "de", x: 50, y: 30, label: "Berlin" },
-        { id: "in", x: 68, y: 45, label: "Mumbai" },
-        { id: "cn", x: 75, y: 38, label: "Shanghai" },
-        { id: "jp", x: 82, y: 38, label: "Tokyo" },
-        { id: "au", x: 80, y: 75, label: "Sydney" },
-        { id: "ca", x: 20, y: 25, label: "Toronto" },
-        { id: "br", x: 30, y: 65, label: "Sao Paulo" },
-    ];
+        // Try to find a female voice
+        const voices = window.speechSynthesis.getVoices();
+        const preferredVoice = voices.find(v => v.name.includes("Female") || v.name.includes("Zira") || v.name.includes("Google US English"));
+        if (preferredVoice) utterance.voice = preferredVoice;
 
-    // Connections (lines between pins)
-    const connections = [
-        ["usa", "uk"],
-        ["usa", "de"],
-        ["uk", "in"],
-        ["de", "in"],
-        ["in", "jp"],
-        ["in", "au"],
-        ["jp", "usa"], // Trans-pacific
-        ["usa", "br"],
-    ];
+        utterance.rate = 1.1;
+        utterance.pitch = 1.0;
+        window.speechSynthesis.speak(utterance);
+    };
+
+    // Enable audio on first interaction
+    useEffect(() => {
+        const enableAudio = () => setAudioAllowed(true);
+        window.addEventListener('click', enableAudio);
+        return () => window.removeEventListener('click', enableAudio);
+    }, []);
 
     return (
-        <div className="relative w-full aspect-[2/1] bg-slate-900 rounded-xl overflow-hidden shadow-2xl border border-slate-800">
-            {/* Background Grid */}
-            <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10 pointer-events-none" />
+        <div className="relative w-full aspect-[1.8/1] bg-[#050510] rounded-xl overflow-hidden shadow-2xl border border-cyan-900/30 group">
 
-            {/* World Map SVG (Dotted/Pixelated Style via Mask) */}
-            <div className="absolute inset-0 opacity-80 mix-blend-screen pointer-events-none p-8 flex items-center justify-center">
-                <svg viewBox="0 0 1009 650" className="w-full h-full">
+            {/* Holographic Background Grid */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
+
+            {/* Scaning Line Animation */}
+            <div className="absolute inset-0 z-0 bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent h-[10%] w-full animate-scan pointer-events-none opacity-30" />
+
+            {/* MAIN SVG MAP */}
+            <div className="absolute inset-0 p-4 md:p-8 flex items-center justify-center">
+                <svg viewBox="0 0 1009 650" className="w-full h-full filter drop-shadow-[0_0_15px_rgba(0,255,255,0.3)]">
                     <defs>
-                        {/* 1. Define the Dot Pattern */}
-                        <pattern id="dot-pattern" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
-                            <rect x="0" y="0" width="6" height="6" className="fill-blue-500/80" rx="1" ry="1" />
+                        {/* Hexagonal Grid Pattern */}
+                        <pattern id="hex-grid" x="0" y="0" width="10" height="17.32" patternUnits="userSpaceOnUse">
+                            <path d="M5 0L10 2.89V8.66L5 11.55L0 8.66V2.89L5 0Z" fill="none" stroke="rgba(6,182,212, 0.4)" strokeWidth="0.5" />
                         </pattern>
 
-                        {/* 2. Define the Continent Mask */}
-                        <mask id="world-mask">
-                            <rect width="100%" height="100%" fill="black" />
-                            {WORLD_PATHS.map((path, i) => (
-                                <path key={path.name + i} d={path.d} fill="white" />
-                            ))}
-                        </mask>
+                        {/* Dot Matrix Pattern (Alternative High-Res) */}
+                        <pattern id="dot-matrix" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
+                            <circle cx="2" cy="2" r="1" className="fill-cyan-500/60" />
+                        </pattern>
 
-                        {/* 3. Define Glow Gradient for active areas (optional, for visual flair) */}
-                        <radialGradient id="glow-radial" cx="50%" cy="50%" r="50%">
-                            <stop offset="0%" stopColor="rgba(59, 130, 246, 0.5)" />
-                            <stop offset="100%" stopColor="rgba(59, 130, 246, 0)" />
-                        </radialGradient>
+                        {/* Glow Filter */}
+                        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                            <feGaussianBlur stdDeviation="2.5" result="coloredBlur" />
+                            <feMerge>
+                                <feMergeNode in="coloredBlur" />
+                                <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                        </filter>
+
+                        {/* Loan Flow Gradient */}
+                        <linearGradient id="flow-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stopColor="#22d3ee" stopOpacity="0" />
+                            <stop offset="50%" stopColor="#ffffff" stopOpacity="1" />
+                            <stop offset="100%" stopColor="#22d3ee" stopOpacity="0" />
+                        </linearGradient>
                     </defs>
 
-                    {/* 4. Render the Dot Grid masked by Continents */}
-                    <rect width="100%" height="100%" fill="url(#dot-pattern)" mask="url(#world-mask)" className="filter drop-shadow-[0_0_2px_rgba(59,130,246,0.5)]" />
-
-                    {/* Optional: Add a subtle overlay of the paths for edge definition */}
-                    {/* {WORLD_PATHS.map((path) => (
-                        <path key={path.name} d={path.d} className="fill-none stroke-blue-500/10 stroke-[0.5]" />
-                    ))} */}
+                    {/* Continents Masked with Pattern */}
+                    <g className="opacity-90 mix-blend-screen">
+                        {ACCURATE_WORLD_MAP.map((path, i) => (
+                            <path
+                                key={i}
+                                d={path.d}
+                                fill="url(#dot-matrix)"
+                                stroke="rgba(34, 211, 238, 0.3)"
+                                strokeWidth="0.5"
+                                className="transition-all duration-500 hover:fill-cyan-400/80 hover:filter hover:url(#glow)"
+                            />
+                        ))}
+                    </g>
                 </svg>
             </div>
 
-            {/* Connection Lines via SVG overlay */}
-            <svg className="absolute inset-0 w-full h-full pointer-events-none z-10">
-                {connections.map(([startId, endId], i) => {
-                    const start = locations.find(l => l.id === startId);
-                    const end = locations.find(l => l.id === endId);
-                    if (!start || !end) return null;
+            {/* INTERACTIVE LAYER (HTML Overlay for better accessibility/z-index) */}
+            <div className="absolute inset-0 pointer-events-none">
+                {Object.entries(COUNTRY_COORDINATES).map(([name, coords]) => {
+                    const data = activeNodes[name];
+                    if (!data) return null;
+
+                    // Filter Logic
+                    const isDimmed = cgpaFilter ? data.minCgpa > cgpaFilter : false;
+                    const isHovered = hoveredCountry === name;
 
                     return (
-                        <motion.line
-                            key={i}
-                            x1={`${start.x}%`}
-                            y1={`${start.y}%`}
-                            x2={`${end.x}%`}
-                            y2={`${end.y}%`}
-                            stroke="url(#gradient-line)"
-                            strokeWidth="1"
-                            strokeOpacity="0.4"
-                            initial={{ pathLength: 0, opacity: 0 }}
-                            animate={{ pathLength: 1, opacity: 0.4 }}
-                            transition={{ duration: 1.5, delay: i * 0.1 }}
-                        />
+                        <div
+                            key={name}
+                            className={`absolute transition-all duration-500 pointer-events-auto ${isDimmed ? 'opacity-20 grayscale' : 'opacity-100'}`}
+                            style={{ left: `${coords.x}%`, top: `${coords.y}%` }}
+                            onMouseEnter={() => {
+                                setHoveredCountry(name);
+                                speakTrend(name);
+                            }}
+                            onMouseLeave={() => setHoveredCountry(null)}
+                            onClick={() => onPinClick?.({ name, ...data })}
+                        >
+                            <div className="relative flex items-center justify-center -translate-x-1/2 -translate-y-1/2 group/pin cursor-pointer">
+
+                                {/* Pulse Ring */}
+                                <div className={`absolute rounded-full border border-cyan-400/50 animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite] ${isHovered ? 'w-16 h-16 bg-cyan-500/10' : 'w-8 h-8'}`} />
+
+                                {/* Core Node */}
+                                <div className={`relative rounded-full transition-all duration-300 shadow-[0_0_20px_rgba(34,211,238,0.8)] bg-cyan-400 border-2 border-white ${isHovered ? 'w-4 h-4 scale-125' : 'w-2 h-2'}`} />
+
+                                {/* Floating Label (Holographic Effect) */}
+                                <AnimatePresence>
+                                    {isHovered && (
+                                        <motion.div
+                                            initial={{ opacity: 0, y: 10, scale: 0.9 }}
+                                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                                            exit={{ opacity: 0, y: 5, scale: 0.9 }}
+                                            className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-black/90 border border-cyan-500/50 p-3 rounded-lg shadow-[0_0_30px_rgba(6,182,212,0.3)] backdrop-blur-md min-w-[200px] z-50 text-left"
+                                        >
+                                            <div className="flex items-center justify-between mb-1 border-b border-cyan-500/30 pb-1">
+                                                <span className="text-cyan-300 font-bold text-xs uppercase tracking-wider">{name}</span>
+                                                <span className="text-[10px] text-cyan-400 bg-cyan-900/30 px-1 rounded">{data.count} Opps</span>
+                                            </div>
+                                            <div className="text-[10px] text-slate-300 leading-tight">
+                                                {GLOBAL_TRENDS[name] || "High potential for engineering & tech roles."}
+                                            </div>
+                                            {data.minCgpa > 0 && (
+                                                <div className="mt-2 text-[9px] text-emerald-400 font-mono">
+                                                    Min CGPA ~ {data.minCgpa * 10}% / {data.minCgpa.toFixed(1)}
+                                                </div>
+                                            )}
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </div>
+                        </div>
                     );
                 })}
-                <defs>
-                    <linearGradient id="gradient-line" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#3b82f6" stopOpacity="0" />
-                        <stop offset="50%" stopColor="#3b82f6" stopOpacity="1" />
-                        <stop offset="100%" stopColor="#3b82f6" stopOpacity="0" />
-                    </linearGradient>
-                </defs>
-            </svg>
 
-            {/* Pins */}
-            {locations.map((loc) => (
-                <div
-                    key={loc.id}
-                    className="absolute z-20"
-                    style={{ left: `${loc.x}%`, top: `${loc.y}%` }}
-                >
-                    <div className="relative group cursor-pointer" onClick={() => onPinClick?.(loc)}>
-                        {/* Pulse Ring */}
-                        <div className="absolute -inset-2 rounded-full bg-blue-500/30 animate-ping opacity-75" />
-                        {/* Core Dot */}
-                        <div className="relative h-2 w-2 rounded-full bg-blue-400 border border-blue-200 shadow-[0_0_10px_#3b82f6]" />
+                {/* Data Pipelines (Loan Flow Animation) */}
+                <svg className="absolute inset-0 w-full h-full pointer-events-none">
+                    {selectedLoanProvider && Object.entries(COUNTRY_COORDINATES).map(([name, coords]) => {
+                        // Only draw lines to active nodes
+                        if (!activeNodes[name]) return null;
+                        if (name === "India") return null; // Source
 
-                        {/* Label (Visible on hover) */}
-                        <div className="absolute left-1/2 -translate-x-1/2 -top-8 opacity-0 group-hover:opacity-100 transition-opacity bg-black/80 text-[10px] text-white px-2 py-1 rounded border border-blue-500/30 whitespace-nowrap pointer-events-none">
-                            {loc.label}
-                        </div>
-                    </div>
-                </div>
-            ))}
+                        const start = COUNTRY_COORDINATES["India"];
 
-            {/* Title / Legend */}
-            <div className="absolute bottom-4 right-4 bg-black/50 backdrop-blur-sm p-3 rounded-lg border border-white/10 text-xs shadow-xl">
-                <div className="flex items-center gap-2 mb-1">
-                    <span className="h-2 w-2 rounded-full bg-blue-500"></span>
-                    <span className="text-slate-300">Active Node</span>
-                </div>
-                <div className="flex items-center gap-2">
-                    <span className="h-0.5 w-4 bg-blue-500/50"></span>
-                    <span className="text-slate-300">Data Pipeline</span>
-                </div>
+                        return (
+                            <motion.line
+                                key={`line-${name}`}
+                                x1={`${start.x}%`}
+                                y1={`${start.y}%`}
+                                x2={`${coords.x}%`}
+                                y2={`${coords.y}%`}
+                                stroke="url(#flow-gradient)"
+                                strokeWidth="1.5"
+                                strokeDasharray="5 5"
+                                initial={{ strokeDashoffset: 100, opacity: 0 }}
+                                animate={{ strokeDashoffset: 0, opacity: 0.6 }}
+                                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                            />
+                        );
+                    })}
+                </svg>
             </div>
 
+            {/* UI Overlay: Legend */}
+            <div className="absolute bottom-4 left-4 flex flex-col gap-2 pointer-events-none">
+                <div className="bg-black/80 backdrop-blur border border-cyan-900/50 p-3 rounded-lg text-[10px] text-cyan-100/70 shadow-lg">
+                    <div className="flex items-center gap-2 mb-1">
+                        <span className="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_8px_cyan]"></span>
+                        <span>High ROI Zone</span>
+                    </div>
+                    {cgpaFilter && (
+                        <div className="flex items-center gap-2 text-yellow-500">
+                            <span className="w-2 h-2 rounded-full bg-slate-700 border border-slate-500"></span>
+                            <span>Low Entry Probability</span>
+                        </div>
+                    )}
+                </div>
+            </div>
         </div>
     );
 }
