@@ -98,11 +98,7 @@ export default function GuidancePage() {
         <div className="min-h-screen text-slate-900 dark:text-white font-sans selection:bg-cyan-500/30 transition-colors duration-300 overflow-x-hidden relative">
             <Navbar />
 
-            {/* Ambient Background */}
-            <div className="fixed inset-0 z-0 pointer-events-none">
-                <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px]" />
-                <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px]" />
-            </div>
+            {/* Ambient Background removed to use global theme */}\n
 
             <main className="container-custom mx-auto pt-32 pb-12 px-4 relative z-10 min-h-[calc(100vh-80px)]">
 
@@ -164,7 +160,7 @@ export default function GuidancePage() {
                                 Select <span className="text-cyan-600 dark:text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,0.5)]">Guidance</span>, <br />
                                 <span className="text-slate-700 dark:text-white/90">Protocol.</span>
                             </h2>
-                            <p className="text-slate-600 dark:text-slate-400 text-xl md:text-2xl font-medium max-w-3xl mx-auto leading-relaxed border-l-2 border-primary/30 pl-6 ml-auto mr-auto">
+                            <p className="text-slate-800 dark:text-slate-400 text-xl md:text-2xl font-medium max-w-3xl mx-auto leading-relaxed border-l-2 border-primary/30 pl-6 ml-auto mr-auto">
                                 Choose between automated neural prediction or elite expert-led strategy.
                             </p>
                         </div>
@@ -174,7 +170,7 @@ export default function GuidancePage() {
                             <motion.div
                                 whileHover={{ y: -10, scale: 1.02 }}
                                 onClick={() => { setMode('AI'); setStep(1); }}
-                                className="group relative bg-white dark:bg-[#111827]/60 border border-slate-200 dark:border-white/5 p-12 rounded-[3rem] cursor-pointer hover:border-primary/50 transition-all overflow-hidden shadow-xl dark:shadow-none"
+                                className="group relative bg-white/60 backdrop-blur-md dark:bg-[#111827]/60 border border-slate-200 dark:border-white/5 p-12 rounded-[3rem] cursor-pointer hover:border-primary/50 transition-all overflow-hidden shadow-xl dark:shadow-none"
                             >
                                 <div className="absolute -top-20 -right-20 w-64 h-64 bg-primary/10 rounded-full blur-[80px] group-hover:bg-primary/20 transition-all" />
                                 <div className="relative z-10">
@@ -182,7 +178,7 @@ export default function GuidancePage() {
                                         <Brain className="w-10 h-10 text-primary" />
                                     </div>
                                     <h3 className="text-3xl font-black mb-4 text-slate-900 dark:text-white">Neural AI Avatar</h3>
-                                    <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-10 text-lg font-medium">
+                                    <p className="text-slate-700 dark:text-slate-400 leading-relaxed mb-10 text-lg font-medium">
                                         Instant, automated analysis using the Orbis Core engine.
                                         Ideal for rapid university matching & risk assessment.
                                     </p>
@@ -240,12 +236,12 @@ export default function GuidancePage() {
                             <h1 className="text-4xl md:text-5xl font-black mb-4 tracking-tighter font-outfit uppercase">
                                 Deep Data <span className="text-cyan-400 drop-shadow-[0_0_10px_rgba(34,211,238,0.3)]">Feed</span>
                             </h1>
-                            <p className="text-slate-500 uppercase text-[10px] tracking-[0.3em] font-bold">
+                            <p className="text-slate-700 uppercase text-[10px] tracking-[0.3em] font-bold">
                                 Sector: {mode === 'HUMAN' ? 'Human-AI Expert Liaison' : 'Neural Avatar Scanning'}
                             </p>
                         </div>
 
-                        <div className="bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-white/5 rounded-[2.5rem] p-10 backdrop-blur-3xl shadow-2xl relative overflow-hidden group transition-colors">
+                        <div className="bg-white/60 backdrop-blur-md dark:bg-slate-900/40 border border-slate-200 dark:border-white/5 rounded-[2.5rem] p-10 shadow-2xl relative overflow-hidden group transition-colors">
                             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
                             <div className="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-3xl p-16 text-center hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 group/upload cursor-pointer relative bg-slate-50 dark:bg-black/20">
@@ -258,7 +254,7 @@ export default function GuidancePage() {
                                     <Upload className="w-10 h-10 text-primary" />
                                 </div>
                                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3 tracking-tight">Upload Academic Payload</h3>
-                                <p className="text-slate-500 dark:text-slate-400 max-w-xs mx-auto text-sm font-medium">
+                                <p className="text-slate-600 dark:text-slate-400 max-w-xs mx-auto text-sm font-medium">
                                     Drag marksheets or transcripts to initialize neural mapping.
                                 </p>
                             </div>
@@ -308,10 +304,10 @@ export default function GuidancePage() {
 
                 {/* STEP 2: TACTICAL COMMAND CENTER */}
                 {step === 2 && profile && (
-                    <div className="flex flex-col h-[calc(100vh-280px)] min-h-[700px] mt-8 border border-slate-200 dark:border-white/10 rounded-[2.5rem] bg-white dark:bg-[#0a0f1d]/80 backdrop-blur-3xl overflow-hidden shadow-[0_0_150px_rgba(0,0,0,0.1)] dark:shadow-[0_0_150px_rgba(0,0,0,0.6)] animate-in zoom-in-95 duration-500 transition-colors">
+                    <div className="flex flex-col h-[calc(100vh-280px)] min-h-[700px] mt-8 border border-slate-200 dark:border-white/10 rounded-[2.5rem] bg-white/60 dark:bg-[#0a0f1d]/80 backdrop-blur-3xl overflow-hidden shadow-[0_0_150px_rgba(0,0,0,0.1)] dark:shadow-[0_0_150px_rgba(0,0,0,0.6)] animate-in zoom-in-95 duration-500 transition-colors">
 
                         {/* --- TOP HUD --- */}
-                        <div className="flex items-center justify-between px-12 py-8 border-b border-slate-100 dark:border-white/5 bg-slate-50/50 dark:bg-black/30">
+                        <div className="flex items-center justify-between px-12 py-8 border-b border-slate-100 dark:border-white/5 bg-white/40 dark:bg-black/30">
                             <div className="flex items-center gap-8">
                                 <div className="flex flex-col">
                                     <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em]">Guidance Vector</span>
@@ -319,12 +315,12 @@ export default function GuidancePage() {
                                 </div>
                                 <div className="h-10 w-[1px] bg-slate-200 dark:bg-white/10" />
                                 <div className="flex flex-col">
-                                    <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Subject Identity</span>
+                                    <span className="text-[10px] font-black text-slate-700 uppercase tracking-[0.2em]">Subject Identity</span>
                                     <span className="text-sm font-bold text-slate-900 dark:text-white uppercase">{profile.personal.name || "UNIDENTIFIED"}</span>
                                 </div>
                             </div>
 
-                            <div className="hide-scrollbar overflow-x-auto flex bg-slate-100 dark:bg-black/50 p-1.5 rounded-2xl border border-slate-200 dark:border-white/10">
+                            <div className="hide-scrollbar overflow-x-auto flex bg-white/50 dark:bg-black/50 p-1.5 rounded-2xl border border-slate-200 dark:border-white/10">
                                 {[
                                     { id: 'GLOBAL', label: 'GEO-TARGETS', icon: Globe },
                                     { id: 'CAREER', label: 'WORK VECTORS', icon: Briefcase },
@@ -335,7 +331,7 @@ export default function GuidancePage() {
                                         onClick={() => setActiveView(tab.id as any)}
                                         className={`flex items-center gap-3 px-8 py-4 rounded-xl text-[10px] font-black transition-all whitespace-nowrap ${activeView === tab.id
                                             ? 'bg-primary text-black shadow-2xl shadow-primary/30 scale-105 border-none'
-                                            : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
+                                            : 'text-slate-600 hover:text-slate-900 dark:hover:text-white'
                                             }`}
                                     >
                                         <tab.icon className="w-4 h-4" /> {tab.label}
@@ -414,7 +410,7 @@ export default function GuidancePage() {
 
                                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                                     {globalOps.map((op, i) => (
-                                                        <div key={i} className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/5 p-10 rounded-[2.5rem] relative group hover:border-primary/50 transition-all overflow-hidden shadow-sm dark:shadow-none">
+                                                        <div key={i} className="bg-white/60 backdrop-blur-md dark:bg-[#111827] border border-slate-200 dark:border-white/5 p-10 rounded-[2.5rem] relative group hover:border-primary/50 transition-all overflow-hidden shadow-sm dark:shadow-none">
                                                             <Globe className="absolute -top-10 -right-10 w-48 h-48 opacity-5 dark:opacity-5 group-hover:scale-125 transition-transform duration-700 text-slate-900 dark:text-white" />
                                                             <div className="relative z-10">
                                                                 <div className="flex justify-between items-start mb-8">
@@ -422,7 +418,7 @@ export default function GuidancePage() {
                                                                     <div className="text-3xl font-black text-slate-900 dark:text-white">{op.probability + (ieltsSim > 7 ? 5 : 0)}%</div>
                                                                 </div>
                                                                 <h3 className="text-2xl font-black mb-2 text-slate-900 dark:text-white">{op.university}</h3>
-                                                                <p className="text-slate-500 dark:text-slate-400 font-medium mb-8">{op.program}</p>
+                                                                <p className="text-slate-700 dark:text-slate-400 font-medium mb-8">{op.program}</p>
                                                                 <div className="grid grid-cols-2 gap-4 border-t border-slate-100 dark:border-white/5 pt-6">
                                                                     <div className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase">Cost: {op.tuition}</div>
                                                                     <div className="text-[10px] font-bold text-green-600 dark:text-green-400 uppercase">ROI: VERY HIGH</div>
@@ -441,7 +437,7 @@ export default function GuidancePage() {
                                                 </h2>
                                                 <div className="space-y-6">
                                                     {careerPaths.map((path, i) => (
-                                                        <div key={i} className="flex flex-col md:flex-row gap-10 bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/5 p-10 rounded-[2.5rem] hover:bg-slate-50 dark:hover:bg-black/40 transition-all group shadow-sm dark:shadow-none">
+                                                        <div key={i} className="flex flex-col md:flex-row gap-10 bg-white/60 backdrop-blur-md dark:bg-[#111827] border border-slate-200 dark:border-white/5 p-10 rounded-[2.5rem] hover:bg-white/80 dark:hover:bg-black/40 transition-all group shadow-sm dark:shadow-none">
                                                             <div className="w-24 h-24 rounded-3xl bg-purple-500/10 flex items-center justify-center shrink-0 border border-purple-500/20">
                                                                 <Briefcase className="w-10 h-10 text-purple-600 dark:text-purple-400" />
                                                             </div>
@@ -453,7 +449,7 @@ export default function GuidancePage() {
                                                                         <div className="text-green-600 dark:text-green-400 font-black tracking-widest text-lg">{path.jobOutlook}</div>
                                                                     </div>
                                                                 </div>
-                                                                <p className="text-slate-600 dark:text-slate-400 text-sm mb-8 leading-relaxed max-w-2xl font-medium">{path.description}</p>
+                                                                <p className="text-slate-700 dark:text-slate-400 text-sm mb-8 leading-relaxed max-w-2xl font-medium">{path.description}</p>
                                                                 <div className="flex flex-wrap gap-2">
                                                                     {path.skillsGap.map(s => (
                                                                         <span key={s} className="px-4 py-2 rounded-xl bg-slate-100 dark:bg-black/50 border border-slate-200 dark:border-white/10 text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">{s}</span>
@@ -486,7 +482,7 @@ export default function GuidancePage() {
                                                                 </div>
                                                                 <div className="flex-1 pt-2 md:pt-4">
                                                                     <h4 className={`text-xl md:text-2xl font-black mb-1 ${step.status === 'Active' ? 'text-primary' : 'text-slate-900 dark:text-white'}`}>{step.title}</h4>
-                                                                    <p className="text-slate-600 dark:text-slate-400 leading-relaxed font-medium text-sm md:text-base">{step.description}</p>
+                                                                    <p className="text-slate-700 dark:text-slate-400 leading-relaxed font-medium text-sm md:text-base">{step.description}</p>
                                                                 </div>
                                                             </div>
                                                         ))}

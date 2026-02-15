@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer } from 'recharts';
+import Navbar from "@/components/Navbar";
 
 const statsData = [
     { subject: 'CGPA', A: 120, fullMark: 150 },
@@ -25,7 +26,7 @@ export default function ProfilePage() {
 
                 <div className="grid gap-6 md:grid-cols-3">
                     {/* Player Identity Card */}
-                    <Card className="glass-card bg-white dark:bg-black/40 border-slate-200 dark:border-primary/30 md:col-span-1 shadow-lg dark:shadow-[0_0_30px_rgba(0,0,0,0.5)] transition-colors">
+                    <Card className="glass-card bg-white/60 backdrop-blur-xl dark:bg-black/40 border-slate-200 dark:border-primary/30 md:col-span-1 shadow-lg dark:shadow-[0_0_30px_rgba(0,0,0,0.5)] transition-colors">
                         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent" />
                         <CardHeader className="text-center pb-2">
                             <div className="relative mx-auto mb-4 h-32 w-32">
@@ -41,17 +42,17 @@ export default function ProfilePage() {
                             <CardTitle className="text-2xl mt-4 text-slate-900 dark:text-white">John Doe</CardTitle>
                             <div className="flex items-center justify-center gap-2 mt-2">
                                 <span className="text-2xl">🇮🇳</span>
-                                <span className="text-slate-500 dark:text-muted-foreground font-medium">Mumbai, India</span>
+                                <span className="text-slate-700 dark:text-muted-foreground font-medium">Mumbai, India</span>
                             </div>
                         </CardHeader>
                         <CardContent className="space-y-6 pt-4">
                             <div className="grid grid-cols-2 gap-4 text-center">
-                                <div className="rounded-lg bg-slate-100 dark:bg-white/5 p-3 border border-slate-200 dark:border-white/5">
-                                    <p className="text-xs text-slate-500 dark:text-muted-foreground uppercase font-bold tracking-wider">Class</p>
+                                <div className="rounded-lg bg-white/50 dark:bg-white/5 p-3 border border-slate-200 dark:border-white/5">
+                                    <p className="text-xs text-slate-700 dark:text-muted-foreground uppercase font-bold tracking-wider">Class</p>
                                     <p className="font-bold text-primary">Strategist</p>
                                 </div>
-                                <div className="rounded-lg bg-slate-100 dark:bg-white/5 p-3 border border-slate-200 dark:border-white/5">
-                                    <p className="text-xs text-slate-500 dark:text-muted-foreground uppercase font-bold tracking-wider">XP</p>
+                                <div className="rounded-lg bg-white/50 dark:bg-white/5 p-3 border border-slate-200 dark:border-white/5">
+                                    <p className="text-xs text-slate-700 dark:text-muted-foreground uppercase font-bold tracking-wider">XP</p>
                                     <p className="font-bold text-yellow-600 dark:text-yellow-500">12,450</p>
                                 </div>
                             </div>
@@ -59,7 +60,7 @@ export default function ProfilePage() {
                             <div className="space-y-4">
                                 <div className="space-y-1">
                                     <div className="flex justify-between text-xs mb-1">
-                                        <span className="text-slate-500 dark:text-muted-foreground font-bold">Rank Progress</span>
+                                        <span className="text-slate-700 dark:text-muted-foreground font-bold">Rank Progress</span>
                                         <span className="text-primary font-bold">78%</span>
                                     </div>
                                     <Progress value={78} className="h-2 bg-slate-200 dark:bg-slate-800" />
@@ -70,7 +71,7 @@ export default function ProfilePage() {
 
                     {/* Stats & Skills */}
                     <div className="md:col-span-2 space-y-6">
-                        <Card className="glass-card bg-white dark:bg-black/40 border-slate-200 dark:border-white/10 shadow-sm transition-colors">
+                        <Card className="glass-card bg-white/60 backdrop-blur-xl dark:bg-black/40 border-slate-200 dark:border-white/10 shadow-sm transition-colors">
                             <CardHeader>
                                 <CardTitle className="text-slate-900 dark:text-white">Attribute Analysis</CardTitle>
                             </CardHeader>
@@ -126,25 +127,25 @@ export default function ProfilePage() {
                             </CardContent>
                         </Card>
 
-                        <Card className="glass-card bg-white dark:bg-black/40 border-slate-200 dark:border-white/10 shadow-sm transition-colors">
+                        <Card className="glass-card bg-white/60 backdrop-blur-xl dark:bg-black/40 border-slate-200 dark:border-white/10 shadow-sm transition-colors">
                             <CardHeader>
                                 <CardTitle className="text-slate-900 dark:text-white">Active Missions</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <div className="space-y-4">
-                                    <div className="flex items-center gap-4 p-3 rounded-lg bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/10 transition-colors">
+                                    <div className="flex items-center gap-4 p-3 rounded-lg bg-white/50 dark:bg-white/5 border border-slate-100 dark:border-white/10 transition-colors">
                                         <div className="h-10 w-10 flex items-center justify-center rounded-full bg-primary/20 text-primary font-bold">1</div>
                                         <div className="flex-1">
                                             <h4 className="font-bold text-slate-900 dark:text-white">Complete GRE Mock Test</h4>
-                                            <p className="text-xs text-slate-500 dark:text-muted-foreground">Reward: +500 XP</p>
+                                            <p className="text-xs text-slate-600 dark:text-muted-foreground">Reward: +500 XP</p>
                                         </div>
                                         <Button size="sm" variant="outline" className="border-slate-200 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-white/10">Start</Button>
                                     </div>
-                                    <div className="flex items-center gap-4 p-3 rounded-lg bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/10 transition-colors">
+                                    <div className="flex items-center gap-4 p-3 rounded-lg bg-white/50 dark:bg-white/5 border border-slate-100 dark:border-white/10 transition-colors">
                                         <div className="h-10 w-10 flex items-center justify-center rounded-full bg-purple-500/20 text-purple-600 dark:text-purple-500 font-bold">2</div>
                                         <div className="flex-1">
                                             <h4 className="font-bold text-slate-900 dark:text-white">Upload Financial Documents</h4>
-                                            <p className="text-xs text-slate-500 dark:text-muted-foreground">Reward: +200 XP</p>
+                                            <p className="text-xs text-slate-600 dark:text-muted-foreground">Reward: +200 XP</p>
                                         </div>
                                         <Button size="sm" variant="outline" className="border-slate-200 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-white/10">Upload</Button>
                                     </div>

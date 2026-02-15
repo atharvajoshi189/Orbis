@@ -24,22 +24,22 @@ export default function ROIPage() {
                 {/* Header */}
                 <div className="text-center mb-12">
                     <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-4">ROI & Career Analytics</h1>
-                    <p className="text-slate-500 dark:text-slate-400 text-lg max-w-2xl mx-auto">Compare universities head-to-head on financial metrics and job market demand.</p>
+                    <p className="text-slate-700 dark:text-slate-400 text-lg max-w-2xl mx-auto">Compare universities head-to-head on financial metrics and job market demand.</p>
                 </div>
 
                 {/* Comparison Config */}
-                <div className="bg-white dark:bg-white/5 p-6 rounded-3xl border border-slate-200 dark:border-white/10 shadow-sm max-w-3xl mx-auto mb-12 flex flex-col md:flex-row gap-4 items-center justify-center backdrop-blur-xl">
+                <div className="bg-white/60 backdrop-blur-xl dark:bg-white/5 p-6 rounded-3xl border border-slate-200 dark:border-white/10 shadow-sm max-w-3xl mx-auto mb-12 flex flex-col md:flex-row gap-4 items-center justify-center">
                     <select
-                        className="bg-slate-50 dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-xl p-3 font-bold text-slate-700 dark:text-white focus:ring-2 ring-blue-500 outline-none"
+                        className="bg-white/40 dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-xl p-3 font-bold text-slate-700 dark:text-white focus:ring-2 ring-blue-500 outline-none"
                         value={uni1} onChange={(e) => setUni1(e.target.value)}
                     >
                         <option className="dark:bg-slate-900">Stanford</option>
                         <option className="dark:bg-slate-900">MIT</option>
                         <option className="dark:bg-slate-900">Oxford</option>
                     </select>
-                    <span className="font-bold text-slate-400">VS</span>
+                    <span className="font-bold text-slate-600 dark:text-slate-400">VS</span>
                     <select
-                        className="bg-slate-50 dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-xl p-3 font-bold text-slate-700 dark:text-white focus:ring-2 ring-blue-500 outline-none"
+                        className="bg-white/40 dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-xl p-3 font-bold text-slate-700 dark:text-white focus:ring-2 ring-blue-500 outline-none"
                         value={uni2} onChange={(e) => setUni2(e.target.value)}
                     >
                         <option className="dark:bg-slate-900">IIT Bombay</option>
@@ -51,7 +51,7 @@ export default function ROIPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
                     {/* Charts */}
-                    <div className="bg-white dark:bg-white/5 p-8 rounded-3xl border border-slate-200 dark:border-white/10 shadow-sm backdrop-blur-xl">
+                    <div className="bg-white/60 backdrop-blur-xl dark:bg-white/5 p-8 rounded-3xl border border-slate-200 dark:border-white/10 shadow-sm">
                         <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
                             <DollarSign className="text-green-600 dark:text-green-400" /> Financial Comparison (Annual $)
                         </h3>
@@ -83,17 +83,17 @@ export default function ROIPage() {
                             </ResponsiveContainer>
                         </div>
                         <div className="flex justify-center gap-6 mt-4">
-                            <div className="flex items-center gap-2 text-sm font-bold text-slate-600 dark:text-slate-400">
+                            <div className="flex items-center gap-2 text-sm font-bold text-slate-800 dark:text-slate-400">
                                 <div className="w-3 h-3 bg-blue-500 rounded-full" /> {uni1}
                             </div>
-                            <div className="flex items-center gap-2 text-sm font-bold text-slate-600 dark:text-slate-400">
+                            <div className="flex items-center gap-2 text-sm font-bold text-slate-800 dark:text-slate-400">
                                 <div className="w-3 h-3 bg-green-500 rounded-full" /> {uni2}
                             </div>
                         </div>
                     </div>
 
                     {/* Job Market Heatmap (Simulated) */}
-                    <div className="bg-white dark:bg-white/5 p-8 rounded-3xl border border-slate-200 dark:border-white/10 shadow-sm backdrop-blur-xl">
+                    <div className="bg-white/60 backdrop-blur-xl dark:bg-white/5 p-8 rounded-3xl border border-slate-200 dark:border-white/10 shadow-sm">
                         <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
                             <Briefcase className="text-blue-600 dark:text-blue-400" /> Job Market Demand (USA)
                         </h3>
@@ -105,7 +105,7 @@ export default function ROIPage() {
                             <RegionCard name="Washington (Seattle)" roles="5,000+" trend="down" intensity="bg-yellow-50 dark:bg-yellow-600/10 text-yellow-700 dark:text-yellow-300" />
                         </div>
 
-                        <div className="mt-8 p-4 bg-slate-50 dark:bg-black/20 rounded-2xl border border-slate-100 dark:border-white/5">
+                        <div className="mt-8 p-4 bg-white/40 dark:bg-black/20 rounded-2xl border border-slate-100 dark:border-white/5">
                             <h4 className="font-bold text-slate-800 dark:text-slate-200 mb-2 flex items-center gap-2">
                                 <MapPin size={16} /> Top Recruiters
                             </h4>
