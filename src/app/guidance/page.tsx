@@ -18,11 +18,13 @@ import {
 import { generateCareerMap, CareerPath } from '@/lib/careerMappingEngine';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-    Radar, RadarChart, PolarGrid, PolarAngleAxis,
-    ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip
+    ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip,
+    Radar, RadarChart, PolarGrid, PolarAngleAxis
 } from 'recharts';
 import Translate from "@/components/Translate";
 import NeuralAvatar from '@/components/NeuralAvatar';
+import { VoiceAssistant } from "@/components/VoiceAssistant";
+import { supabase } from "@/utils/supabase/client";
 
 export default function GuidancePage() {
     const [step, setStep] = useState(0); // 0: Selection, 1: Upload, 2: Results, 3: Pricing
@@ -38,12 +40,39 @@ export default function GuidancePage() {
     const [ieltsSim, setIeltsSim] = useState(6.5);
     const [activeView, setActiveView] = useState<'GLOBAL' | 'CAREER' | 'MISSION' | 'NEURAL'>('GLOBAL');
     const [aiLogs, setAiLogs] = useState<string[]>([]);
+    const [showAssistant, setShowAssistant] = useState(false);
+    const [assistantMessage, setAssistantMessage] = useState("");
 
     const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             setDocuments([...documents, ...Array.from(e.target.files)]);
         }
     };
+
+    useEffect(() => {
+        const checkRoadmap = async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) return;
+
+            const { data: roadmap } = await supabase
+                .from('active_roadmaps')
+                .select('*')
+                .eq('user_id', user.id)
+                .eq('is_active', true)
+                .single();
+
+            if (roadmap && roadmap.current_step === 0) {
+                const msgs: any = {
+                    'fast_track': "Speed is key. I've initiated the Fast Track protocol on your dashboard.",
+                    'growth': "Excellent choice. The Growth trajectory is live on your dashboard. Let's build your foundation.",
+                    'mastery': "A bold decision. The Mastery path has been encrypted. Check your dashboard for the first mission."
+                };
+                setAssistantMessage(msgs[roadmap.type] || "Great choice! Day 1 is live on your dashboard. Let's get started.");
+                setShowAssistant(true);
+            }
+        };
+        checkRoadmap();
+    }, []);
 
     const runAnalysis = async (isDemo = false) => {
         setIsAnalyzing(true);
@@ -595,9 +624,22 @@ export default function GuidancePage() {
             </main >
 
             <Footer />
-        </div >
+
+            <AnimatePresence>
+                {showAssistant && (
+                    <VoiceAssistant
+                        onClose={() => setShowAssistant(false)}
+                        onNewMessage={() => { }}
+                        mode="avatar"
+                        initialMessage={assistantMessage}
+                    />
+                )}
+            </AnimatePresence>
+        </div>
     );
 }
+
+// ... helper functions ...
 
 function StatMini({ label, value, color }: { label: React.ReactNode, value: string, color: string }) {
     return (

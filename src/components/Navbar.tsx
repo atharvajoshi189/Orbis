@@ -43,10 +43,10 @@ export default function Navbar() {
             {/* Desktop Floating Pill Navbar */}
             <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 hidden md:flex items-center gap-4">
                 <nav className={cn(
-                    "flex items-center gap-2 p-2 px-6 rounded-full border transition-all duration-300 shadow-lg min-w-[600px] justify-between",
+                    "flex items-center gap-2 p-2 px-6 rounded-full border transition-all duration-300 shadow-xl min-w-[600px] justify-between",
                     theme === 'dark'
-                        ? "bg-black/60 border-white/10 backdrop-blur-xl shadow-cyan-500/10"
-                        : "bg-white/80 border-slate-200 backdrop-blur-xl shadow-slate-200/50"
+                        ? "bg-black/60 border-white/10 backdrop-blur-2xl shadow-purple-500/10"
+                        : "bg-white/40 border-white/50 backdrop-blur-2xl shadow-emerald-500/10 supports-[backdrop-filter]:bg-white/30"
                 )}>
                     {/* Brand / Logo */}
                     <Link href="/" className="flex items-center justify-center p-2 rounded-full hover:bg-white/10 transition-colors">
@@ -146,11 +146,10 @@ export default function Navbar() {
                 </nav>
             </div>
 
-            {/* Mobile Bottom Bar (Better for "Floating" feel on mobile than top bar) */}
             <div className="md:hidden fixed bottom-6 left-4 right-4 z-50">
                 <nav className={cn(
                     "flex items-center justify-around p-4 rounded-2xl border backdrop-blur-xl shadow-2xl",
-                    theme === 'dark' ? "bg-black/80 border-white/10" : "bg-white/90 border-slate-200"
+                    theme === 'dark' ? "bg-black/90 border-white/10" : "bg-white/95 border-slate-200"
                 )}>
                     {navLinks.map((link) => {
                         const isActive = pathname === link.href;
