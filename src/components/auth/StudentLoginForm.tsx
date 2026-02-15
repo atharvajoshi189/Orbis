@@ -31,7 +31,7 @@ export default function StudentLoginForm() {
                 email: 'guest@orbis.edu',
                 avatar: undefined
             });
-            router.push("/dashboard");
+            router.push("/dashboard?welcome=true");
         }, 800);
     };
 
@@ -74,7 +74,7 @@ export default function StudentLoginForm() {
                 avatar: undefined // Add avatar if needed later
             });
 
-            router.push("/dashboard");
+            router.push("/dashboard?welcome=true");
 
         } catch (err: any) {
             console.error("Login Error:", err);
