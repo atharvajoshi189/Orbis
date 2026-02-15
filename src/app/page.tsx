@@ -13,7 +13,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { useAppStore } from "@/lib/store";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+
 import Translate from "@/components/Translate";
 
 import LiveTicker from "@/components/LiveTicker";
@@ -64,7 +64,7 @@ export default function LandingPage() {
               >
                 <div className="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-sm font-medium text-primary backdrop-blur-xl w-fit">
                   <span className="flex h-2 w-2 rounded-full bg-primary mr-2 animate-pulse"></span>
-                  <TextDecode text="System Online v2.4" />
+                  <Translate text="System Online v2.4" />
                 </div>
                 <div className="space-y-4">
                   <h1 className="text-4xl font-bold tracking-tighter text-slate-900 dark:text-white sm:text-6xl xl:text-7xl/none">
@@ -79,15 +79,15 @@ export default function LandingPage() {
                   <div className="flex flex-col sm:flex-row gap-4">
                     <Link href="/global-trends">
                       <Button variant="glass" size="lg" className="h-12 px-8 text-base">
-                        Explore Global Trends
+                        <Translate text="Explore Global Trends" />
                       </Button>
                     </Link>
                   </div>
 
                   <div className="flex items-center gap-4 text-xs text-muted-foreground mt-2">
-                    <span className="flex items-center gap-1"><Users className="h-3 w-3" /> Trusted by 15,000+ Students</span>
+                    <span className="flex items-center gap-1"><Users className="h-3 w-3" /> <Translate text="Trusted by 15,000+ Students" /></span>
                     <span className="h-3 w-[1px] bg-white/10" />
-                    <span className="flex items-center gap-1"><Globe className="h-3 w-3" /> 27 Countries Tracked</span>
+                    <span className="flex items-center gap-1"><Globe className="h-3 w-3" /> <Translate text="27 Countries Tracked" /></span>
                   </div>
                 </div>
               </motion.div>
@@ -126,30 +126,30 @@ export default function LandingPage() {
                 country="Germany"
                 flag="🇩🇪"
                 trends={[
-                  { label: "Tech Demand", value: "+18%", trend: "up", color: "text-green-500" },
-                  { label: "Visa Approval", value: "74%", trend: "neutral", color: "text-yellow-500" },
-                  { label: "Avg Salary", value: "€62k", trend: "up", color: "text-blue-500" },
-                  { label: "Tuition Cost", value: "€0", trend: "stable", color: "text-green-500" },
+                  { label: <Translate text="Tech Demand" />, value: "+18%", trend: "up", color: "text-green-500" },
+                  { label: <Translate text="Visa Approval" />, value: "74%", trend: "neutral", color: "text-yellow-500" },
+                  { label: <Translate text="Avg Salary" />, value: "€62k", trend: "up", color: "text-blue-500" },
+                  { label: <Translate text="Tuition Cost" />, value: "€0", trend: "stable", color: "text-green-500" },
                 ]}
               />
               <MarketCard
                 country="Canada"
                 flag="🇨🇦"
                 trends={[
-                  { label: "PR Difficulty", value: "High", trend: "down", color: "text-red-500" },
-                  { label: "Job Market", value: "Recovering", trend: "up", color: "text-green-500" },
-                  { label: "Visa Approval", value: "65%", trend: "down", color: "text-orange-500" },
-                  { label: "Avg Salary", value: "C$75k", trend: "up", color: "text-blue-500" },
+                  { label: <Translate text="PR Difficulty" />, value: <Translate text="High" />, trend: "down", color: "text-red-500" },
+                  { label: <Translate text="Job Market" />, value: <Translate text="Recovering" />, trend: "up", color: "text-green-500" },
+                  { label: <Translate text="Visa Approval" />, value: "65%", trend: "down", color: "text-orange-500" },
+                  { label: <Translate text="Avg Salary" />, value: "C$75k", trend: "up", color: "text-blue-500" },
                 ]}
               />
               <MarketCard
                 country="USA"
                 flag="🇺🇸"
                 trends={[
-                  { label: "H-1B Cap", value: "Reached", trend: "down", color: "text-red-500" },
-                  { label: "STEM OPT", value: "3 Years", trend: "stable", color: "text-green-500" },
-                  { label: "Avg Salary", value: "$95k", trend: "up", color: "text-green-500" },
-                  { label: "Tech Jobs", value: "High", trend: "up", color: "text-blue-500" },
+                  { label: <Translate text="H-1B Cap" />, value: <Translate text="Reached" />, trend: "down", color: "text-red-500" },
+                  { label: <Translate text="STEM OPT" />, value: <Translate text="3 Years" />, trend: "stable", color: "text-green-500" },
+                  { label: <Translate text="Avg Salary" />, value: "$95k", trend: "up", color: "text-green-500" },
+                  { label: <Translate text="Tech Jobs" />, value: <Translate text="High" />, trend: "up", color: "text-blue-500" },
                 ]}
               />
             </div>
@@ -198,7 +198,7 @@ export default function LandingPage() {
 
       </main>
 
-      <Footer />
+
 
     </div>
   );

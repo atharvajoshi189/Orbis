@@ -7,6 +7,7 @@ import { analyzeDocument, ExtractedData } from '@/lib/documentAnalyzer';
 import { buildProfileFromDocuments, UnifiedProfile } from '@/lib/profileBuilder';
 import { generateIntelligence, IntelligenceOutput } from '@/lib/globalEligibilityEngine';
 import { motion, AnimatePresence } from 'framer-motion';
+import Translate from "@/components/Translate";
 
 export default function CareerPathPage() {
     const [step, setStep] = useState(1);
@@ -54,10 +55,10 @@ export default function CareerPathPage() {
                 {/* Header */}
                 <div className="text-center mb-12">
                     <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 to-purple-600 dark:from-cyan-400 dark:to-purple-400">
-                        Document-Driven Intelligence Engine
+                        <Translate text="Document-Driven Intelligence Engine" />
                     </h1>
                     <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                        Upload your academic history (Marksheets, Transcripts, Certificates) to unlock a personalized Global Career Strategy.
+                        <Translate text="Upload your academic history (Marksheets, Transcripts, Certificates) to unlock a personalized Global Career Strategy." />
                     </p>
                 </div>
 
@@ -68,8 +69,8 @@ export default function CareerPathPage() {
                         {isAnalyzing && (
                             <div className="absolute inset-0 z-50 bg-white/90 dark:bg-[#060a14]/90 flex flex-col items-center justify-center backdrop-blur-sm transition-colors">
                                 <Loader2 className="w-16 h-16 text-cyan-500 dark:text-cyan-400 animate-spin mb-4" />
-                                <div className="text-cyan-600 dark:text-cyan-300 font-black text-lg animate-pulse tracking-widest uppercase text-center px-4">ANALYZING DOCUMENTS...</div>
-                                <div className="text-slate-500 dark:text-slate-400 text-[10px] mt-2 font-black uppercase tracking-widest">Extracting grades, streams, and certifications</div>
+                                <div className="text-cyan-600 dark:text-cyan-300 font-black text-lg animate-pulse tracking-widest uppercase text-center px-4"><Translate text="ANALYZING DOCUMENTS..." /></div>
+                                <div className="text-slate-500 dark:text-slate-400 text-[10px] mt-2 font-black uppercase tracking-widest"><Translate text="Extracting grades, streams, and certifications" /></div>
                             </div>
                         )}
 
@@ -83,13 +84,13 @@ export default function CareerPathPage() {
                             <div className="w-20 h-20 bg-white dark:bg-slate-900 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition border border-slate-200 dark:border-slate-800 shadow-lg dark:shadow-[0_0_30px_rgba(0,255,255,0.1)]">
                                 <Upload className="w-10 h-10 text-cyan-500 dark:text-cyan-400" />
                             </div>
-                            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Drop Academic Documents</h3>
-                            <p className="text-slate-500 dark:text-slate-400">10th, 12th, Bachelor's, Transcripts, Certificates</p>
+                            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2"><Translate text="Drop Academic Documents" /></h3>
+                            <p className="text-slate-500 dark:text-slate-400"><Translate text="10th, 12th, Bachelor's, Transcripts, Certificates" /></p>
                         </div>
 
                         {documents.length > 0 && (
                             <div className="mt-8 space-y-3">
-                                <h4 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Queue ({documents.length})</h4>
+                                <h4 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider"><Translate text="Queue" /> ({documents.length})</h4>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     {documents.map((doc, i) => (
                                         <div key={i} className="flex items-center gap-3 bg-white dark:bg-white/5 p-3 rounded-xl border border-slate-200 dark:border-white/10">
@@ -110,7 +111,7 @@ export default function CareerPathPage() {
                                 : 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-[0_0_20px_rgba(8,145,178,0.4)] hover:shadow-cyan-500/40 hover:scale-[1.01]'
                                 }`}
                         >
-                            Generate Global Strategy <Brain className="w-5 h-5" />
+                            <Translate text="Generate Global Strategy" /> <Brain className="w-5 h-5" />
                         </button>
                     </div>
                 )}
@@ -126,8 +127,8 @@ export default function CareerPathPage() {
                                     <Brain className="w-8 h-8 text-purple-600 dark:text-purple-300" />
                                 </div>
                                 <div className="relative z-10">
-                                    <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2">AI Strategic Assessment</h2>
-                                    <p className="text-slate-700 dark:text-purple-100/80 leading-relaxed text-lg font-medium">{intelligence.aiInsight}</p>
+                                    <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2"><Translate text="AI Strategic Assessment" /></h2>
+                                    <p className="text-slate-700 dark:text-purple-100/80 leading-relaxed text-lg font-medium"><Translate text={intelligence.aiInsight} /></p>
                                 </div>
                             </div>
                         </div>
@@ -137,21 +138,21 @@ export default function CareerPathPage() {
                             <div className="lg:col-span-1 space-y-6">
                                 <div className="bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 p-6 rounded-2xl relative shadow-sm backdrop-blur-xl">
                                     <h3 className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase mb-4 flex items-center gap-2">
-                                        <Target className="w-4 h-4" /> Detected Profile
+                                        <Target className="w-4 h-4" /> <Translate text="Detected Profile" />
                                     </h3>
 
                                     <div className="space-y-4">
                                         <div>
-                                            <div className="text-sm text-slate-500">GPA / Aggregate</div>
+                                            <div className="text-sm text-slate-500"><Translate text="GPA / Aggregate" /></div>
                                             <div className="text-3xl font-bold text-slate-900 dark:text-white">{profile.gpa} <span className="text-sm text-slate-400 font-normal">/ 10.0</span></div>
                                         </div>
                                         <div>
-                                            <div className="text-sm text-slate-500">Dominant Stream</div>
+                                            <div className="text-sm text-slate-500"><Translate text="Dominant Stream" /></div>
                                             <div className="text-xl font-bold text-cyan-600 dark:text-cyan-400">{intelligence.academicSummary.dominantStream}</div>
                                         </div>
 
                                         <div className="pt-4 border-t border-slate-200 dark:border-slate-800">
-                                            <div className="text-xs text-slate-500 uppercase mb-2">Subject Strengths</div>
+                                            <div className="text-xs text-slate-500 uppercase mb-2"><Translate text="Subject Strengths" /></div>
                                             <div className="flex flex-wrap gap-2">
                                                 {profile.subjectStrength.map((sub, i) => (
                                                     <span key={i} className="px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs rounded border border-slate-200 dark:border-slate-700">
@@ -163,7 +164,7 @@ export default function CareerPathPage() {
 
                                         {profile.certifications.length > 0 && (
                                             <div className="pt-4 border-t border-slate-200 dark:border-slate-800">
-                                                <div className="text-xs text-slate-500 uppercase mb-2">Certifications</div>
+                                                <div className="text-xs text-slate-500 uppercase mb-2"><Translate text="Certifications" /></div>
                                                 <ul className="text-sm text-slate-700 dark:text-slate-300 space-y-1">
                                                     {profile.certifications.map((c, i) => <li key={i}>• {c}</li>)}
                                                 </ul>
@@ -176,22 +177,22 @@ export default function CareerPathPage() {
                                 <div className="bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 p-6 rounded-2xl relative shadow-sm backdrop-blur-xl">
                                     <div className="flex justify-between items-center mb-4">
                                         <h3 className="text-slate-500 dark:text-slate-400 text-xs font-bold uppercase flex items-center gap-2">
-                                            <ShieldCheck className="w-4 h-4" /> Risk Analysis
+                                            <ShieldCheck className="w-4 h-4" /> <Translate text="Risk Analysis" />
                                         </h3>
                                         <span className={`px-2 py-0.5 rounded text-xs font-bold ${intelligence.riskAnalysis.level === 'Low' ? 'bg-green-500/20 text-green-600 dark:text-green-400' : 'bg-yellow-500/20 text-yellow-600 dark:text-yellow-400'}`}>
-                                            {intelligence.riskAnalysis.level} Risk
+                                            {intelligence.riskAnalysis.level} <Translate text="Risk" />
                                         </span>
                                     </div>
                                     <ul className="space-y-2">
                                         {intelligence.riskAnalysis.factors.map((f, i) => (
                                             <li key={i} className="text-sm text-red-600 dark:text-red-300 flex items-start gap-2">
                                                 <div className="mt-1 w-1.5 h-1.5 rounded-full bg-red-500" />
-                                                {f}
+                                                <Translate text={f} />
                                             </li>
                                         ))}
                                         {intelligence.riskAnalysis.factors.length === 0 && (
                                             <li className="text-sm text-green-600 dark:text-green-400 flex items-center gap-2">
-                                                <CheckCircle className="w-4 h-4" /> No critical risks detected.
+                                                <CheckCircle className="w-4 h-4" /> <Translate text="No critical risks detected." />
                                             </li>
                                         )}
                                     </ul>
@@ -201,7 +202,7 @@ export default function CareerPathPage() {
                             {/* 3. Pathways (Tabs) */}
                             <div className="lg:col-span-2 space-y-6">
                                 <h3 className="text-xl font-bold flex items-center gap-2 text-slate-900 dark:text-white">
-                                    <Globe className="w-5 h-5 text-blue-600 dark:text-blue-400" /> Global Opportunities
+                                    <Globe className="w-5 h-5 text-blue-600 dark:text-blue-400" /> <Translate text="Global Opportunities" />
                                 </h3>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -215,26 +216,26 @@ export default function CareerPathPage() {
                                                 <div className="flex justify-between items-start mb-2">
                                                     <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">{path.country}</div>
                                                     <div className="flex items-center gap-1 text-green-600 dark:text-green-400 text-xs font-bold bg-green-500/10 px-2 py-1 rounded">
-                                                        ROI: {path.roi}
+                                                        <Translate text="ROI:" /> {path.roi}
                                                     </div>
                                                 </div>
                                                 <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-1 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition">{path.title}</h4>
 
                                                 <div className="grid grid-cols-2 gap-4 mt-4">
                                                     <div>
-                                                        <div className="text-[10px] text-slate-500 uppercase">Cost</div>
+                                                        <div className="text-[10px] text-slate-500 uppercase"><Translate text="Cost" /></div>
                                                         <div className="text-sm font-medium text-slate-700 dark:text-slate-200">{path.cost}</div>
                                                     </div>
                                                     <div>
-                                                        <div className="text-[10px] text-slate-500 uppercase">Duration</div>
+                                                        <div className="text-[10px] text-slate-500 uppercase"><Translate text="Duration" /></div>
                                                         <div className="text-sm font-medium text-slate-700 dark:text-slate-200">{path.duration}</div>
                                                     </div>
                                                     <div>
-                                                        <div className="text-[10px] text-slate-500 uppercase">Visa Chance</div>
+                                                        <div className="text-[10px] text-slate-500 uppercase"><Translate text="Visa Chance" /></div>
                                                         <div className="text-sm font-bold text-blue-600 dark:text-blue-400">{intelligence.visaConfidence[path.country] || 80}%</div>
                                                     </div>
                                                     <div>
-                                                        <div className="text-[10px] text-slate-500 uppercase">Avg Salary</div>
+                                                        <div className="text-[10px] text-slate-500 uppercase"><Translate text="Avg Salary" /></div>
                                                         <div className="text-sm font-bold text-green-600 dark:text-green-400">{intelligence.roiForecast[path.country] || "$??"}</div>
                                                     </div>
                                                 </div>
@@ -244,14 +245,14 @@ export default function CareerPathPage() {
                                 </div>
 
                                 <h3 className="text-xl font-bold flex items-center gap-2 mt-8 text-slate-900 dark:text-white">
-                                    <Briefcase className="w-5 h-5 text-orange-600 dark:text-orange-400" /> Professional Trajectories
+                                    <Briefcase className="w-5 h-5 text-orange-600 dark:text-orange-400" /> <Translate text="Professional Trajectories" />
                                 </h3>
 
                                 <div className="bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl p-6 shadow-sm backdrop-blur-xl">
                                     <div className="flex flex-wrap gap-3">
                                         {intelligence.careerRoles.map((role, i) => (
                                             <div key={i} className="px-4 py-2 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-orange-500/50 transition cursor-default text-sm text-slate-700 dark:text-slate-200 font-medium">
-                                                {role}
+                                                <Translate text={role} />
                                             </div>
                                         ))}
                                     </div>
@@ -259,10 +260,10 @@ export default function CareerPathPage() {
 
                                 <div className="flex justify-end gap-4 mt-8">
                                     <button onClick={() => setStep(1)} className="px-6 py-2 rounded-xl text-sm font-bold text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition">
-                                        Upload More Documents
+                                        <Translate text="Upload More Documents" />
                                     </button>
                                     <button className="px-6 py-2 rounded-xl text-sm font-bold bg-slate-900 dark:bg-white text-white dark:text-black hover:bg-cyan-600 dark:hover:bg-cyan-400 hover:text-white dark:hover:text-black transition shadow-lg shadow-cyan-500/20">
-                                        Download Strategy Report
+                                        <Translate text="Download Strategy Report" />
                                     </button>
                                 </div>
                             </div>

@@ -1,4 +1,5 @@
 "use client";
+import Translate from "@/components/Translate";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Lightbulb, ExternalLink } from "lucide-react";
@@ -19,18 +20,18 @@ export function DailyIntelWidget({ data }: DailyIntelWidgetProps) {
 
             <CardHeader className="border-b border-indigo-500/20 pb-4">
                 <CardTitle className="flex items-center gap-2 text-sm font-black uppercase text-indigo-300 tracking-wider">
-                    <Lightbulb className="text-yellow-400 w-4 h-4" /> Daily Intel
+                    <Lightbulb className="text-yellow-400 w-4 h-4" /> <Translate text="Daily Intel" />
                 </CardTitle>
             </CardHeader>
             <CardContent className="pt-6 relative z-10">
                 <h3 className="text-lg font-bold text-white mb-2 leading-tight">
-                    "{intel.title}"
+                    "<Translate text={intel.title} />"
                 </h3>
                 <p className="text-xs text-indigo-200/60 leading-relaxed mb-4">
-                    {intel.content}
+                    <Translate text={intel.content} />
                 </p>
                 <button className="text-[10px] font-black uppercase tracking-widest text-indigo-400 flex items-center gap-1 hover:text-indigo-300 transition-colors">
-                    Read Briefing <ExternalLink className="w-3 h-3" />
+                    <Translate text="Read Briefing" /> <ExternalLink className="w-3 h-3" />
                 </button>
             </CardContent>
         </Card>

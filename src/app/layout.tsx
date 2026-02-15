@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 import { GlobalChatWidget } from "@/components/GlobalChatWidget";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import Footer from "@/components/Footer";
-import { Toaster } from "sonner";
+// import { Toaster } from "sonner";
 
 export default function RootLayout({
   children,
@@ -39,9 +39,9 @@ export default function RootLayout({
 
             {children}
             <Footer />
-            <Footer />
+
             <GlobalChatWidget />
-            <Toaster richColors position="top-center" />
+            {/* <Toaster richColors position="top-center" /> */}
           </div>
         </ThemeProvider>
       </body>

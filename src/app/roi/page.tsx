@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { DollarSign, Briefcase, MapPin } from "lucide-react";
 import { useState } from "react";
+import Translate from "@/components/Translate";
 
 const roiData = [
     { name: 'Cost of Living', Stanford: 2500, IIT: 500 },
@@ -23,8 +24,8 @@ export default function ROIPage() {
 
                 {/* Header */}
                 <div className="text-center mb-12">
-                    <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-4">ROI & Career Analytics</h1>
-                    <p className="text-slate-500 dark:text-slate-400 text-lg max-w-2xl mx-auto">Compare universities head-to-head on financial metrics and job market demand.</p>
+                    <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-4"><Translate text="ROI & Career Analytics" /></h1>
+                    <p className="text-slate-500 dark:text-slate-400 text-lg max-w-2xl mx-auto"><Translate text="Compare universities head-to-head on financial metrics and job market demand." /></p>
                 </div>
 
                 {/* Comparison Config */}
@@ -37,7 +38,7 @@ export default function ROIPage() {
                         <option className="dark:bg-slate-900">MIT</option>
                         <option className="dark:bg-slate-900">Oxford</option>
                     </select>
-                    <span className="font-bold text-slate-400">VS</span>
+                    <span className="font-bold text-slate-400"><Translate text="VS" /></span>
                     <select
                         className="bg-slate-50 dark:bg-black/40 border border-slate-200 dark:border-white/10 rounded-xl p-3 font-bold text-slate-700 dark:text-white focus:ring-2 ring-blue-500 outline-none"
                         value={uni2} onChange={(e) => setUni2(e.target.value)}
@@ -53,7 +54,7 @@ export default function ROIPage() {
                     {/* Charts */}
                     <div className="bg-white dark:bg-white/5 p-8 rounded-3xl border border-slate-200 dark:border-white/10 shadow-sm backdrop-blur-xl">
                         <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-                            <DollarSign className="text-green-600 dark:text-green-400" /> Financial Comparison (Annual $)
+                            <DollarSign className="text-green-600 dark:text-green-400" /> <Translate text="Financial Comparison (Annual $)" />
                         </h3>
                         <div className="h-[350px] w-full">
                             <ResponsiveContainer width="100%" height="100%">
@@ -95,19 +96,19 @@ export default function ROIPage() {
                     {/* Job Market Heatmap (Simulated) */}
                     <div className="bg-white dark:bg-white/5 p-8 rounded-3xl border border-slate-200 dark:border-white/10 shadow-sm backdrop-blur-xl">
                         <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-                            <Briefcase className="text-blue-600 dark:text-blue-400" /> Job Market Demand (USA)
+                            <Briefcase className="text-blue-600 dark:text-blue-400" /> <Translate text="Job Market Demand (USA)" />
                         </h3>
 
                         <div className="grid grid-cols-2 gap-4">
-                            <RegionCard name="California (Silicon Valley)" roles="15,000+" trend="up" intensity="bg-green-100 dark:bg-green-500/20 text-green-800 dark:text-green-400" />
-                            <RegionCard name="New York (Finance/Tech)" roles="8,500+" trend="stable" intensity="bg-blue-100 dark:bg-blue-500/20 text-blue-800 dark:text-blue-400" />
-                            <RegionCard name="Texas (Austin Hub)" roles="6,200+" trend="up" intensity="bg-green-50 dark:bg-green-600/10 text-green-700 dark:text-green-300" />
-                            <RegionCard name="Washington (Seattle)" roles="5,000+" trend="down" intensity="bg-yellow-50 dark:bg-yellow-600/10 text-yellow-700 dark:text-yellow-300" />
+                            <RegionCard name={<Translate text="California (Silicon Valley)" />} roles="15,000+" trend="up" intensity="bg-green-100 dark:bg-green-500/20 text-green-800 dark:text-green-400" />
+                            <RegionCard name={<Translate text="New York (Finance/Tech)" />} roles="8,500+" trend="stable" intensity="bg-blue-100 dark:bg-blue-500/20 text-blue-800 dark:text-blue-400" />
+                            <RegionCard name={<Translate text="Texas (Austin Hub)" />} roles="6,200+" trend="up" intensity="bg-green-50 dark:bg-green-600/10 text-green-700 dark:text-green-300" />
+                            <RegionCard name={<Translate text="Washington (Seattle)" />} roles="5,000+" trend="down" intensity="bg-yellow-50 dark:bg-yellow-600/10 text-yellow-700 dark:text-yellow-300" />
                         </div>
 
                         <div className="mt-8 p-4 bg-slate-50 dark:bg-black/20 rounded-2xl border border-slate-100 dark:border-white/5">
                             <h4 className="font-bold text-slate-800 dark:text-slate-200 mb-2 flex items-center gap-2">
-                                <MapPin size={16} /> Top Recruiters
+                                <MapPin size={16} /> <Translate text="Top Recruiters" />
                             </h4>
                             <div className="flex flex-wrap gap-2">
                                 {['Google', 'Microsoft', 'Tesla', 'Apple', 'NVIDIA'].map(c => (
@@ -131,7 +132,7 @@ function RegionCard({ name, roles, trend, intensity }: any) {
             <span className="font-bold text-sm">{name}</span>
             <div>
                 <span className="block text-2xl font-black">{roles}</span>
-                <span className="text-xs uppercase tracking-wider opacity-70">Open Roles</span>
+                <span className="text-xs uppercase tracking-wider opacity-70"><Translate text="Open Roles" /></span>
             </div>
         </div>
     )

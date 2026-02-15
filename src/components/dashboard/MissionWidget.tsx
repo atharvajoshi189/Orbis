@@ -1,4 +1,5 @@
 "use client";
+import Translate from "@/components/Translate";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Trophy, Target, CheckCircle, Zap } from "lucide-react";
@@ -84,8 +85,8 @@ export function MissionWidget({ xp, level, completedMissions = [], onUpdate }: M
                         <Trophy className="w-8 h-8 text-yellow-400" />
                     </div>
                     <div>
-                        <h3 className="text-lg font-black text-white uppercase italic">All Missions Complete</h3>
-                        <p className="text-sm text-yellow-500/80">You represent the elite. Stand by for new orders.</p>
+                        <h3 className="text-lg font-black text-white uppercase italic"><Translate text="All Missions Complete" /></h3>
+                        <p className="text-sm text-yellow-500/80"><Translate text="You represent the elite. Stand by for new orders." /></p>
                     </div>
                 </CardContent>
             </Card>
@@ -105,10 +106,10 @@ export function MissionWidget({ xp, level, completedMissions = [], onUpdate }: M
                 <div className="flex justify-between items-start mb-4">
                     <div>
                         <div className="text-[10px] font-bold uppercase text-cyan-400 tracking-widest mb-1">
-                            Current Objective • Level {level}
+                            <Translate text="Current Objective • Level" /> {level}
                         </div>
                         <h3 className="text-xl font-black text-white flex items-center gap-2">
-                            {currentMission.title}
+                            <Translate text={currentMission.title} />
                         </h3>
                     </div>
                     <div className="text-right">
@@ -124,8 +125,8 @@ export function MissionWidget({ xp, level, completedMissions = [], onUpdate }: M
                     </div>
                     <div className="flex-1">
                         <div className="flex justify-between text-xs text-slate-400 mb-2">
-                            <span>Progress to Lvl {level + 1}</span>
-                            <span>{Math.floor(nextLevelXP - xp)} XP needed</span>
+                            <span><Translate text="Progress to Lvl" /> {level + 1}</span>
+                            <span>{Math.floor(nextLevelXP - xp)} <Translate text="XP needed" /></span>
                         </div>
                         <Progress value={progress} className="h-1.5 bg-slate-800" indicatorColor="bg-gradient-to-r from-cyan-500 to-blue-500" />
                     </div>
@@ -136,7 +137,7 @@ export function MissionWidget({ xp, level, completedMissions = [], onUpdate }: M
                     disabled={loading}
                     className="w-full mt-6 bg-cyan-600 hover:bg-cyan-500 text-white font-bold uppercase tracking-widest text-xs h-10 group-hover:shadow-[0_0_20px_rgba(8,145,178,0.4)] transition-all"
                 >
-                    {loading ? "Verifying..." : `Complete Mission (+${currentMission.xp} XP)`}
+                    {loading ? <Translate text="Verifying..." /> : <><Translate text="Complete Mission" /> (+{currentMission.xp} XP)</>}
                 </Button>
             </CardContent>
         </Card>
