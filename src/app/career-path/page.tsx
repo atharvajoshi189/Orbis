@@ -5,11 +5,12 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/utils/supabase/client";
 import { useAppStore } from "@/lib/store";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, CheckCircle, Clock, Search, Target, TrendingUp, Trophy, Zap, Loader2 } from "lucide-react";
+import { ArrowRight, CheckCircle, Clock, Search, Target, TrendingUp, Trophy, Zap, Loader2, Upload, FileText, Brain, Globe, Briefcase, ChevronRight, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Card, CardContent } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
+import Translate from "@/components/Translate";
 
 export default function CareerPathPage() {
     const { user } = useAppStore();
@@ -38,54 +39,45 @@ export default function CareerPathPage() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ profile })
             });
-
-            if (!res.ok) {
-                const errData = await res.json();
-                throw new Error(errData.details || "Failed to generate");
-            }
-
             const data = await res.json();
-            setRoadmaps(data);
-            setStep('selection');
-        } catch (error: any) {
-            console.error(error);
-            toast.error(`AI Analysis Failed: ${error.message}`);
+            if (data.roadmaps) {
+                setRoadmaps(data.roadmaps);
+                setStep('selection');
+            }
+        } catch (e) {
+            console.error(e);
+            toast.error("Failed to generate roadmap");
             setStep('verify');
         }
     };
 
-    const handleSelectPath = async (key: string) => {
-        setSelectedPath(key);
+    const handleSelectPath = async (path: string) => {
+        if (!user) return;
+        setSelectedPath(path);
         setIsSaving(true);
-        const roadmap = roadmaps[key];
+        // Save to DB
+        const { error } = await supabase.from('active_roadmaps').insert({
+            user_id: user.id,
+            type: path,
+            data: roadmaps[path],
+            progress: 0,
+            is_active: true
+        });
 
-        try {
-            const { error } = await supabase.from('active_roadmaps').insert({
-                user_id: user?.id,
-                title: roadmap.title,
-                type: key,
-                milestones: roadmap.milestones,
-                current_step: 0,
-                is_active: true
-            });
-
-            if (error) throw error;
-
-            toast.success("Journey Activated! Redirecting to Dashboard...");
-            router.push('/dashboard');
-        } catch (error) {
-            console.error(error);
+        if (error) {
             toast.error("Failed to save roadmap");
             setIsSaving(false);
+            return;
         }
+
+        toast.success("Roadmap Activated!");
+        router.push('/dashboard');
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-black font-sans transition-colors duration-300">
+        <div className="min-h-screen bg-slate-50 dark:bg-[#060a14] transition-colors duration-300">
             <Navbar />
-
-            <div className="container-custom mx-auto py-24 px-4 min-h-[80vh] flex flex-col justify-center">
-
+            <div className="container mx-auto px-4 pt-32 pb-12">
                 <AnimatePresence mode="wait">
                     {/* STEP 1: VERIFY PROFILE */}
                     {step === 'verify' && profile && (
@@ -105,35 +97,36 @@ export default function CareerPathPage() {
 
                             <Card className="bg-white/80 dark:bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-xl p-6">
                                 <div className="grid grid-cols-2 gap-6 mb-8">
-                                    <div className="p-4 bg-slate-50 dark:bg-black/40 rounded-xl">
-                                        <div className="text-xs text-slate-400 uppercase tracking-widest mb-1">Current GPA</div>
-                                        <div className="text-3xl font-black text-slate-800 dark:text-white">{profile.gpa || "N/A"}</div>
+                                    <div>
+                                        <div className="text-xs text-slate-400 uppercase tracking-widest mb-1">GPA / Aggregate</div>
+                                        <div className="text-2xl font-black text-slate-900 dark:text-white">{profile.gpa} <span className="text-sm font-medium text-slate-400">/ 10.0</span></div>
                                     </div>
-                                    <div className="p-4 bg-slate-50 dark:bg-black/40 rounded-xl">
-                                        <div className="text-xs text-slate-400 uppercase tracking-widest mb-1">Target</div>
-                                        <div className="text-xl font-bold text-slate-800 dark:text-white">{profile.career_goal || "Not Set"}</div>
-                                    </div>
-                                    <div className="col-span-2 p-4 bg-slate-50 dark:bg-black/40 rounded-xl">
-                                        <div className="text-xs text-slate-400 uppercase tracking-widest mb-1">Key Skills</div>
-                                        <div className="flex flex-wrap gap-2 mt-2">
-                                            {profile.skills?.map((s: string) => (
-                                                <span key={s} className="px-2 py-1 bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 text-xs rounded border border-cyan-500/20">
-                                                    {s}
-                                                </span>
-                                            )) || "No skills logged"}
-                                        </div>
+                                    <div>
+                                        <div className="text-xs text-slate-400 uppercase tracking-widest mb-1">Dominant Stream</div>
+                                        <div className="text-2xl font-black text-cyan-600 dark:text-cyan-400">{profile.stream || "Computer Science"}</div>
                                     </div>
                                 </div>
 
-                                <div className="flex gap-4">
-                                    <Button variant="outline" className="flex-1" onClick={() => router.push('/profile')}>
-                                        Update Profile
-                                    </Button>
-                                    <Button className="flex-[2] bg-cyan-500 hover:bg-cyan-600 text-white gap-2" onClick={handleGenerate}>
-                                        <Zap className="fill-current" size={16} /> Confirm & Analyze
-                                    </Button>
+                                <div className="mb-8">
+                                    <div className="text-xs text-slate-400 uppercase tracking-widest mb-1">Key Skills</div>
+                                    <div className="flex flex-wrap gap-2 mt-2">
+                                        {profile.skills?.map((s: string) => (
+                                            <span key={s} className="px-2 py-1 bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 text-xs rounded border border-cyan-500/20">
+                                                {s}
+                                            </span>
+                                        )) || "No skills logged"}
+                                    </div>
                                 </div>
                             </Card>
+
+                            <div className="flex gap-4 mt-6">
+                                <Button variant="outline" className="flex-1" onClick={() => router.push('/profile')}>
+                                    Update Profile
+                                </Button>
+                                <Button className="flex-[2] bg-cyan-500 hover:bg-cyan-600 text-white gap-2" onClick={handleGenerate}>
+                                    <Zap className="fill-current" size={16} /> Confirm & Analyze
+                                </Button>
+                            </div>
                         </motion.div>
                     )}
 
@@ -203,7 +196,6 @@ export default function CareerPathPage() {
                         </motion.div>
                     )}
                 </AnimatePresence>
-
             </div>
         </div>
     );

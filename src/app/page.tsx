@@ -14,6 +14,8 @@ import { Badge } from "@/components/ui/badge";
 import { useAppStore } from "@/lib/store";
 import Navbar from "@/components/Navbar";
 
+import Translate from "@/components/Translate";
+
 import LiveTicker from "@/components/LiveTicker";
 
 export default function LandingPage() {
@@ -62,30 +64,30 @@ export default function LandingPage() {
               >
                 <div className="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-sm font-medium text-primary backdrop-blur-xl w-fit">
                   <span className="flex h-2 w-2 rounded-full bg-primary mr-2 animate-pulse"></span>
-                  <TextDecode text="System Online v2.4" />
+                  <Translate text="System Online v2.4" />
                 </div>
                 <div className="space-y-4">
                   <h1 className="text-4xl font-bold tracking-tighter text-slate-900 dark:text-white sm:text-6xl xl:text-7xl/none">
-                    Choose Your <span className="text-primary drop-shadow-[0_0_10px_rgba(0,113,227,0.3)] dark:drop-shadow-[0_0_10px_rgba(0,243,255,0.5)]">Career Strategy</span>, <br />
-                    Not Just a University.
+                    <Translate text="Choose Your" /> <span className="text-primary drop-shadow-[0_0_10px_rgba(0,113,227,0.3)] dark:drop-shadow-[0_0_10px_rgba(0,243,255,0.5)]"><Translate text="Career Strategy" /></span>, <br />
+                    <Translate text="Not Just a University." />
                   </h1>
                   <p className="max-w-[600px] text-lg text-slate-600 dark:text-muted-foreground md:text-xl">
-                    AI-powered Career & Financial Intelligence. Analyze risks, calculate ROI, and simulate your future before you commit.
+                    <Translate text="AI-powered Career & Financial Intelligence. Analyze risks, calculate ROI, and simulate your future before you commit." />
                   </p>
                 </div>
                 <div className="flex flex-col gap-4">
                   <div className="flex flex-col sm:flex-row gap-4">
                     <Link href="/global-trends">
                       <Button variant="glass" size="lg" className="h-12 px-8 text-base">
-                        Explore Global Trends
+                        <Translate text="Explore Global Trends" />
                       </Button>
                     </Link>
                   </div>
 
                   <div className="flex items-center gap-4 text-xs text-muted-foreground mt-2">
-                    <span className="flex items-center gap-1"><Users className="h-3 w-3" /> Trusted by 15,000+ Students</span>
+                    <span className="flex items-center gap-1"><Users className="h-3 w-3" /> <Translate text="Trusted by 15,000+ Students" /></span>
                     <span className="h-3 w-[1px] bg-white/10" />
-                    <span className="flex items-center gap-1"><Globe className="h-3 w-3" /> 27 Countries Tracked</span>
+                    <span className="flex items-center gap-1"><Globe className="h-3 w-3" /> <Translate text="27 Countries Tracked" /></span>
                   </div>
                 </div>
               </motion.div>
@@ -111,11 +113,11 @@ export default function LandingPage() {
           <div className="container-custom px-4">
             <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
               <div>
-                <h2 className="text-3xl font-bold tracking-tighter text-slate-900 dark:text-white sm:text-4xl">Global Market Intelligence</h2>
-                <p className="text-muted-foreground mt-2">Real-time data streams from key education destinations.</p>
+                <h2 className="text-3xl font-bold tracking-tighter text-slate-900 dark:text-white sm:text-4xl"><Translate text="Global Market Intelligence" /></h2>
+                <p className="text-muted-foreground mt-2"><Translate text="Real-time data streams from key education destinations." /></p>
               </div>
               <Button variant="outline" className="gap-2 border-primary/20 hover:bg-primary/10 hover:text-primary">
-                View Full Heatmap <Globe className="h-4 w-4" />
+                <Translate text="View Full Heatmap" /> <Globe className="h-4 w-4" />
               </Button>
             </div>
 
@@ -124,30 +126,30 @@ export default function LandingPage() {
                 country="Germany"
                 flag="🇩🇪"
                 trends={[
-                  { label: "Tech Demand", value: "+18%", trend: "up", color: "text-green-500" },
-                  { label: "Visa Approval", value: "74%", trend: "neutral", color: "text-yellow-500" },
-                  { label: "Avg Salary", value: "€62k", trend: "up", color: "text-blue-500" },
-                  { label: "Tuition Cost", value: "€0", trend: "stable", color: "text-green-500" },
+                  { label: <Translate text="Tech Demand" />, value: "+18%", trend: "up", color: "text-green-500" },
+                  { label: <Translate text="Visa Approval" />, value: "74%", trend: "neutral", color: "text-yellow-500" },
+                  { label: <Translate text="Avg Salary" />, value: "€62k", trend: "up", color: "text-blue-500" },
+                  { label: <Translate text="Tuition Cost" />, value: "€0", trend: "stable", color: "text-green-500" },
                 ]}
               />
               <MarketCard
                 country="Canada"
                 flag="🇨🇦"
                 trends={[
-                  { label: "PR Difficulty", value: "High", trend: "down", color: "text-red-500" },
-                  { label: "Job Market", value: "Recovering", trend: "up", color: "text-green-500" },
-                  { label: "Visa Approval", value: "65%", trend: "down", color: "text-orange-500" },
-                  { label: "Avg Salary", value: "C$75k", trend: "up", color: "text-blue-500" },
+                  { label: <Translate text="PR Difficulty" />, value: <Translate text="High" />, trend: "down", color: "text-red-500" },
+                  { label: <Translate text="Job Market" />, value: <Translate text="Recovering" />, trend: "up", color: "text-green-500" },
+                  { label: <Translate text="Visa Approval" />, value: "65%", trend: "down", color: "text-orange-500" },
+                  { label: <Translate text="Avg Salary" />, value: "C$75k", trend: "up", color: "text-blue-500" },
                 ]}
               />
               <MarketCard
                 country="USA"
                 flag="🇺🇸"
                 trends={[
-                  { label: "H-1B Cap", value: "Reached", trend: "down", color: "text-red-500" },
-                  { label: "STEM OPT", value: "3 Years", trend: "stable", color: "text-green-500" },
-                  { label: "Avg Salary", value: "$95k", trend: "up", color: "text-green-500" },
-                  { label: "Tech Jobs", value: "High", trend: "up", color: "text-blue-500" },
+                  { label: <Translate text="H-1B Cap" />, value: <Translate text="Reached" />, trend: "down", color: "text-red-500" },
+                  { label: <Translate text="STEM OPT" />, value: <Translate text="3 Years" />, trend: "stable", color: "text-green-500" },
+                  { label: <Translate text="Avg Salary" />, value: "$95k", trend: "up", color: "text-green-500" },
+                  { label: <Translate text="Tech Jobs" />, value: <Translate text="High" />, trend: "up", color: "text-blue-500" },
                 ]}
               />
             </div>
@@ -163,9 +165,9 @@ export default function LandingPage() {
                 <SpotlightCard className="p-6 h-full flex flex-col items-center text-center hover:border-primary/50 transition-colors group">
                   <div className="mb-4 p-6 rounded-2xl bg-primary/10 text-primary group-hover:bg-primary/20 transition-colors w-full flex flex-col items-center justify-center gap-3">
                     <Building2 className="h-8 w-8" />
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-white leading-tight">Global Eligibility Engine</h3>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white leading-tight"><Translate text="Global Eligibility Engine" /></h3>
                   </div>
-                  <p className="text-muted-foreground text-sm px-2">Instant matching with government roles and entrance exams.</p>
+                  <p className="text-muted-foreground text-sm px-2"><Translate text="Instant matching with government roles and entrance exams." /></p>
                 </SpotlightCard>
               </Link>
 
@@ -174,9 +176,9 @@ export default function LandingPage() {
                 <SpotlightCard className="p-6 h-full flex flex-col items-center text-center hover:border-primary/50 transition-colors group">
                   <div className="mb-4 p-6 rounded-2xl bg-primary/10 text-primary group-hover:bg-primary/20 transition-colors w-full flex flex-col items-center justify-center gap-3">
                     <CreditCard className="h-8 w-8" />
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-white leading-tight">Loan & EMI Simulator</h3>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white leading-tight"><Translate text="Loan & EMI Simulator" /></h3>
                   </div>
-                  <p className="text-muted-foreground text-sm px-2">Calculate break-even points and financial viability.</p>
+                  <p className="text-muted-foreground text-sm px-2"><Translate text="Calculate break-even points and financial viability." /></p>
                 </SpotlightCard>
               </Link>
 
@@ -185,9 +187,9 @@ export default function LandingPage() {
                 <SpotlightCard className="p-6 h-full flex flex-col items-center text-center hover:border-primary/50 transition-colors group">
                   <div className="mb-4 p-6 rounded-2xl bg-primary/10 text-primary group-hover:bg-primary/20 transition-colors w-full flex flex-col items-center justify-center gap-3">
                     <Users className="h-8 w-8" />
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-white leading-tight">Human + AI Validation</h3>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white leading-tight"><Translate text="Human + AI Validation" /></h3>
                   </div>
-                  <p className="text-muted-foreground text-sm px-2">Expert verification combined with algorithmic precision.</p>
+                  <p className="text-muted-foreground text-sm px-2"><Translate text="Expert verification combined with algorithmic precision." /></p>
                 </SpotlightCard>
               </Link>
             </div>
@@ -195,6 +197,8 @@ export default function LandingPage() {
         </section>
 
       </main>
+
+
 
     </div>
   );

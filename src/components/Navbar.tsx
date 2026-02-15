@@ -7,6 +7,8 @@ import { usePathname } from "next/navigation";
 import { useAppStore } from "@/lib/store";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import Translate from "./Translate";
+import LanguageToggle from "./LanguageToggle";
 
 const navLinks = [
     { href: "/", label: "Home", icon: Home },
@@ -17,6 +19,9 @@ const navLinks = [
 ]
 
 export default function Navbar() {
+    // ... existing hooks ...
+
+
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const pathname = usePathname();
     const { user, theme, toggleTheme } = useAppStore();
@@ -75,7 +80,7 @@ export default function Navbar() {
                                 )}
                                 <span className="relative z-10 flex items-center gap-2">
                                     <link.icon className="w-4 h-4" />
-                                    {link.label}
+                                    <Translate text={link.label} />
                                 </span>
                             </Link>
                         );
@@ -85,6 +90,7 @@ export default function Navbar() {
 
                     {/* Right Actions: Theme Toggle & Profile */}
                     <div className="flex items-center gap-2">
+                        <LanguageToggle />
                         <button
                             onClick={toggleTheme}
                             className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
@@ -108,13 +114,13 @@ export default function Navbar() {
                                 <Link href="/login" className={cn(
                                     "px-4 py-2 rounded-full font-medium text-sm transition-all text-muted-foreground hover:text-foreground hover:bg-slate-100 dark:hover:bg-white/10 whitespace-nowrap"
                                 )}>
-                                    Log In
+                                    <Translate text="Log In" />
                                 </Link>
                                 <Link href="/signup" className={cn(
                                     "flex items-center gap-2 px-4 py-2 rounded-full font-medium text-sm transition-all whitespace-nowrap",
                                     "bg-primary text-primary-foreground hover:opacity-90 shadow-md shadow-primary/20"
                                 )}>
-                                    <span>Get Started</span>
+                                    <span><Translate text="Get Started" /></span>
                                 </Link>
                             </div>
                         )}
@@ -150,6 +156,8 @@ export default function Navbar() {
                     >
                         {theme === 'dark' ? <Sun className="w-6 h-6 text-yellow-500" /> : <Moon className="w-6 h-6 text-indigo-500" />}
                     </button>
+
+                    <LanguageToggle direction="up" />
 
                     {user ? (
                         <Link href="/profile">

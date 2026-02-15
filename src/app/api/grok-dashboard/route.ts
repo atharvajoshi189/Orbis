@@ -1,21 +1,35 @@
 import { NextResponse } from 'next/server';
 import Groq from 'groq-sdk';
 
-const groq = new Groq({
-    apiKey: process.env.GROQ_API_KEY,
-});
+const getGroqClient = () => {
+    const apiKey = process.env.GROQ_API_KEY;
+    if (!apiKey) {
+        console.warn("GROQ_API_KEY is not set. Dashboard insights will be unavailable.");
+        return null;
+    }
+    return new Groq({ apiKey });
+};
 
 export async function POST(req: Request) {
     try {
-        const { profile } = await req.json();
+        const { profile, language = 'en' } = await req.json();
 
         if (!profile) {
             return NextResponse.json({ error: "Profile data required" }, { status: 400 });
         }
 
+        const groq = getGroqClient();
+        if (!groq) {
+            return NextResponse.json({ error: "Service unavailable (API Key Missing)" }, { status: 503 });
+        }
+
         const systemPrompt = `
         You are the "Orbis Strategic Command AI". Analyze the operative's profile and generate a JSON dashboard.
         
+        **IMPORTANT: Output the content in this language: ${language} (ISO Code).**
+        If the language is 'en', use English. If 'hi', use Hindi. If 'zh', use Chinese, etc.
+        Keep names of programming languages (Java, Python) and technical terms (CGPA, ROI) in English if common in that language.
+
         **Operative Profile:**
         - Name: ${profile.name}
         - 10th Marks: ${profile.marks_10th}
@@ -27,19 +41,17 @@ export async function POST(req: Request) {
 
         **Output Format (Strict JSON):**
         {
-            "confidence_score": NUMBER (0-100), // Rate your confidence in this analysis based on profile completeness. < 70% if key fields (marks, skills) are missing.
-            "human_review_needed": BOOLEAN, // Set to TRUE if confidence_score < 70 or if the profile seems contradictory/unrealistic.
+            "confidence_score": NUMBER (0-100), 
+            "human_review_needed": BOOLEAN, 
             "skill_gaps": [
-                { "name": "Skill Name", "you": NUMBER (0-100), "market": NUMBER (0-100) } 
-                // Generate 4 relevant skills. If user has them, give high 'you' score. If missing but relevant to their interests, give low 'you' score and high 'market' score.
+                { "name": "Skill Name", "you": NUMBER, "market": NUMBER } 
             ],
             "deadlines": [
-                { "title": "Goal Title", "date": "Date String", "time": "Time String", "urgent": BOOLEAN }
-                // Generate 3 realistic deadlines/goals based on their profile (e.g., "GRE Prep", "Internship App").
+                { "title": "Goal Title (Translated)", "date": "Date String", "time": "Time", "urgent": BOOLEAN }
             ],
             "daily_intel": {
-                "title": "Headline",
-                "content": "Short insight relevant to their interests/skills (max 20 words)."
+                "title": "Headline (Translated)",
+                "content": "Short insight (Translated)"
             },
             "radar_analysis": [
                 { "subject": "CGPA", "A": NUMBER, "fullMark": 150 },
@@ -51,7 +63,7 @@ export async function POST(req: Request) {
             ]
         }
         
-        Ensure the JSON is valid and contains NO markdown formatting or explanations. Just the JSON.
+        Ensure the JSON is valid.
         `;
 
         const completion = await groq.chat.completions.create({
