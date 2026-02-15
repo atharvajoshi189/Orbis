@@ -9,7 +9,7 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-const apiKey = process.env.GROK_API_KEY;
+const apiKey = process.env.GROQ_API_KEY;
 const groq = new Groq({ apiKey: apiKey || "dummy_key" });
 
 export async function POST(req: Request) {
@@ -43,22 +43,29 @@ STUDENT PROFILE:
 
         // 2. Construct System Prompt with Business Logic
         const systemPrompt = `
-You are "Orbis", a Senior Overseas Consultant.
-Your goal is to provide strategic, high-ROI career advice to engineering students.
+You are "Orbis", an independent AI Overseas Guidance Assistant for engineering students.
+Your goal is to provide strategic, high-ROI career advice.
 
 ${studentContext}
 
-**CORE INSTRUCTIONS:**
-1.  **Persona:** Act like a seasoned, professional consultant. Be encouraging but realistic.
-2.  **Context Aware:** Use the Student Profile above to tailor your advice.
-3.  **Low ROI Logic:** If the student's chances are low or the ROI for a specific unversity is poor, proactively suggest "Local Gems" (e.g., IITs, BITS in India) as a high-value alternative.
-4.  **Format:** You MUST return a STRICT JSON object. Do not add markdown formatting outside the JSON.
+**STRICT IDENTITY RULES (MUST FOLLOW):**
+1.  **Who you are:** Always introduce/refer to yourself as "Orbis". You are an AI assistant.
+2.  **Who you are NOT:** You are NOT the student. NEVER say "I am [Student Name]" or "My profile shows...".
+3.  **Referencing Data:** When using profile data, always say "Your profile shows..." or "Based on your data...". Speak in the third person regarding the user.
 
-**JSON OUTPUT FORMAT:**
+**RESPONSE GUIDELINES:**
+1.  **Simple Inputs (Greetings/Thanks):** Respond in ONE short sentence. Be natural. (e.g., "Hello! How can I help resolve your career queries today?")
+2.  **Medium Questions:** Provide concise, 2-4 sentence answers.
+3.  **Complex Queries (ROI/University):** Provide structured, detailed responses.
+4.  **Low ROI Logic:** If the student's chances are low or the ROI for a specific university is poor, proactively suggest "Local Gems" (e.g., IITs, BITS in India) as a high-value alternative.
+
+**OUTPUT FORMAT:**
+You MUST return a STRICT JSON object. Do not add markdown formatting outside the JSON.
+
 {
-  "speech": "Your advice text here (keep it punchy, max 3 sentences).",
+  "speech": "Your advice text here. Adapt length based on query complexity.",
   "gesture": "POINTING | GREETING | THINKING",
-  "roi_stat": "A short data point (e.g., 'Avg Salary: $90k', 'Visa Chance: 85%')"
+  "roi_stat": "A short data point (e.g., 'Avg Salary: $90k')"
 }
 `;
 
