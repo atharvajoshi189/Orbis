@@ -1,14 +1,15 @@
 "use client";
 
-import { Home, LayoutGrid, TrendingUp, Compass, Menu, User, LogIn, Globe, Sun, Moon, Map } from "lucide-react";
+import { Home, LayoutGrid, TrendingUp, Compass, Menu, User, LogIn, Globe, Sun, Moon, Map, Info } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { useAppStore } from "@/lib/store";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import Translate from "./Translate";
 import LanguageToggle from "./LanguageToggle";
+import AboutOrbis from "@/components/dashboard/AboutOrbis";
 
 const navLinks = [
     { href: "/", label: "Home", icon: Home },
@@ -23,6 +24,7 @@ export default function Navbar() {
 
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isAboutOpen, setIsAboutOpen] = useState(false);
     const pathname = usePathname();
     const { user, theme, toggleTheme } = useAppStore();
     const [scrolled, setScrolled] = useState(false);
@@ -90,6 +92,22 @@ export default function Navbar() {
 
                     {/* Right Actions: Theme Toggle & Profile */}
                     <div className="flex items-center gap-2">
+                        {/* About Button */}
+                        <button
+                            onClick={() => setIsAboutOpen(true)}
+                            className={cn(
+                                "group flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300",
+                                "border border-cyan-500/30 bg-cyan-500/5 text-cyan-500",
+                                "hover:bg-cyan-500/10 hover:border-cyan-400 hover:shadow-[0_0_15px_-3px_rgba(6,182,212,0.4)]",
+                                "active:scale-95"
+                            )}
+                        >
+                            <Info className="w-3.5 h-3.5 group-hover:rotate-12 transition-transform" />
+                            <span className="hidden lg:inline"><Translate text="About Orbis" /></span>
+                        </button>
+
+                        <div className="w-px h-4 bg-border mx-1" />
+
                         <LanguageToggle />
                         <button
                             onClick={toggleTheme}
@@ -150,6 +168,15 @@ export default function Navbar() {
                             </Link>
                         );
                     })}
+
+                    {/* Mobile About Button - Simplified to Icon */}
+                    <button
+                        onClick={() => setIsAboutOpen(true)}
+                        className="flex flex-col items-center gap-1 transition-colors text-muted-foreground hover:text-cyan-500"
+                    >
+                        <Info className="w-6 h-6" />
+                    </button>
+
                     <button
                         onClick={toggleTheme}
                         className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
@@ -172,6 +199,8 @@ export default function Navbar() {
                     )}
                 </nav>
             </div>
+
+            <AboutOrbis isOpen={isAboutOpen} onClose={() => setIsAboutOpen(false)} />
         </>
     );
 }
