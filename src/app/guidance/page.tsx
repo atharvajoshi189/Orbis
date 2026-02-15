@@ -22,6 +22,7 @@ import {
     Radar, RadarChart, PolarGrid, PolarAngleAxis
 } from 'recharts';
 import Translate from "@/components/Translate";
+import NeuralAvatar from '@/components/NeuralAvatar';
 import { VoiceAssistant } from "@/components/VoiceAssistant";
 import { supabase } from "@/utils/supabase/client";
 
@@ -37,7 +38,7 @@ export default function GuidancePage() {
     const [intelligence, setIntelligence] = useState<IntelligenceOutput | null>(null);
     const [timeline, setTimeline] = useState<TimelineStep[]>([]);
     const [ieltsSim, setIeltsSim] = useState(6.5);
-    const [activeView, setActiveView] = useState<'GLOBAL' | 'CAREER' | 'MISSION'>('GLOBAL');
+    const [activeView, setActiveView] = useState<'GLOBAL' | 'CAREER' | 'MISSION' | 'NEURAL'>('GLOBAL');
     const [aiLogs, setAiLogs] = useState<string[]>([]);
     const [showAssistant, setShowAssistant] = useState(false);
     const [assistantMessage, setAssistantMessage] = useState("");
@@ -117,6 +118,9 @@ export default function GuidancePage() {
             ]);
 
             setStep(2);
+            if (mode === 'AI') {
+                setActiveView('NEURAL');
+            }
         } catch (error) {
             console.error(error);
         } finally {
@@ -356,10 +360,11 @@ export default function GuidancePage() {
 
                             <div className="hide-scrollbar overflow-x-auto flex bg-slate-100 dark:bg-black/50 p-1.5 rounded-2xl border border-slate-200 dark:border-white/10">
                                 {[
+                                    { id: 'NEURAL', label: <Translate text="LIVE AVATAR" />, icon: Brain, hidden: mode !== 'AI' },
                                     { id: 'GLOBAL', label: <Translate text="GEO-TARGETS" />, icon: Globe },
                                     { id: 'CAREER', label: <Translate text="WORK VECTORS" />, icon: Briefcase },
                                     { id: 'MISSION', label: <Translate text="STRATEGIC STEPS" />, icon: Rocket }
-                                ].map((tab) => (
+                                ].filter(tab => !tab.hidden).map((tab) => (
                                     <button
                                         key={tab.id}
                                         onClick={() => setActiveView(tab.id as any)}
@@ -524,6 +529,12 @@ export default function GuidancePage() {
                                                 </div>
                                             </div>
                                         )}
+
+                                        {activeView === 'NEURAL' && (
+                                            <div className="h-full w-full">
+                                                <NeuralAvatar isActive={true} />
+                                            </div>
+                                        )}
                                     </motion.div>
                                 </AnimatePresence>
                             </div>
@@ -566,48 +577,51 @@ export default function GuidancePage() {
                             </div>
                         </div>
                     </div>
-                )}
+                )
+                }
 
                 {/* STEP 3: PRICING GATEWAY */}
-                {step === 3 && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="max-w-7xl mx-auto py-12"
-                    >
-                        <button
-                            onClick={() => setStep(0)}
-                            className="mb-12 text-slate-500 dark:text-slate-500 hover:text-slate-900 dark:hover:text-white text-xs font-bold uppercase tracking-widest flex items-center gap-2 transition-colors"
+                {
+                    step === 3 && (
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="max-w-7xl mx-auto py-12"
                         >
-                            <ChevronRight className="w-4 h-4 rotate-180" /> <Translate text="Back to Selection" />
-                        </button>
+                            <button
+                                onClick={() => setStep(0)}
+                                className="mb-12 text-slate-500 dark:text-slate-500 hover:text-slate-900 dark:hover:text-white text-xs font-bold uppercase tracking-widest flex items-center gap-2 transition-colors"
+                            >
+                                <ChevronRight className="w-4 h-4 rotate-180" /> <Translate text="Back to Selection" />
+                            </button>
 
-                        <div className="text-center mb-16">
-                            <h2 className="text-4xl md:text-6xl font-black mb-6 tracking-tighter font-outfit uppercase text-slate-900 dark:text-white transition-colors">
-                                Upgrade Your <span className="text-purple-600 dark:text-purple-400 drop-shadow-[0_0_15px_rgba(168,85,247,0.4)]">Intelligence</span>
-                            </h2>
-                            <p className="text-slate-600 dark:text-slate-400 text-lg max-w-2xl mx-auto font-medium">Choose an elite tier to unlock human-led global strategy and mission roadmaps.</p>
-                        </div>
+                            <div className="text-center mb-16">
+                                <h2 className="text-4xl md:text-6xl font-black mb-6 tracking-tighter font-outfit uppercase text-slate-900 dark:text-white transition-colors">
+                                    Upgrade Your <span className="text-purple-600 dark:text-purple-400 drop-shadow-[0_0_15px_rgba(168,85,247,0.4)]">Intelligence</span>
+                                </h2>
+                                <p className="text-slate-600 dark:text-slate-400 text-lg max-w-2xl mx-auto font-medium">Choose an elite tier to unlock human-led global strategy and mission roadmaps.</p>
+                            </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                            <PricingCard
-                                title="Go" price="19" description="Keep chatting with expanded access"
-                                features={["Explore topics in depth", "Longer chats", "More content upload"]}
-                            />
-                            <PricingCard
-                                title="Plus" price="49" description="Unlock the full experience"
-                                features={["Solve complex problems", "Priority access", "Agent mode active"]}
-                                highlighted={true}
-                                onProceed={() => runAnalysis(true)}
-                            />
-                            <PricingCard
-                                title="Pro" price="149" description="Maximize your productivity"
-                                features={["Master advanced tasks", "Unlimited storage", "Early access to labs"]}
-                            />
-                        </div>
-                    </motion.div>
-                )}
-            </main>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                <PricingCard
+                                    title="Go" price="19" description="Keep chatting with expanded access"
+                                    features={["Explore topics in depth", "Longer chats", "More content upload"]}
+                                />
+                                <PricingCard
+                                    title="Plus" price="49" description="Unlock the full experience"
+                                    features={["Solve complex problems", "Priority access", "Agent mode active"]}
+                                    highlighted={true}
+                                    onProceed={() => runAnalysis(true)}
+                                />
+                                <PricingCard
+                                    title="Pro" price="149" description="Maximize your productivity"
+                                    features={["Master advanced tasks", "Unlimited storage", "Early access to labs"]}
+                                />
+                            </div>
+                        </motion.div>
+                    )
+                }
+            </main >
 
             <Footer />
 

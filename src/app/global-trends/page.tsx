@@ -2,11 +2,15 @@
 
 import WorldMap from "@/components/WorldMap";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Globe, TrendingUp, Zap, Map } from "lucide-react";
+import { ArrowLeft, Globe, TrendingUp, Zap, Map, Sliders, DollarSign } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 export default function GlobalTrendsPage() {
+    const [cgpa, setCgpa] = useState<number>(0); // 0 means no filter
+    const [simulateLoan, setSimulateLoan] = useState<boolean>(false);
+
     return (
         <div className="min-h-screen bg-slate-950 text-white flex flex-col relative overflow-hidden">
             {/* Background Gradient */}
@@ -39,9 +43,8 @@ export default function GlobalTrendsPage() {
             {/* Main Content Area */}
             <main className="flex-1 relative z-10 grid grid-cols-1 lg:grid-cols-4 h-[calc(100vh-80px)]">
 
-                {/* 3D Globe Viewport */}
-                <div className="lg:col-span-3 relative h-full w-full bg-slate-950 flex items-center justify-center p-8">
-                    <WorldMap />
+                <div className="lg:col-span-3 relative h-full w-full bg-slate-950 flex items-center justify-center p-8 overflow-hidden">
+                    <WorldMap cgpaFilter={cgpa > 0 ? cgpa : undefined} selectedLoanProvider={simulateLoan ? "SBI Global" : undefined} />
 
                     {/* Overlay Stats (Optional) */}
                     <div className="absolute top-6 right-6 flex flex-col gap-2 pointer-events-none">
@@ -58,6 +61,47 @@ export default function GlobalTrendsPage() {
                             </div>
                             <div className="mt-2 h-1 bg-white/10 rounded-full overflow-hidden">
                                 <div className="h-full w-[75%] bg-blue-500 rounded-full" />
+                            </div>
+                        </motion.div>
+                    </div>
+                    {/* Control Panel Overlay */}
+                    <div className="absolute bottom-6 left-6 z-20 pointer-events-auto">
+                        <motion.div
+                            className="bg-black/80 backdrop-blur-xl border border-cyan-500/30 p-4 rounded-xl w-72 shadow-[0_0_20px_rgba(6,182,212,0.15)]"
+                            initial={{ y: 20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ delay: 0.2 }}
+                        >
+                            <h3 className="text-sm font-bold text-cyan-400 mb-4 flex items-center gap-2">
+                                <Sliders size={14} /> Intelligence Filters
+                            </h3>
+
+                            {/* CGPA Slider */}
+                            <div className="mb-4">
+                                <div className="flex justify-between text-xs mb-2">
+                                    <span className="text-slate-400">Min CGPA Requirement</span>
+                                    <span className="text-white font-mono">{cgpa > 0 ? cgpa : "Any"}</span>
+                                </div>
+                                <input
+                                    type="range"
+                                    min="6" max="10" step="0.1"
+                                    value={cgpa || 6}
+                                    onChange={(e) => setCgpa(parseFloat(e.target.value))}
+                                    className="w-full accent-cyan-500 h-1 bg-slate-700 rounded-lg appearance-none cursor-pointer"
+                                />
+                            </div>
+
+                            {/* Loan Simulation Toggle */}
+                            <div className="flex items-center justify-between">
+                                <span className="text-xs text-slate-400 flex items-center gap-2">
+                                    <DollarSign size={14} className="text-emerald-400" /> Simulate Loan Flow
+                                </span>
+                                <button
+                                    onClick={() => setSimulateLoan(!simulateLoan)}
+                                    className={`w-10 h-5 rounded-full transition-colors relative ${simulateLoan ? 'bg-cyan-500' : 'bg-slate-700'}`}
+                                >
+                                    <div className={`absolute top-1 left-1 w-3 h-3 bg-white rounded-full transition-transform ${simulateLoan ? 'translate-x-5' : ''}`} />
+                                </button>
                             </div>
                         </motion.div>
                     </div>
