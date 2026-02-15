@@ -39,7 +39,6 @@ export default function RootLayout({
 
             {children}
             <Footer />
-            <Footer />
             <GlobalChatWidget />
             <Toaster richColors position="top-center" />
           </div>
