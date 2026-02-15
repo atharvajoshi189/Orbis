@@ -72,10 +72,11 @@ function ParticleSphere({ isSpeaking, isListening, circleTexture }: { isSpeaking
 interface VoiceAssistantProps {
     onClose: () => void;
     onNewMessage: (role: 'user' | 'assistant', content: string) => void;
-    mode?: 'voice' | 'avatar'; // NEW PROP
+    mode?: 'voice' | 'avatar';
+    initialMessage?: string; // NEW PROP
 }
 
-export function VoiceAssistant({ onClose, onNewMessage, mode = 'voice' }: VoiceAssistantProps) {
+export function VoiceAssistant({ onClose, onNewMessage, mode = 'voice', initialMessage }: VoiceAssistantProps) {
     const [status, setStatus] = useState<"listening" | "processing" | "speaking" | "idle">("idle");
     const [transcript, setTranscript] = useState("");
     const [gesture, setGesture] = useState("IDLE");
@@ -117,12 +118,20 @@ export function VoiceAssistant({ onClose, onNewMessage, mode = 'voice' }: VoiceA
             const voices = window.speechSynthesis.getVoices();
             const indianVoice = voices.find(v => v.lang.includes('en-IN')) || voices[0];
             setVoice(indianVoice);
+
+            // Speak Initial Message if available and voice is ready
+            if (initialMessage && indianVoice) {
+                // We need a slight delay or check to ensure voice is set
+                setTimeout(() => speakResponse(initialMessage, indianVoice), 500);
+            }
         };
         loadVoices();
         window.speechSynthesis.onvoiceschanged = loadVoices;
 
         setupVAD();
-        startListening();
+        if (!initialMessage) {
+            startListening();
+        }
 
         return () => {
             window.speechSynthesis.cancel();
@@ -130,6 +139,22 @@ export function VoiceAssistant({ onClose, onNewMessage, mode = 'voice' }: VoiceA
             if (audioContextRef.current) audioContextRef.current.close();
         };
     }, []);
+
+    // Overload speakResponse to optionally accept voice arg to avoid state closure issues in useEffect
+    const speakResponse = (text: string, specificVoice?: SpeechSynthesisVoice) => {
+        setStatus("speaking");
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.voice = specificVoice || voice || null;
+        utterance.rate = 1.0;
+
+        utterance.onend = () => {
+            setStatus("idle");
+            setGesture("IDLE"); // Return to idle after speaking
+            startListening(); // Linear conversation flow
+        };
+
+        window.speechSynthesis.speak(utterance);
+    };
 
     const setupVAD = async () => {
         try {
@@ -263,20 +288,6 @@ export function VoiceAssistant({ onClose, onNewMessage, mode = 'voice' }: VoiceA
         }
     };
 
-    const speakResponse = (text: string) => {
-        setStatus("speaking");
-        const utterance = new SpeechSynthesisUtterance(text);
-        if (voice) utterance.voice = voice;
-        utterance.rate = 1.0;
-
-        utterance.onend = () => {
-            setStatus("idle");
-            setGesture("IDLE"); // Return to idle after speaking
-            startListening(); // Linear conversation flow
-        };
-
-        window.speechSynthesis.speak(utterance);
-    };
 
     return (
         <motion.div

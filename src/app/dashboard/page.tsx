@@ -31,6 +31,7 @@ export default function DashboardPage() {
     const { user } = useAppStore();
     const [profileData, setProfileData] = useState<any>(null);
     const [grokData, setGrokData] = useState<GrokDashboardData | null>(null);
+    const [roadmap, setRoadmap] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(false);
 
     const fetchProfile = async () => {
@@ -42,6 +43,17 @@ export default function DashboardPage() {
             .single();
         if (profile) setProfileData(profile);
         return profile;
+    };
+
+    const fetchRoadmap = async () => {
+        if (!user) return;
+        const { data } = await supabase
+            .from('active_roadmaps')
+            .select('*')
+            .eq('user_id', user.id)
+            .eq('is_active', true)
+            .single();
+        if (data) setRoadmap(data);
     };
 
     useEffect(() => {
@@ -132,7 +144,8 @@ export default function DashboardPage() {
                             xp={profileData?.xp || 0}
                             level={profileData?.level || 1}
                             completedMissions={profileData?.completed_missions || []}
-                            onUpdate={fetchProfile}
+                            activeRoadmap={roadmap}
+                            onUpdate={() => { fetchProfile(); fetchRoadmap(); }}
                         />
                     </div>
                     <div className="md:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-6">

@@ -13,6 +13,7 @@ interface MissionWidgetProps {
     xp: number;
     level: number;
     completedMissions: string[];
+    activeRoadmap?: any;
     onUpdate: () => void; // Callback to refresh parent data
 }
 
