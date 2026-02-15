@@ -60,14 +60,14 @@ export default function ScholarshipsPage() {
                 {/* Scholarships Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
                     {filtered.map((s, i) => (
-                        <div key={i} className="bg-white dark:bg-white/5 p-6 rounded-3xl border border-slate-200 dark:border-white/10 hover:shadow-xl hover:-translate-y-1 transition-all group shadow-sm">
+                        <div key={i} className="bg-white/60 backdrop-blur-md dark:bg-white/5 p-6 rounded-3xl border border-slate-200 dark:border-white/10 hover:shadow-xl hover:-translate-y-1 transition-all group shadow-sm">
                             <div className="flex justify-between items-start mb-4">
                                 <span className="px-3 py-1 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 text-xs font-bold rounded-full uppercase tracking-wider">{s.type}</span>
                                 <span className="text-slate-400 dark:text-slate-500 font-bold text-xs">{s.country}</span>
                             </div>
                             <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors text-slate-900 dark:text-white">{s.title}</h3>
 
-                            <div className="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400 mb-6">
+                            <div className="flex items-center gap-4 text-sm text-slate-700 dark:text-slate-400 mb-6">
                                 <span className="flex items-center gap-1"><DollarSign size={14} /> {s.amount}</span>
                                 <span className="flex items-center gap-1"><Calendar size={14} /> {s.deadline}</span>
                             </div>

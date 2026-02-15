@@ -1,4 +1,5 @@
 "use client";
+import Translate from "@/components/Translate";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TrendingUp, Calendar, DollarSign, ArrowRight } from "lucide-react";
@@ -52,16 +53,16 @@ export function ReverseROIWidget({ loanAmount = 45000, interestRate = 8.5 }: Rev
 
             <CardHeader className="pb-2 border-b border-white/5">
                 <CardTitle className="flex items-center gap-2 text-sm font-black uppercase tracking-wider text-purple-400">
-                    <TrendingUp className="w-4 h-4" /> Reverse ROI Calculator
+                    <TrendingUp className="w-4 h-4" /> <Translate text="Reverse ROI Calculator" />
                 </CardTitle>
             </CardHeader>
 
             <CardContent className="pt-6 space-y-4 relative z-10">
                 <div className="flex items-baseline justify-between">
                     <div>
-                        <div className="text-3xl font-black text-white">{debtFreeDate}</div>
+                        <div className="text-3xl font-black text-white"><Translate text={debtFreeDate} /></div>
                         <div className="text-[10px] font-bold uppercase text-slate-400 tracking-widest mt-1">
-                            Projected Debt-Free Date
+                            <Translate text="Projected Debt-Free Date" />
                         </div>
                     </div>
                     <div className="bg-purple-500/10 p-2 rounded-lg">
@@ -71,17 +72,17 @@ export function ReverseROIWidget({ loanAmount = 45000, interestRate = 8.5 }: Rev
 
                 <div className="space-y-2">
                     <div className="flex justify-between text-xs text-slate-400">
-                        <span>Investment recovered in:</span>
-                        <span className="text-white font-bold">{Math.floor(monthsToPayOff / 12)} Years, {monthsToPayOff % 12} Months</span>
+                        <span><Translate text="Investment recovered in:" /></span>
+                        <span className="text-white font-bold">{Math.floor(monthsToPayOff / 12)} <Translate text="Years" />, {monthsToPayOff % 12} <Translate text="Months" /></span>
                     </div>
                     <Progress value={Math.min(100, (12 / monthsToPayOff) * 100 * 3)} className="h-1 bg-slate-800" indicatorColor="bg-purple-500" />
                     <p className="text-[10px] text-slate-500 italic">
-                        *Based on ${estimatedSalary.toLocaleString()} projected salary & {interestRate}% loan interest.
+                        *<Translate text="Based on" /> ${estimatedSalary.toLocaleString()} <Translate text="projected salary" /> & {interestRate}% <Translate text="loan interest" />.
                     </p>
                 </div>
 
                 <button className="w-full mt-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white text-xs font-bold uppercase tracking-widest py-3 rounded-lg transition-all flex items-center justify-center gap-2">
-                    Adjust Financial Model <ArrowRight className="w-3 h-3" />
+                    <Translate text="Adjust Financial Model" /> <ArrowRight className="w-3 h-3" />
                 </button>
             </CardContent>
         </Card>

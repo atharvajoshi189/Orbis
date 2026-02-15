@@ -1,47 +1,59 @@
 "use client";
 
-import * as React from "react";
-import { Languages } from "lucide-react";
 import { useAppStore } from "@/lib/store";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Languages } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-
-const languages = [
-    { code: "en", name: "English" },
-    { code: "hi", name: "Hindi (हिंदी)" },
-    { code: "es", name: "Spanish (Español)" },
-    { code: "fr", name: "French (Français)" },
-    { code: "de", name: "German (Deutsch)" },
+const SUPPORTED_LANGUAGES = [
+    { code: 'en', name: 'English', flag: '🇬🇧' },
+    { code: 'es', name: 'Español', flag: '🇪🇸' },
+    { code: 'fr', name: 'Français', flag: '🇫🇷' },
+    { code: 'hi', name: 'Hindi', flag: '🇮🇳' },
+    { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
+    { code: 'zh', name: 'Chinese', flag: '🇨🇳' },
 ];
 
-export default function LanguageToggle() {
-    const { setLanguage, language } = useAppStore();
+export default function LanguageToggle({ direction = 'down' }: { direction?: 'up' | 'down' }) {
+    const { language, setLanguage } = useAppStore();
+    const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="rounded-full">
-                    <Languages className="h-[1.2rem] w-[1.2rem] transition-all" />
-                    <span className="sr-only">Toggle language</span>
-                </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-                {languages.map((lang) => (
-                    <DropdownMenuItem
-                        key={lang.code}
-                        onClick={() => setLanguage(lang.code)}
-                        className={language === lang.code ? "bg-accent" : ""}
+        <div className="relative">
+            <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 transition-colors flex items-center gap-2"
+                title="Change Language"
+            >
+                <Languages className="w-5 h-5 text-cyan-500" />
+                <span className="text-xs font-bold uppercase hidden md:inline">{language}</span>
+            </button>
+
+            <AnimatePresence>
+                {isOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, y: direction === 'up' ? 10 : -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: direction === 'up' ? 10 : -10 }}
+                        className={`absolute right-0 ${direction === 'up' ? 'bottom-full mb-2' : 'top-full mt-2'} bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-xl overflow-hidden min-w-[150px] z-50`}
                     >
-                        {lang.name}
-                    </DropdownMenuItem>
-                ))}
-            </DropdownMenuContent>
-        </DropdownMenu>
+                        {SUPPORTED_LANGUAGES.map((lang) => (
+                            <button
+                                key={lang.code}
+                                onClick={() => {
+                                    setLanguage(lang.code);
+                                    setIsOpen(false);
+                                }}
+                                className={`w-full text-left px-4 py-2 text-sm flex items-center gap-3 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors ${language === lang.code ? 'text-cyan-500 font-bold bg-cyan-500/10' : 'text-slate-600 dark:text-slate-300'
+                                    }`}
+                            >
+                                <span className="text-lg">{lang.flag}</span>
+                                <span>{lang.name}</span>
+                            </button>
+                        ))}
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </div>
     );
 }

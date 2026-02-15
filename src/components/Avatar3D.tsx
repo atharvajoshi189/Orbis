@@ -7,7 +7,8 @@ import * as THREE from 'three';
 import { SkeletonUtils } from 'three-stdlib';
 
 // Standard Ready Player Me Male Avatar (Business Casual)
-const AVATAR_URL = "https://models.readyplayer.me/64b73eac47087617da5c3456.glb";
+// Standard Ready Player Me Male Avatar (Business Casual)
+const AVATAR_URL = "https://models.readyplayer.me/63ac69548d45572606471e16.glb";
 
 type AvatarProps = {
     gesture: string; // "POINTING" | "GREETING" | "THINKING"

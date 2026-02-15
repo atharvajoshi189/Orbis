@@ -1,6 +1,4 @@
 
-// src/lib/grokTranslator.ts
-
 export async function translateText(text: string, targetLang: string): Promise<string> {
     if (targetLang === 'en') return text;
     if (!text.trim()) return text;
