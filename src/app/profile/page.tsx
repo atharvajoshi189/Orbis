@@ -11,8 +11,9 @@ import { Radar, RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer } fro
 import Navbar from "@/components/Navbar";
 import { supabase } from "@/utils/supabase/client";
 import { useAppStore } from "@/lib/store";
-import { Download, Share2, Map, Zap, Shield, Target, Trophy, ChevronLeft } from 'lucide-react';
+import { Download, Share2, Map, Zap, Shield, Target, Trophy, ChevronLeft, Edit } from 'lucide-react';
 import { toast } from 'sonner';
+import { EditProfileModal } from "@/components/profile/EditProfileModal";
 
 const statsData = [
     { subject: 'Coding', A: 120, fullMark: 150 },
@@ -23,12 +24,21 @@ const statsData = [
     { subject: 'Comm', A: 65, fullMark: 150 },
 ];
 
+const activitiesData = [
+    { id: 1, type: 'mission', title: 'Mission Accomplished', desc: 'Completed "Frontend Mastery" roadmap', date: '2 hours ago', icon: Trophy, color: 'text-yellow-400', bg: 'bg-yellow-500/10' },
+    { id: 2, type: 'skill', title: 'Skill Acquired', desc: 'Mastered "React Hooks" module', date: '5 hours ago', icon: Zap, color: 'text-cyan-400', bg: 'bg-cyan-500/10' },
+    { id: 3, type: 'profile', title: 'Profile Updated', desc: 'Updated bio and social links', date: '1 day ago', icon: Edit, color: 'text-green-400', bg: 'bg-green-500/10' },
+    { id: 4, type: 'badge', title: 'New Badge Earned', desc: 'Received "Code Warrior" badge', date: '2 days ago', icon: Shield, color: 'text-purple-400', bg: 'bg-purple-500/10' },
+];
+
 export default function ProfilePage() {
     const { user } = useAppStore();
     const router = useRouter();
     const [loading, setLoading] = useState(true);
     const [profile, setProfile] = useState<any>(null);
     const [activeMissions, setActiveMissions] = useState<any[]>([]);
+
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -67,6 +77,24 @@ export default function ProfilePage() {
         setTimeout(() => toast.info("Download started (Simulation)"), 1500);
     };
 
+    const handleUpdateProfile = async (updatedData: any) => {
+        if (!user) return;
+        try {
+            const { error } = await supabase
+                .from('students')
+                .update(updatedData)
+                .eq('user_id', user.id);
+
+            if (error) throw error;
+
+            setProfile((prev: any) => ({ ...prev, ...updatedData }));
+            toast.success("Profile updated successfully!");
+        } catch (error) {
+            console.error("Error updating profile:", error);
+            toast.error("Failed to update profile.");
+        }
+    };
+
     if (loading) {
         return <div className="min-h-screen bg-[#050B14] flex items-center justify-center text-cyan-500">
             <Zap className="animate-bounce mr-2" /> Initializing Command Center...
@@ -79,13 +107,23 @@ export default function ProfilePage() {
 
             <div className="container-custom mx-auto pt-28 pb-12 px-4">
 
-                {/* Breadcrumb */}
-                <button
-                    onClick={() => router.push('/dashboard')}
-                    className="flex items-center gap-2 text-slate-400 hover:text-cyan-400 mb-8 transition-colors text-sm font-bold uppercase tracking-widest"
-                >
-                    <ChevronLeft size={16} /> Return to Dashboard
-                </button>
+                {/* Breadcrumb & Welcome */}
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                    <button
+                        onClick={() => router.push('/dashboard')}
+                        className="flex items-center gap-2 text-slate-400 hover:text-cyan-400 transition-colors text-sm font-bold uppercase tracking-widest"
+                    >
+                        <ChevronLeft size={16} /> Return to Dashboard
+                    </button>
+                    {profile && (
+                        <div className="text-right hidden md:block">
+                            <h2 className="text-2xl font-black text-white">
+                                Welcome back, <span className="text-cyan-400">{profile.name}</span>
+                            </h2>
+                            <p className="text-xs text-slate-400 uppercase tracking-widest">Operative Status: Active</p>
+                        </div>
+                    )}
+                </div>
 
                 <div className="grid lg:grid-cols-12 gap-8">
 
@@ -149,9 +187,23 @@ export default function ProfilePage() {
                                     <Button variant="outline" className="h-12 border-white/10 hover:bg-white/5 hover:text-purple-400 font-bold rounded-xl gap-2">
                                         <Share2 size={16} /> Share ID
                                     </Button>
+                                    <Button
+                                        onClick={() => setIsEditModalOpen(true)}
+                                        variant="outline"
+                                        className="col-span-2 h-12 border-white/10 hover:bg-white/5 hover:text-green-400 font-bold rounded-xl gap-2"
+                                    >
+                                        <Edit size={16} /> Edit Profile Data
+                                    </Button>
                                 </div>
                             </CardContent>
                         </Card>
+
+                        <EditProfileModal
+                            isOpen={isEditModalOpen}
+                            onClose={() => setIsEditModalOpen(false)}
+                            profile={profile}
+                            onSave={handleUpdateProfile}
+                        />
                     </div>
 
                     {/* RIGHT COLUMN: MAIN CONTENT */}
@@ -267,6 +319,43 @@ export default function ProfilePage() {
                                         </Button>
                                     </div>
                                 )}
+                            </CardContent>
+                        </Card>
+
+                        {/* 3. Recent Activities */}
+                        <Card className="rounded-[2.5rem] bg-white/5 backdrop-blur-xl border-white/10 shadow-lg overflow-hidden">
+                            <CardHeader className="border-b border-white/5 pb-4">
+                                <div className="flex items-center gap-3">
+                                    <div className="p-2 bg-blue-500/20 rounded-lg text-blue-400"><Map size={20} /></div>
+                                    <CardTitle className="text-xl font-bold text-white uppercase tracking-wide">Recent Logs</CardTitle>
+                                </div>
+                            </CardHeader>
+                            <CardContent className="p-0">
+                                <div className="divide-y divide-white/5">
+                                    {activitiesData.map((activity) => (
+                                        <div key={activity.id} className="p-6 hover:bg-white/5 transition-colors flex items-center gap-5 group">
+                                            <div className={`h-12 w-12 rounded-xl ${activity.bg} ${activity.color} flex items-center justify-center`}>
+                                                <activity.icon size={24} />
+                                            </div>
+                                            <div className="flex-1">
+                                                <div className="flex justify-between items-start">
+                                                    <h4 className="font-bold text-white text-lg group-hover:text-cyan-400 transition-colors mb-1">
+                                                        {activity.title}
+                                                    </h4>
+                                                    <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">{activity.date}</span>
+                                                </div>
+                                                <p className="text-sm text-slate-400">
+                                                    {activity.desc}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="p-4 text-center border-t border-white/5">
+                                    <Button variant="ghost" className="text-slate-400 hover:text-white hover:bg-white/5 w-full">
+                                        View All Activity
+                                    </Button>
+                                </div>
                             </CardContent>
                         </Card>
 

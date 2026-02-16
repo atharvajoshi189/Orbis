@@ -1,205 +1,119 @@
-"use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { X, Save, Loader2, Plus, Trash2 } from "lucide-react";
-import { supabase } from "@/utils/supabase/client";
-import { useAppStore } from "@/lib/store";
-
-interface EditProfileModalProps {
+import { useState, useEffect } from 'react';
+import { X } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"; interface EditProfileModalProps {
     isOpen: boolean;
     onClose: () => void;
-    currentProfile: any;
-    onUpdate: () => void;
+    profile: any;
+    onSave: (updatedProfile: any) => Promise<void>;
 }
 
-export default function EditProfileModal({ isOpen, onClose, currentProfile, onUpdate }: EditProfileModalProps) {
-    const { user } = useAppStore();
-    const [isLoading, setIsLoading] = useState(false);
+export function EditProfileModal({ isOpen, onClose, profile, onSave }: EditProfileModalProps) {
     const [formData, setFormData] = useState({
-        marks_10th: "",
-        marks_12th: "",
-        interests: [] as string[],
-        skills: [] as string[],
-        strengths: [] as string[],
-        weaknesses: [] as string[],
+        name: '',
+        uni: '',
+        gpa: '',
+        phone: '',
+        email: ''
     });
-
-    const [newTag, setNewTag] = useState("");
-    const [activeTagInput, setActiveTagInput] = useState<string | null>(null);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        if (currentProfile) {
+        if (profile) {
             setFormData({
-                marks_10th: currentProfile.marks_10th || "",
-                marks_12th: currentProfile.marks_12th || "",
-                interests: currentProfile.interests || [],
-                skills: currentProfile.skills || [],
-                strengths: currentProfile.strengths || [],
-                weaknesses: currentProfile.weaknesses || [],
+                name: profile.name || '',
+                uni: profile.uni || '',
+                gpa: profile.gpa || '',
+                phone: profile.phone || '', // Assuming phone exists in profile
+                email: profile.email || ''  // Assuming email exists in profile
             });
         }
-    }, [currentProfile]);
+    }, [profile]);
 
-    const handleSave = async () => {
-        if (!user) return;
-        setIsLoading(true);
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
         try {
-            const { error } = await supabase
-                .from('students')
-                .update({
-                    marks_10th: formData.marks_10th,
-                    marks_12th: formData.marks_12th,
-                    interests: formData.interests,
-                    skills: formData.skills,
-                    strengths: formData.strengths,
-                    weaknesses: formData.weaknesses,
-                })
-                .eq('user_id', user.id); // Assuming user.id maps to auth.uid() which maps to students.user_id
-
-            if (error) throw error;
-            onUpdate();
+            await onSave(formData);
             onClose();
         } catch (error) {
-            console.error("Error updating profile:", error);
-            alert("Failed to update profile");
+            // Error handling is managed by the parent or toast there
         } finally {
-            setIsLoading(false);
+            setLoading(false);
         }
     };
 
-    const addTag = (field: 'interests' | 'skills' | 'strengths' | 'weaknesses') => {
-        if (!newTag.trim()) return;
-        setFormData(prev => ({
-            ...prev,
-            [field]: [...prev[field], newTag.trim()]
-        }));
-        setNewTag("");
-        setActiveTagInput(null);
-    };
-
-    const removeTag = (field: 'interests' | 'skills' | 'strengths' | 'weaknesses', index: number) => {
-        setFormData(prev => ({
-            ...prev,
-            [field]: prev[field].filter((_, i) => i !== index)
-        }));
-    };
+    if (!isOpen) return null;
 
     return (
-        <AnimatePresence>
-            {isOpen && (
-                <>
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        onClick={onClose}
-                        className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50"
-                    />
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                        className="fixed left-1/2 top-[5%] -translate-x-1/2 w-full max-w-2xl bg-[#0f172a] border border-cyan-500/20 rounded-2xl shadow-2xl z-50 max-h-[90vh] overflow-y-auto"
-                    >
-                        <div className="p-6 space-y-6">
-                            <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                                <h2 className="text-xl font-bold text-white">Edit Profile</h2>
-                                <button onClick={onClose} className="text-slate-400 hover:text-white transition-colors">
-                                    <X className="w-5 h-5" />
-                                </button>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+            <div className="relative w-full max-w-md">
+                <Card className="w-full bg-[#0a0a0a] border-white/10 text-white shadow-2xl animate-in fade-in zoom-in-95 duration-300">
+                    <CardHeader className="flex flex-row items-center justify-between border-b border-white/10 pb-4">
+                        <CardTitle className="text-xl font-bold">Edit Operative Profile</CardTitle>
+                        <Button variant="ghost" size="icon" onClick={onClose} className="h-8 w-8 hover:bg-white/10 rounded-full">
+                            <X size={18} />
+                        </Button>
+                    </CardHeader>
+                    <CardContent className="pt-6">
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium text-slate-400">Operative Name</label>
+                                <Input
+                                    name="name"
+                                    value={formData.name}
+                                    onChange={handleChange}
+                                    className="bg-white/5 border-white/10 text-white focus:border-cyan-500/50 focus:ring-cyan-500/20"
+                                    placeholder="Enter your name"
+                                />
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="space-y-2">
-                                    <label className="text-xs font-bold text-slate-400 uppercase">10th Marks (%)</label>
-                                    <input
-                                        type="text"
-                                        value={formData.marks_10th}
-                                        onChange={e => setFormData({ ...formData, marks_10th: e.target.value })}
-                                        className="w-full bg-black/30 border border-white/10 rounded-lg p-3 text-white focus:border-cyan-500/50 outline-none transition-colors"
-                                        placeholder="e.g. 95%"
-                                    />
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-xs font-bold text-slate-400 uppercase">12th Marks (%)</label>
-                                    <input
-                                        type="text"
-                                        value={formData.marks_12th}
-                                        onChange={e => setFormData({ ...formData, marks_12th: e.target.value })}
-                                        className="w-full bg-black/30 border border-white/10 rounded-lg p-3 text-white focus:border-cyan-500/50 outline-none transition-colors"
-                                        placeholder="e.g. 92%"
-                                    />
-                                </div>
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium text-slate-400">University / Base</label>
+                                <Input
+                                    name="uni"
+                                    value={formData.uni}
+                                    onChange={handleChange}
+                                    className="bg-white/5 border-white/10 text-white focus:border-cyan-500/50 focus:ring-cyan-500/20"
+                                    placeholder="Enter university name"
+                                />
                             </div>
 
-                            {['skills', 'interests', 'strengths', 'weaknesses'].map((field) => (
-                                <div key={field} className="space-y-2">
-                                    <div className="flex items-center justify-between">
-                                        <label className="text-xs font-bold text-slate-400 uppercase">{field}</label>
-                                        <button
-                                            onClick={() => setActiveTagInput(field)}
-                                            className="text-cyan-400 text-xs flex items-center gap-1 hover:text-cyan-300"
-                                        >
-                                            <Plus className="w-3 h-3" /> Add
-                                        </button>
-                                    </div>
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium text-slate-400">Current GPA</label>
+                                <Input
+                                    name="gpa"
+                                    value={formData.gpa}
+                                    onChange={handleChange}
+                                    type="text"
+                                    className="bg-white/5 border-white/10 text-white focus:border-cyan-500/50 focus:ring-cyan-500/20"
+                                    placeholder="e.g. 3.8"
+                                />
+                            </div>
 
-                                    <div className="flex flex-wrap gap-2 min-h-[50px] bg-black/30 border border-white/10 rounded-lg p-3">
-                                        {(formData as any)[field].map((tag: string, i: number) => (
-                                            <span key={i} className="bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 px-2 py-1 rounded text-xs flex items-center gap-2">
-                                                {tag}
-                                                <button onClick={() => removeTag(field as any, i)} className="hover:text-white"><X className="w-3 h-3" /></button>
-                                            </span>
-                                        ))}
-
-                                        {activeTagInput === field && (
-                                            <div className="flex items-center gap-2">
-                                                <input
-                                                    autoFocus
-                                                    type="text"
-                                                    value={newTag}
-                                                    onChange={e => setNewTag(e.target.value)}
-                                                    onKeyDown={e => {
-                                                        if (e.key === 'Enter') addTag(field as any);
-                                                        if (e.key === 'Escape') setActiveTagInput(null);
-                                                    }}
-                                                    onBlur={() => {
-                                                        if (newTag) addTag(field as any);
-                                                        setActiveTagInput(null);
-                                                    }}
-                                                    className="bg-transparent border-b border-cyan-500 text-white text-xs w-24 outline-none"
-                                                    placeholder="Type..."
-                                                />
-                                            </div>
-                                        )}
-                                        {(formData as any)[field].length === 0 && !activeTagInput && (
-                                            <span className="text-slate-600 text-xs italic">No {field} added yet...</span>
-                                        )}
-                                    </div>
-                                </div>
-                            ))}
-
-                            <div className="pt-4 border-t border-white/10 flex justify-end gap-3">
-                                <button
-                                    onClick={onClose}
-                                    className="px-4 py-2 text-slate-400 hover:text-white text-sm font-medium"
-                                >
+                            <div className="flex justify-end gap-3 pt-4">
+                                <Button type="button" variant="ghost" onClick={onClose} className="hover:bg-white/10 text-slate-400 hover:text-white">
                                     Cancel
-                                </button>
-                                <button
-                                    onClick={handleSave}
-                                    disabled={isLoading}
-                                    className="bg-gradient-to-r from-cyan-600 to-cyan-500 text-white px-6 py-2 rounded-lg text-sm font-bold shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 transition-all flex items-center gap-2"
+                                </Button>
+                                <Button
+                                    type="submit"
+                                    className="bg-cyan-600 hover:bg-cyan-500 text-white font-bold"
+                                    disabled={loading}
                                 >
-                                    {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                                    Save Changes
-                                </button>
+                                    {loading ? 'Saving...' : 'Save Changes'}
+                                </Button>
                             </div>
-                        </div>
-                    </motion.div>
-                </>
-            )}
-        </AnimatePresence>
+                        </form>
+                    </CardContent>
+                </Card>
+            </div>
+        </div>
     );
 }
